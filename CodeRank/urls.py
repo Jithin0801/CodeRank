@@ -25,7 +25,9 @@ urlpatterns = [
     path('',  TemplateView.as_view(
         template_name='login_module/home.html'), name='Home'),
     path('', include("login_module.urls")),
-    path('', include("home_module.urls"))
+    path('', include("home_module.urls")),
+    path('', include("practice_module.urls"))
+
 ]
 
 if settings.DEBUG:

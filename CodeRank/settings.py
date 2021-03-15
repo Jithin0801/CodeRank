@@ -53,7 +53,8 @@ INSTALLED_APPS = [
     'home_module',
     'crispy_forms',
     'widget_tweaks',
-    'PIL'
+    'PIL',
+    'practice_module'
 ]
 
 MIDDLEWARE = [

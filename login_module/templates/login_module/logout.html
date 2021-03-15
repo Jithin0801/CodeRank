@@ -1,0 +1,11 @@
+{% extends "login_module/base.html" %} {% block home %}
+<div class="row m-5">
+    <h2>You have been logged out</h2>
+    <div class="ml-3 pt-3">
+        <strong class="text-muted">
+            <a href="{% url 'DevLogIn'%}">Log In Again</a>
+        </strong>
+    </div>
+</div>
+
+{% endblock home %}

@@ -15,7 +15,6 @@ def DevSignUpPage(request):
     if request.method == "POST":
         form = UserRegistrationForm(request.POST)
         if form.is_valid():
-            player, created = Profile.objects.get_or_create(user=request.user)
             form.save()
             username = form.cleaned_data.get('username')
             messages.success(

@@ -1,0 +1,73 @@
+{% extends "home_module/base.html" %} {% load crispy_forms_tags %}{% load widget_tweaks %} {% block content %}
+<div class="container mt-2 mb-2 border-top">
+    <div class="row">
+        <div class="col-lg-12 my-auto">
+            <p class="p mt-2" style="font-weight: 300;">PRACTICE YOUR SKILLS</p>
+        </div>
+        <div class="col-lg-8 col-md-8 col-sm-6">
+            <h3 class="h3">PRACTICE</h3>
+        </div>
+        <div class="col-lg-4 col-md-4 col-sm-6 d-flex justify-content-end my-auto">
+            <a href="#" style="font-size: small;">Bookmarked challanges</a>
+        </div>
+    </div>
+</div>
+
+<div class="main-content" style="background-color: aliceblue;">
+    <div class="container">
+        <div class=" row">
+            <div class="col-12 mt-4">
+                <h6 class="h6">Challanges based on DS topics</h6>
+            </div>
+        </div>
+    </div>
+    <div class="container mt-3">
+        <div class="row ">
+            {% for topics in ds %}
+            <div class="col-lg-4 mb-3">
+                <div class="card h-100">
+                    <div class="card-body d-flex flex-column">
+                        <h4 class="card-title">
+                            {{ topics.dstitle }}
+                        </h4>
+                        <p class="card-text">
+                            {{topics.dscontent }}
+                        </p>
+                        <h6 style="font-size: small; font-weight: 300;">12/30 challanges completed</h6>
+                        <button class="btn btn-success mt-auto">View Challanges</button>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    <div class="container">
+        <div class=" row">
+            <div class="col-12 mt-4">
+                <h6 class="h6">Challanges based on Algorithms</h6>
+            </div>
+        </div>
+    </div>
+    <div class="container mt-3">
+        <div class="row ">
+            {% for topics in algo %}
+            <div class="col-lg-4 mb-3">
+                <div class="card h-100">
+                    <div class="card-body d-flex flex-column">
+                        <h4 class="card-title">
+                            {{topics.algotitle}}
+                        </h4>
+                        <p class="card-text">
+                            {{topics.algocontent}}
+                        </p>
+                        <button class="btn btn-secondary">View Challanges</button>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+
+{% endblock content %}

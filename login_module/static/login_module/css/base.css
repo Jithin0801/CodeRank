@@ -1,0 +1,14 @@
+div.vl {
+    border-left: 2px solid gray;
+    height: 30px;
+    border-radius: 10px;
+}
+
+div.alert.alert-error {
+    background-color: red;
+    border-radius: 3px;
+}
+
+a.nav-link {
+    font-size: small;
+}

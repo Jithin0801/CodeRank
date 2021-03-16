@@ -19,7 +19,7 @@
     <div class="container">
         <div class=" row">
             <div class="col-12 mt-4">
-                <h6 class="h6">Challanges based on {{maintopic.maintopic}}</h6>
+                <h6 class="h6">Challanges based on {{maintopic.title}}</h6>
             </div>
         </div>
     </div>
@@ -27,24 +27,30 @@
         <div class="row ">
             {% for topic in sub %}
             {% if topic.maintopic_id == maintopic.id %}
-            <div class="col-lg-4 mb-3">
-                <div class="card h-100">
-                    <div class="card-body d-flex flex-column">
-                        <h4 class="card-title">
-                            {{ topic.title }}
-                        </h4>
-                        <p class="card-text">
-                            {{ topic.content }}
-                        </p>
-                        <h6 style="font-size: small; font-weight: 300;" class="mb-5">12/30 challanges completed</h6>
-                        <button class="btn btn-success mt-auto">View Challanges</button>
+            {% if maintopic.title|length > 10 %}
+            <div class="col-lg-6 mb-3">
+                {% else %}
+                <div class="col-lg-4 mb-3">
+                    {% endif %}
+                    <div class="card h-100">
+                        <div class="card-body d-flex flex-column">
+                            <h4 class="card-title">
+                                {{ topic.title }}
+                            </h4>
+                            <p class="card-text">
+                                {{ topic.content }}
+                            </p>
+                            <h6 style="font-size: small; font-weight: 300;" class="mb-5">12/30 challanges completed</h6>
+                            <a href="{% url 'ViewChallenges' maintopic.slug topic.slug   %}"
+                                class="btn btn-success mt-auto">View
+                                Challanges</a>
+                        </div>
                     </div>
                 </div>
+                {% endif %}
+                {% endfor %}
             </div>
-            {% endif %}
-            {% endfor %}
         </div>
+        {% endfor %}
     </div>
-    {% endfor %}
-</div>
-{% endblock content %}
+    {% endblock content %}

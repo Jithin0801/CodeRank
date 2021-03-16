@@ -5,12 +5,12 @@
         <div class=" d-flex col-lg-12 my-auto">
             <p class="p mt-2" style="font-weight: 300;">Practice</p>
             {% if maintopic %}
-            <p class="p mt-2" style="font-weight: 500;">></p>
-            <p class="p mt-2" style="font-weight: 300;">{{ maintopic }}</p>
+            <p class="p mt-2 ml-1" style="font-weight: 500;">></p>
+            <p class="p mt-2 ml-1" style="font-weight: 300;">{{ maintopic }}</p>
             {% endif %}
             {% if subtopic %}
-            <p class="p mt-2" style="font-weight: 500;">></p>
-            <p class="p mt-2" style="font-weight: 300;">{{ subtopic }}</p>
+            <p class="p mt-2 ml-1" style="font-weight: 500;">></p>
+            <p class="p mt-2 ml-1" style="font-weight: 300;">{{ subtopic }}</p>
             {% endif %}
 
         </div>
@@ -24,6 +24,30 @@
 </div>
 
 <div class="main-content" style="background-color: aliceblue;">
-
+    <div class="container">
+        <div class=" row">
+            <div class="col-12 mt-4">
+                <h6 class="h6">Problems to practice</h6>
+            </div>
+        </div>
+    </div>
+    <div class="container mt-3">
+        <div class="row ">
+            <div class="col-lg-8 mb-3">
+                <div class="card h-100">
+                    <div class="card-body d-flex flex-column">
+                        <h4 class="card-title">
+                            Two sum
+                        </h4>
+                        <p class="card-text">
+                            Find the pair of sum in the given array
+                        </p>
+                        <h6 style="font-size: small; font-weight: 300;" class="mb-5">12/30 challanges completed</h6>
+                        <a href="#" class="btn btn-success mt-auto">Solve</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 {% endblock content %}

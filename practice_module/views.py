@@ -1,8 +1,9 @@
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import render
 from .models import PracticeMainTopic, PracticeProblem, PracticeSubTopic
 # Create your views here.
 
-
+@login_required
 def PracticePage(request):
     if request.method == 'GET':
         main_topic = PracticeMainTopic.objects.all()
@@ -14,6 +15,7 @@ def PracticePage(request):
         }
     return render(request, "practice_module/practice.html", context)
 
+@login_required
 def ViewChallenges(request, maintopic, subtopic):
     if request.method == 'GET':
         topicid = PracticeSubTopic.objects.filter(slug = subtopic).values_list('id', flat=True)
@@ -21,12 +23,14 @@ def ViewChallenges(request, maintopic, subtopic):
         subtopicqueryset = list(PracticeSubTopic.objects.filter(slug = subtopic).values())
         maintitle = maintopicquertset[0]['title']
         subtitle = subtopicqueryset[0]['title']
-
         problems = PracticeProblem.objects.filter(topic_id = topicid[0])
         context = {
             "title": "CodeRank - Practice",
             "problems": problems,
-            "maintopic": maintitle,
-            "subtopic": subtitle
+            "maintitle": maintitle,
+            "subtitle": subtitle,
+            "maintopic": maintopic,
+            "subtopic": subtopic
         }
     return render(request, "practice_module/viewchallenges.html", context)
+

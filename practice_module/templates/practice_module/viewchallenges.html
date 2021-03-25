@@ -1,53 +1,64 @@
-{% extends "practice_module/base.html" %} {% load crispy_forms_tags %}{% load widget_tweaks %}
+{% extends "practice_module/base.html" %}
+{% load crispy_forms_tags %}
+{% load widget_tweaks %}
 {% block content %}
 <div class="container mt-2 mb-2">
+  <div class="d-flex col-lg-12 my-auto">
+    <p class="p mt-2" style="font-weight: 300">Practice</p>
+    {% if maintitle %}
+    <p class="p mt-2 ms-1" style="font-weight: 500">></p>
+    <p class="p mt-2 ms-1" style="font-weight: 300">{{ maintitle }}</p>
+    {% endif %}
+    {% if subtitle %}
+    <p class="p mt-2 ms-1" style="font-weight: 500">></p>
+    <p class="p mt-2 ms-1" style="font-weight: 300">{{ subtitle }}</p>
+    {% endif %}
+  </div>
+</div>
+<div class="main-content" style="background-color: aliceblue">
+  <div class="container">
     <div class="row">
-        <div class=" d-flex col-lg-12 my-auto">
-            <p class="p mt-2" style="font-weight: 300;">Practice</p>
-            {% if maintopic %}
-            <p class="p mt-2 ml-1" style="font-weight: 500;">></p>
-            <p class="p mt-2 ml-1" style="font-weight: 300;">{{ maintopic }}</p>
-            {% endif %}
-            {% if subtopic %}
-            <p class="p mt-2 ml-1" style="font-weight: 500;">></p>
-            <p class="p mt-2 ml-1" style="font-weight: 300;">{{ subtopic }}</p>
-            {% endif %}
-
-        </div>
-        <div class="col-lg-8 col-md-8 col-sm-6">
-            <h3 style="font-weight: 700;">CHALLENGES</h3>
-        </div>
-        <div class="col-lg-4 col-md-4 col-sm-6 d-flex justify-content-end my-auto">
-            <a href="#" style="font-size: small;">Bookmarked challanges</a>
-        </div>
+      <div class="col-9 mt-4">
+        <h6 class="h6">Problems to practice</h6>
+      </div>
     </div>
-</div>
-
-<div class="main-content" style="background-color: aliceblue;">
-    <div class="container">
-        <div class=" row">
-            <div class="col-12 mt-4">
-                <h6 class="h6">Problems to practice</h6>
+  </div>
+  <div class="container mt-3">
+    <div class="row">
+      {% for problem in problems %}
+      <div class="col-lg-10 col-md-9 col-sm-8 mb-3 col-md-pull-6">
+        <div class="card h-100">
+          <div class="card-body d-flex flex-column">
+            <h4 class="card-title">{{ problem.problemtitle }}</h4>
+            <p class="card-text">{{ problem.problemedescription }}</p>
+            <div class="d-flex">
+              <h6 class="h6 me-1" style="color: darkgrey; font-size: small;"> Difficulty: </h6>
+              {% if problem.difficulty_id == 1 %}
+              <h6 class="h6 me-1" style="color: green; font-size: small;">{{ problem.difficulty }}</h6>
+              {% endif %}
+              {% if problem.difficulty_id == 2 %}
+              <h6 class="h6 me-1" style="color: orange; font-size: small;">{{ problem.difficulty }}</h6>
+              {% endif %}
+              {% if problem.difficulty_id == 3 %}
+              <h6 class="h6 me-1" style="color: red; font-size: small;">{{ problem.difficulty }}</h6>
+              {% endif %}
+              <h6 class="h6 me-1" style="font-size: small; color: darkgray;"> Max Score:</h6>
+              <h6 class="h6" style="font-size: small;">{{ problem.score }}</h6>
             </div>
+            <a href="{% url 'Compiler' maintopic subtopic problem.slug  %}"
+               class="btn btn-success mt-auto">Solve</a>
+          </div>
         </div>
+      </div>
+      {% endfor %}
+      {% if problem.id == 1 %}
+      <div class="col-lg-2 col-md-3 col-sm-4 col-md-push-6 d-lg-flex d-md-flex d-sm-flex justify-content-end">
+        <!-- TODO: -->
+        <!-- checkboxes to filer problems -->
+        <!-- use Js with http to load data like you did in compiler to show output -->
+      </div> 
+      {% endif %}
     </div>
-    <div class="container mt-3">
-        <div class="row ">
-            <div class="col-lg-8 mb-3">
-                <div class="card h-100">
-                    <div class="card-body d-flex flex-column">
-                        <h4 class="card-title">
-                            Two sum
-                        </h4>
-                        <p class="card-text">
-                            Find the pair of sum in the given array
-                        </p>
-                        <h6 style="font-size: small; font-weight: 300;" class="mb-5">12/30 challanges completed</h6>
-                        <a href="#" class="btn btn-success mt-auto">Solve</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
+  </div>
+</div> 
 {% endblock content %}

@@ -1,48 +1,48 @@
-{% extends "login_module/base.html" %} {% load static %}{% load crispy_forms_tags %} {% load widget_tweaks %}
+{% extends "login_module/base.html" %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% load widget_tweaks %}
 {% block home %}
 
 <div class="container mt-5">
-    <div class="row">
-        <div class="col-lg-6 col-md-6 col-sm-6">
-            <div class="d-inline-flex">
-                <img src="{% static 'login_module/img/logo.png' %}" class="rounded img-fluid" alt="">
-            </div>
-        </div>
-        <div class="col-lg-6 col-md-6 col-sm-6">
-            <div class="row justify-content-center">
-                <div class="col-lg-8">
-                    <h4>Login</h4>
-                    <form method="POST">
-                        <div class="form-group">
-                            {% if messages %} {% for message in messages %}
-                            <div class="alert alert-{{message.tags}}">
-                                {{ message }}
-                            </div>
-                            {% endfor %}
-                            {% endif %}
-                            {% csrf_token %}
-                            {% for field in form.visible_fields %}
-                            <div class="form-group">
-                                <label for="{{ field.id_for_label }}">{{ field.label }}</label>
-                                {{field|add_class:'form-control' }}
-                            </div>
-                            {% endfor %}
-                        </div>
-                        <div class="from-group">
-                            <button class="btn btn-info" type="submit">Sign Up</button>
-                            <input type="hidden" name="next" value="{{next}}" </div>
-                    </form>
-                    <div class="pt-3">
-                        <small class="text-muted">
-                            New to CodeRank? <a class="ml-2" href="{% url 'DevSignUp'%}">Sign Up</a>
-                        </small>
-                    </div>
-                </div>
-            </div>
-        </div>
+  <div class="row">
+    <div class="col-lg-6 col-md-6 col-sm-6">
+      <div class="d-inline-flex">
+        <img src="{% static 'login_module/img/logo.png' %}" class="rounded img-fluid" alt="" />
+      </div>
     </div>
-
+    <div class="col-lg-6 col-md-6 col-sm-6">
+      <div class="row justify-content-center">
+        <div class="col-lg-8">
+          <h4>Login</h4>
+          <form method="POST">
+            <div class="form-group">
+              {% if messages %}
+              {% for message in messages %}
+              <div class="alert alert-{{message.tags}}">{{ message }}</div>
+              {% endfor %}
+              {% endif %}
+              {% csrf_token %}
+              {% for field in form.visible_fields %}
+              <div class="form-group">
+                {% render_field field class="form-control mt-4" placeholder=field.label %}
+              </div>
+              {% endfor %}
+            </div>
+            <div class="from-group">
+              <button class="btn btn-info mt-4" type="submit">Sign Up</button>
+              <input type="hidden" name="next" value="{{next}}" />
+            </div>
+          </form>
+          <div class="pt-3">
+            <small class="text-muted">
+              New to CodeRank?
+              <a class="ml-2" href="{% url 'DevSignUp'%}">Sign Up</a>
+            </small>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
-
-
 {% endblock home %}

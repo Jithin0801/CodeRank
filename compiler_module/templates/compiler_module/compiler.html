@@ -1,0 +1,111 @@
+{% extends "compiler_module/solve.html" %}
+{% load crispy_forms_tags %}
+{% load widget_tweaks %}
+{% block workspace %}
+<div class="col d-flex border-bottom">
+    <div class="col-6 pane" id="right">
+        {% for problem_content in problemcontent %}
+        <div class="row mt-3">
+            <strong>
+                Problem Statement
+            </strong>
+            <p class="p mt-2">
+                {{ problem_content.problemstatement }}
+            </p>
+        </div>
+        <div class="row mt-3">
+            <strong>
+                Problem Explanation
+            </strong>
+            <p class="p mt-2">
+                {{ problem_content.problemexplanation }}
+            </p>
+        </div>
+        <div class="row mt-2">
+            <strong>
+                Problem Constraints
+            </strong>
+            <div class="col d-flex align-items-center" style="background-color: whitesmoke; height: 50px;">
+                <h6 class="p mt-2" style="font-weight: 600;">
+                    {{ problem_content.problemconstraints }}
+                </h6>
+            </div>
+        </div>
+        <div class="row mt-2">
+            <strong>
+                Sample Input
+            </strong>
+            <div class="col d-flex align-items-center" style="background-color: whitesmoke; height: 50px;">
+                <h6 class="p mt-2" style="font-weight: 600;">
+                    {{ problem_content.sampleinput }}
+                </h6>
+            </div>
+        </div>
+        <div class="row mt-2">
+            <strong>
+                Input Explanation
+            </strong>
+            <p class="p mt-2">
+                {{ problem_content.inputexplanation }}
+            </p>
+        </div>
+        <div class="row mt-2">
+            <strong>
+                Sample Output
+            </strong>
+            <div class="col d-flex align-items-center" style="background-color: whitesmoke; height: 50px;">
+                <h6 class="p mt-2" style="font-weight: 600;">
+                    {{ problem_content.sampleoutput }}
+                </h6>
+            </div>
+        </div>
+        <div class="row mt-2">
+            <strong>
+                Output Explanation
+            </strong>
+            <p class="p mt-2">
+                {{ problem_content.outputexplanation }}
+            </p>
+        </div>
+        {% endfor %}
+    </div>
+    <div class="col-6 pane" id="left">
+        <form method="POST" id="codeForm" style="height: max-content;">
+            {% csrf_token %}
+            <div class="form-group">
+                {{ form }}
+            </div>
+        </form>
+        <div class="col me-auto">
+            <div class="row d-flex ms-1 mt-2">
+                <div class="col-lg-6 border-end">
+                    {% for problem_content in problemcontent %}
+                    <strong>Test Case 1:</strong>
+                    <div class="mt-2 d-flex align-items-center" style="height: 50px; background-color: whitesmoke;">
+                        <h5 class="ms-2">{{problem_content.problemtestcaseoneinput}}</h5>
+                    </div>
+                    <strong>Test Case 2:</strong>
+                    <div class="mt-2 d-flex align-items-center" style="height: 50px; background-color: whitesmoke;">
+                        <h5 class="ms-2">{{problem_content.problemtestcasetwoinput}}</h5>
+                    </div>
+                    {% endfor %}
+                </div>
+                <div class="col-lg-6 d-lg-flex justify-content-end h-100">
+                    <button href="#" class="btn btn-secondary d-flex mt-sm-2 ">
+                        <div class="material-icons" style="margin-top: 0.8px;">code</div>
+                        <span class="ms-1">
+                            Run Code
+                        </span>
+                    </button>
+                    <button href="#" class="btn btn-primary d-flex ms-lg-2 mt-sm-2">
+                        <div class="material-icons" style="margin-top: 0.8px;">save</div>
+                        <span class="ms-1">
+                            Submit
+                        </span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock workspace %}

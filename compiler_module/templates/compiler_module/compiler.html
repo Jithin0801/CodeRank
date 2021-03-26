@@ -2,7 +2,7 @@
 {% load crispy_forms_tags %}
 {% load widget_tweaks %}
 {% block workspace %}
-<div class="col d-flex border-bottom ">
+<div class="col d-flex border-bottom">
     <div class="col-6 pane" id="right">
         {% for problem_content in problemcontent %}
         <div class="row mt-3">
@@ -11,6 +11,14 @@
             </strong>
             <p class="p mt-2">
                 {{ problem_content.problemstatement }}
+            </p>
+        </div>
+        <div class="row mt-3">
+            <strong>
+                Problem Explanation
+            </strong>
+            <p class="p mt-2">
+                {{ problem_content.problemexplanation }}
             </p>
         </div>
         <div class="row mt-2">
@@ -62,12 +70,42 @@
         {% endfor %}
     </div>
     <div class="col-6 pane" id="left">
-            <form method="POST" id="codeForm" style="height: max-content;">
-                {% csrf_token %}
-                <div class="form-group">
-                    {{ form }}
+        <form method="POST" id="codeForm" style="height: max-content;">
+            {% csrf_token %}
+            <div class="form-group">
+                {{ form }}
+            </div>
+        </form>
+        <div class="col me-auto">
+            <div class="row d-flex ms-1 mt-2">
+                <div class="col-lg-6 border-end">
+                    {% for problem_content in problemcontent %}
+                    <strong>Test Case 1:</strong>
+                    <div class="mt-2 d-flex align-items-center" style="height: 50px; background-color: whitesmoke;">
+                        <h5 class="ms-2">{{problem_content.problemtestcaseoneinput}}</h5>
+                    </div>
+                    <strong>Test Case 2:</strong>
+                    <div class="mt-2 d-flex align-items-center" style="height: 50px; background-color: whitesmoke;">
+                        <h5 class="ms-2">{{problem_content.problemtestcasetwoinput}}</h5>
+                    </div>
+                    {% endfor %}
                 </div>
-            </form>
+                <div class="col-lg-6 d-lg-flex justify-content-end h-100">
+                    <button href="#" class="btn btn-secondary d-flex mt-sm-2 ">
+                        <div class="material-icons" style="margin-top: 0.8px;">code</div>
+                        <span class="ms-1">
+                            Run Code
+                        </span>
+                    </button>
+                    <button href="#" class="btn btn-primary d-flex ms-lg-2 mt-sm-2">
+                        <div class="material-icons" style="margin-top: 0.8px;">save</div>
+                        <span class="ms-1">
+                            Submit
+                        </span>
+                    </button>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 {% endblock workspace %}

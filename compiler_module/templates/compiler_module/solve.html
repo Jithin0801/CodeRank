@@ -3,7 +3,7 @@
 {% load widget_tweaks %}
 {% block content %}
 <div class="container-fluid">
-    <div class="row" style="background-color:teal;">
+    <div class="row" style="background-color:darkorange;">
         <div class="d-flex col-lg-12 my-auto">
             <strong class="ms-3 mt-2" style="font-weight: 400; color: white;">Practice</strong>
             {% if maintitle %}
@@ -34,12 +34,32 @@
                 </div>
                 <div class="row no-gutters">
                     <div class="col-auto d-flex">
+                        {% if difficulty == 1 %}
+                        <h6 class="material-icons" style="font-size: larger;  color:green;">done_all</h6>
+                        <h6 class="h6 ms-1" style="color: green; font-size: small;">Easy</h6>
+                        {% endif %}
+                        {% if difficulty == 2 %}
+                        <h6 class="material-icons" style="font-size: larger;  color:orange;">error_outline</h6>
+                        <h6 class="h6 ms-1" style="color: orange; font-size: small;">Medium</h6>
+                        {% endif %}
+                        {% if difficulty == 3 %}
+                        <h6 class="material-icons" style="font-size: larger;  color:red;">error</h6>
+                        <h6 class="h6 ms-1" style="color: red; font-size: small;">Hard</h6>
+                        {% endif %}
+
+                    </div>
+                    <div class="col-auto d-flex ps-0">
                         <h6 class="material-icons" style="font-size: larger;  color:gray;">done_all</h6>
                         <h6 class="ms-1" style="margin-top: 0.8px; font-size: small; color: gray;">{{ attempted }}</h6>
                     </div>
                     <div class="col-auto d-flex ps-0">
                         <h6 class="material-icons" style="font-size: larger;  color:gray;">radar</h6>
                         <h6 class="ms-1" style="margin-top: 0.8px; font-size: small; color: gray;">{{ accuracy }}%</h6>
+                    </div>
+                    <div class="col-auto d-flex ps-0">
+                        <h6 class="material-icons" style="font-size: larger;  color:gray;">emoji_events</h6>
+                        <h6 class="ms-1" style="margin-top: 0.8px; font-size: small; color: gray;">{{ score }} points
+                        </h6>
                     </div>
                     <div class="col-auto d-flex ps-0">
                         <h6 class="material-icons" style="font-size: larger;  color:gray;">sell</h6>
@@ -56,30 +76,35 @@
             <ul class="nav nav-pills">
                 <li class="nav-item">
                     {% if pagetitle == "Compiler" %}
-                    <a class="sec-nav nav-link active" href="{% url 'Compiler' maintopic subtopic problem %}">Compiler</a>
+                    <a class="sec-nav nav-link active" style="background-color: darkblue;"
+                        href="{% url 'Compiler' maintopic subtopic problem %}">Compiler</a>
                     {% else %}
                     <a class="sec-nav nav-link" href="{% url 'Compiler' maintopic subtopic problem %}">Compiler</a>
                     {% endif %}
                 </li>
                 <li class="nav-item">
                     {% if pagetitle == "Submission" %}
-                    <a class="sec-nav nav-link active" href="{% url 'Submission' maintopic subtopic problem %}">Submission</a>
+                    <a class="sec-nav nav-link active" style="background-color: darkblue;"
+                        href="{% url 'Submission' maintopic subtopic problem %}">Submission</a>
                     {% else %}
                     <a class="sec-nav nav-link" href="{% url 'Submission' maintopic subtopic problem %}">Submission</a>
                     {% endif %}
                 </li>
                 <li class="nav-item">
                     {% if pagetitle == "Discussion" %}
-                    <a class="sec-nav nav-link active" href="{% url 'Discussion' maintopic subtopic problem %}">Discussion</a>
+                    <a class="sec-nav nav-link active" style="background-color: darkblue;"
+                        href="{% url 'Discussion' maintopic subtopic problem %}">Discussion</a>
                     {% else %}
                     <a class="sec-nav nav-link" href="{% url 'Discussion' maintopic subtopic problem %}">Discussion</a>
                     {% endif %}
                 </li>
                 <li class="nav-item">
                     {% if pagetitle == "Leaderboard" %}
-                    <a class="sec-nav nav-link active" href="{% url 'LeaderBoard' maintopic subtopic problem %}">Leaderboard</a>
+                    <a class="sec-nav nav-link active" style="background-color: darkblue;"
+                        href="{% url 'LeaderBoard' maintopic subtopic problem %}">Leaderboard</a>
                     {% else %}
-                    <a class="sec-nav nav-link" href="{% url 'LeaderBoard' maintopic subtopic problem %}">Leaderboard</a>
+                    <a class="sec-nav nav-link"
+                        href="{% url 'LeaderBoard' maintopic subtopic problem %}">Leaderboard</a>
                     {% endif %}
                 </li>
             </ul>

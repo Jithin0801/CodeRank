@@ -4,6 +4,7 @@ from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
 from practice_module.models import PracticeMainTopic, PracticeProblem, PracticeSubTopic, ProblemInfo
 
+
 class ProblemDetailsSet():
     def getDetails(self, request, maintopic, subtopic, problem):
         maintopicquertset = list(
@@ -17,6 +18,8 @@ class ProblemDetailsSet():
         maintitle = maintopicquertset[0]['title']
         subtitle = subtopicqueryset[0]['title']
         problemtitle = problemqueryset[0]['problemtitle']
+        dificulty = problemqueryset[0]['difficulty_id']
+        score = problemqueryset[0]['score']
         attempted = probleminfoqueryset[0]['attempted']
         accuracy = probleminfoqueryset[0]['accuracy']
         tags = probleminfoqueryset[0]['tags']
@@ -32,7 +35,9 @@ class ProblemDetailsSet():
             "problemtitle": problemtitle,
             "attempted": attempted,
             "accuracy": accuracy,
-            "tags": tags
+            "tags": tags,
+            "difficulty": dificulty,
+            "score": score
         }
         return context
 

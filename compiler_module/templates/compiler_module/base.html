@@ -58,19 +58,22 @@
                     <div class="collapse navbar-collapse" id="navbarSupportedContent">
                         <ul class="navbar-nav me-auto">
                             <li>
-                                <a class="nav-item nav-link" href="#">HOME</a>
+                                <a class="nav-item nav-link" href="{% url 'DevHome' %}">HOME</a>
                             </li>
                             <li>
                                 <a class="nav-item nav-link" href="{% url 'PracticePage' %}">PRACTICE</a>
                             </li>
                             <li>
-                                <a class="nav-item nav-link" href="#">COMPETE</a>
+                                <a class="nav-item nav-link" href="{% url 'TutorialPage' %}">TUTORIALS</a>
                             </li>
                             <li>
-                                <a class="nav-item nav-link" href="#">JOBS</a>
+                                <a class="nav-item nav-link" href="{% url 'CompeteUpcoming' %}">COMPETE</a>
                             </li>
                             <li>
-                                <a class="nav-item nav-link" href="#">LEADERBOARD</a>
+                                <a class="nav-item nav-link" href="{% url 'BlogListPage' %}">BLOGS</a>
+                            </li>
+                            <li>
+                                <a class="nav-item nav-link" href="{% url 'LeaderBoardPage' %}">LEADERBOARD</a>
                             </li>
                         </ul>
                         <!-- Navbar Right Side -->

@@ -26,10 +26,13 @@
     </div>
     <div class="container_fluid">
         <div class="row mt-4">
-            <div class="col-lg-8 col-md-8 col-sm-6 ms-3">
+            <div class="col-lg-12 col-md-8 col-sm-6 ms-3">
                 <div class="row">
-                    <div class="col-auto">
+                    <div class="col-auto me-auto">
                         <h5>{{ problemtitle }}</h5>
+                    </div>
+                    <div class="col-auto d-flex justify-content-end ps-0 ms-auto me-3">
+                        <a href="{% url 'ViewChallenges' maintopic subtopic %}" class="btn btn-primary">Back to list</a>
                     </div>
                 </div>
                 <div class="row no-gutters">
@@ -67,6 +70,7 @@
                             {{ tags }}
                         </h6>
                     </div>
+
                 </div>
             </div>
         </div>

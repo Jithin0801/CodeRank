@@ -27,7 +27,11 @@ urlpatterns = [
     path('', include("login_module.urls")),
     path('', include("home_module.urls")),
     path('', include("practice_module.urls")),
-    path('', include("compiler_module.urls"))
+    path('', include("compiler_module.urls")),
+    path('', include("compete_module.urls")),
+    path('', include("tutorial_module.urls")),
+    path('', include("leaderboard_module.urls")),
+    path('', include("blog_module.urls"))
 
 
 ]

@@ -2,9 +2,9 @@ from django.db import models
 from typing import Text
 from django.db import models
 from django.db.models.deletion import CASCADE
-from django.db.models.fields import BooleanField, CharField, IntegerField
+from django.db.models.fields import BooleanField, CharField, IntegerField, TextField
 from django.db.models.fields.related import ForeignKey
-from django.utils.text import slugify 
+from django.utils.text import slugify
 
 # Create your models here.
 
@@ -15,16 +15,17 @@ class PracticeMainTopic(models.Model):
 
     def __str__(self):
         return self.title
-    
+
     def save(self, *args, **kwargs):
         self.slug = slugify(self.title)
         super(PracticeMainTopic, self).save(*args, **kwargs)
+
 
 class PracticeSubTopic(models.Model):
     maintopic = models.ForeignKey(
         PracticeMainTopic, on_delete=models.CASCADE)
     title = CharField(max_length=50, null=False)
-    content = CharField(max_length=250, null=False)
+    content = TextField(max_length=250, null=False)
     slug = models.SlugField(null=False, blank=True)
 
     def __str__(self):
@@ -41,17 +42,18 @@ class DifficultyLevel(models.Model):
     def __str__(self):
         return self.difficulty
 
+
 class PracticeProblem(models.Model):
-    topic = models.ForeignKey(PracticeSubTopic, on_delete=models.CASCADE)
+    subtopic = models.ForeignKey(PracticeSubTopic, on_delete=models.CASCADE)
     problemtitle = CharField(max_length=150, null=False)
-    problemdescription = CharField(max_length=1000, null=False)
-    problemstatement = CharField(max_length=1000, null=False)
-    problemexplanation = CharField(max_length=1000, null=False)
+    problemdescription = TextField(max_length=1000, null=False)
+    problemstatement = TextField(max_length=1000, null=False)
+    problemexplanation = TextField(max_length=1000, null=False)
     problemconstraints = CharField(max_length=50, null=False)
     sampleinput = CharField(max_length=500, null=False)
-    inputexplanation = CharField(max_length=1000, null=False)
+    inputexplanation = TextField(max_length=1000, null=False)
     sampleoutput = CharField(max_length=500, null=False)
-    outputexplanation = CharField(max_length=1000, null=False)
+    outputexplanation = TextField(max_length=1000, null=False)
     problemtestcaseoneinput = CharField(max_length=200, null=False)
     problemtestcasetwoinput = CharField(max_length=200, null=False)
     problemtestcasethreeinput = CharField(max_length=200, null=False)

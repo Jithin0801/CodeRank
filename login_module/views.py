@@ -1,3 +1,4 @@
+from blog_module.models import BlogModel
 from login_module.models import Profile
 from django.contrib.auth.forms import AuthenticationForm
 from django.shortcuts import redirect, render
@@ -68,11 +69,17 @@ def DevMyProfile(request):
             messages.success(request, "Your information has been updated!")
             return redirect('DevMyProfile')
     else:
+        blogslist = BlogModel.objects.filter(author_id=request.user.id)
         ProfileUpdationform = ProfileUpdationForm(
             instance=request.user.profile)
         UserUpdationform = UserUpdationForm(
             instance=request.user)
-    return render(request, "login_module/devmyprofile.html", {"title": "CodeRank - My Profile", "ProfileUpdationform": ProfileUpdationform, "UserUpdationForm": UserUpdationform})
+        context = {"title": "CodeRank - My Profile",
+                   "ProfileUpdationform": ProfileUpdationform,
+                   "UserUpdationForm": UserUpdationform,
+                   "blogs": blogslist
+                   }
+    return render(request, "login_module/devmyprofile.html", context)
 
 
 @login_required

@@ -16,5 +16,9 @@ urlpatterns = [
     path("practice/<slug:maintopic>/<slug:subtopic>/<slug:problem>/compiler/submit/",
          views.SubmitCode, name="SubmitCode"),
     path("test/<slug:problem>/compiler/",
-         views.TestCompiler, name="TestCompiler")
+         views.TestCompiler, name="TestCompiler"),
+    path("test/<slug:problem>/compiler/compile/",
+         views.TestCompile, name="TestCompile"),
+    path("test/<slug:problem>/compiler/submit/",
+         views.TestSubmitCode, name="TestSubmitCode"),
 ]

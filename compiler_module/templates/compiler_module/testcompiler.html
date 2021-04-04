@@ -9,13 +9,13 @@
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
         <script src="https://code.jquery.com/jquery-3.6.0.js"
-            integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+                integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
         <script src="{% static 'compiler_module/js/base.js' %}"></script>
         <link rel="stylesheet" href="{% static 'compiler_module/css/compiler.css' %}" />
         <!-- Bootstrap CSS  -->
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet"
-            integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl"
-            crossorigin="anonymous" />
+              integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl"
+              crossorigin="anonymous" />
         <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
         <script src="https://cdnjs.cloudflare.com/ajax/libs/split.js/1.6.0/split.min.js"></script>
         <link rel=stylesheet href="{% static 'compiler_module/lib/codemirror.css' %}">
@@ -36,7 +36,7 @@
         <script src="{% static 'compiler_module/js/compiler.js' %}"></script>
         <link rel="stylesheet" href="{% static 'compiler_module/addon/hint/show-hint.css' %}">
         <link rel="stylesheet" href="{% static 'compiler_module/theme/dracula.css' %}">
-
+        <script src="https://rawgit.com/RickStrahl/jquery-resizable/master/src/jquery-resizable.js"></script>
         {% if title %}
         <title>{{ title }}</title>
         {% else %}
@@ -65,10 +65,13 @@
                     </div>
                 </div>
             </div>
-            <div class="col d-flex border-bottom">
+            <div class="col d-flex border-bottom ms-3">
                 <div class="col-6 pane" id="right">
                     {% for problem_content in problemcontent %}
                     <h3>{{problem_content.problemtitle}}</h3>
+                    {% for detail in competitiondetails %}
+                    <a class="btn btn-primary" href="{% url 'AssessmentListPage' detail.slug %}">Go back to list</a>
+                    {% endfor %}
                     <div class="row mt-3">
                         <strong>
                             Problem Statement
@@ -89,10 +92,12 @@
                         <strong>
                             Problem Constraints
                         </strong>
-                        <div class="col d-flex align-items-center" style="background-color: whitesmoke; height: 50px;">
-                            <h6 class="p mt-2" style="font-weight: 600;">
-                                {{ problem_content.problemconstraints|linebreaks }}
-                            </h6>
+                        <div class="col d-flex align-items-center" style="background-color: whitesmoke; height: auto;">
+                            <div>
+                                <h6 class="p pt-4 ms-2" style="font-weight: 600;">
+                                    {{ problem_content.problemconstraints|linenumbers|linebreaks }}
+                                </h6>
+                            </div>
                         </div>
                     </div>
                     <div class="row mt-2">
@@ -100,7 +105,7 @@
                             Sample Input
                         </strong>
                         <div class="col d-flex align-items-center" style="background-color: whitesmoke; height: 50px;">
-                            <h6 class="p mt-2" style="font-weight: 600;">
+                            <h6 class="pt-4 ms-2" style="font-weight: 600;">
                                 {{ problem_content.sampleinput|linebreaks }}
                             </h6>
                         </div>
@@ -117,8 +122,8 @@
                         <strong>
                             Sample Output
                         </strong>
-                        <div class="col d-flex align-items-center" style="background-color: whitesmoke; height: 50px;">
-                            <h6 class="p mt-2" style="font-weight: 600;">
+                        <div class="col d-flex align-items-center" style="background-color: whitesmoke; height: auto;">
+                            <h6 class="pt-4 ms-2" style="font-weight: 600;">
                                 {{ problem_content.sampleoutput|linebreaks }}
                             </h6>
                         </div>
@@ -133,7 +138,7 @@
                     </div>
                     {% endfor %}
                 </div>
-                <div class="col-6 pane" id="left">
+                <div class="col-6 pane me-3" id="left">
                     <form method="POST" id="codeForm" style="height: max-content;">
                         {% csrf_token %}
                         <div class="form-group">
@@ -163,7 +168,7 @@
                                 <div class="row mt-3">
                                     <div class="col-12 tab">
                                         <button class="tablinks" onclick="openCity(event, 'London')"
-                                            id="defaultOpen">Test Case
+                                                id="defaultOpen">Test Case
                                             1</button>
                                         <button class="tablinks" onclick="openCity(event, 'Paris')">Test Case 2</button>
                                         <button class="tablinks" onclick="openCity(event, 'Tokyo')">Test Case 3</button>
@@ -173,22 +178,22 @@
                                             <div class="d-flex">
                                                 <strong name="test-case-one">Test Case 1:</strong>
                                                 <div name="loader" class="m-1 spinner-grow spinner-grow-sm"
-                                                    role="status">
+                                                     role="status">
                                                 </div>
                                             </div>
                                             <div class="mt-2 d-flex align-items-center"
-                                                style="height: 50px; background-color: whitesmoke;">
+                                                 style="height: 50px; background-color: whitesmoke;">
                                                 <h5 class="ms-2">{{problem_content.problemtestcaseoneinput}}</h5>
                                             </div>
                                             <strong>Expected output:</strong>
                                             <div class="mt-2 d-flex align-items-center"
-                                                style="height: 50px; background-color: whitesmoke;">
+                                                 style="height: 50px; background-color: whitesmoke;">
                                                 <h5 class="ms-2">{{problem_content.problemtestcaseoneoutput}}</h5>
                                             </div>
                                             <div name="actual-output-div-one">
                                                 <strong name='actual-output-heading'>Actual output:</strong>
                                                 <div name="actual-output-box-1" class="mt-2 d-flex align-items-center"
-                                                    style="height: max-content; background-color: whitesmoke;">
+                                                     style="height: max-content; background-color: whitesmoke;">
                                                     <h5 class="ms-2" name="actual-output-one"></h5>
                                                 </div>
                                             </div>
@@ -198,22 +203,22 @@
                                             <div class="d-flex">
                                                 <strong name="test-case-two">Test Case 2:</strong>
                                                 <div name="loader" class="m-1 spinner-grow spinner-grow-sm"
-                                                    role="status">
+                                                     role="status">
                                                 </div>
                                             </div>
                                             <div class="mt-2 d-flex align-items-center"
-                                                style="height: 50px; background-color: whitesmoke;">
+                                                 style="height: 50px; background-color: whitesmoke;">
                                                 <h5 class="ms-2">{{problem_content.problemtestcasetwoinput}}</h5>
                                             </div>
                                             <strong>Expected output:</strong>
                                             <div class="mt-2 d-flex align-items-center"
-                                                style="height: 50px; background-color: whitesmoke;">
+                                                 style="height: 50px; background-color: whitesmoke;">
                                                 <h5 class="ms-2">{{problem_content.problemtestcasetwooutput}}</h5>
                                             </div>
                                             <div name="actual-output-div-two">
                                                 <strong name='actual-output-heading'>Actual output:</strong>
                                                 <div name="actual-output-box-2" class="mt-2 d-flex align-items-center"
-                                                    style="height: max-content; background-color: whitesmoke;">
+                                                     style="height: max-content; background-color: whitesmoke;">
                                                     <h5 class="ms-2" name="actual-output-two"></h5>
                                                 </div>
                                             </div>
@@ -223,43 +228,42 @@
                                             <div class="d-flex">
                                                 <strong name="test-case-three">Test Case 3:</strong>
                                                 <div name="loader" class="m-1 spinner-grow spinner-grow-sm"
-                                                    role="status">
+                                                     role="status">
                                                 </div>
                                             </div>
                                             <div class="mt-2 d-flex align-items-center"
-                                                style="height: 50px; background-color: whitesmoke;">
+                                                 style="height: 50px; background-color: whitesmoke;">
                                                 <h5 class="ms-2">{{problem_content.problemtestcasethreeinput}}</h5>
                                             </div>
                                             <strong>Expected output:</strong>
                                             <div class="mt-2 d-flex align-items-center"
-                                                style="height: 50px; background-color: whitesmoke;">
+                                                 style="height: 50px; background-color: whitesmoke;">
                                                 <h5 class="ms-2">{{problem_content.problemtestcasethreeoutput}}</h5>
                                             </div>
                                             <div name="actual-output-div-three">
                                                 <strong name='actual-output-heading'>Actual output:</strong>
                                                 <div name="actual-output-box-3" class="mt-2 d-flex align-items-center"
-                                                    style="height: max-content; background-color: whitesmoke;">
+                                                     style="height: max-content; background-color: whitesmoke;">
                                                     <h5 class="ms-2" name="actual-output-three"></h5>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                     <input name="expectedoutputone" type="hidden"
-                                        value="{{problem_content.problemtestcaseoneoutput}}" />
+                                           value="{{problem_content.problemtestcaseoneoutput}}" />
                                     <input name="expectedoutputtwo" type="hidden"
-                                        value="{{problem_content.problemtestcasetwooutput}}" />
+                                           value="{{problem_content.problemtestcasetwooutput}}" />
                                     <input name="expectedoutputthree" type="hidden"
-                                        value="{{problem_content.problemtestcasethreeoutput}}" />
+                                           value="{{problem_content.problemtestcasethreeoutput}}" />
                                     {% endfor %}
                                 </div>
-
-
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
             <script>
+                Split(['#right', '#left'])
                 function openCity(evt, cityName) {
                     var i, tabcontent, tablinks;
                     tabcontent = document.getElementsByClassName("tabcontent");
@@ -274,6 +278,11 @@
                     evt.currentTarget.className += " active";
                 }
                 document.getElementById("defaultOpen").click();
+                function disableF5(e) { if ((e.which || e.keyCode) == 116 || (e.which || e.keyCode) == 82) e.preventDefault(); };
+
+                    $(document).ready(function () {
+                        $(document).on("keydown", disableF5);
+                    });
 
                 $('div[name = "actual-output-div-one"]').hide();
                 $('div[name = "actual-output-div-two"]').hide();
@@ -281,12 +290,7 @@
                 $('div[name = "typecodealert"]').hide();
                 $('div[name = "notestcasespassed"]').hide();
                 $('div[name = "SubmittedSuccessfully"]').hide();
-
                 $('div[name = "loader"]').hide();
-
-
-
-
 
                 var editor = CodeMirror.fromTextArea(document.getElementById("compilerarea"), {
                     lineNumbers: true,
@@ -315,7 +319,6 @@
                 $("#compile").click(function () {
                     if (editor.getValue() == '') {
                         $('div[name = "typecodealert"]').fadeIn();
-
                     }
                     else {
                         $('div[name = "actual-output-div-one"]').fadeOut();
@@ -324,11 +327,11 @@
                         $('strong[name="test-case-one"]').text("Executing...");
                         $('strong[name="test-case-two"]').text("Executing...");
                         $('strong[name="test-case-three"]').text("Executing...");
-
+ 
                         $('div[name = "loader"]').fadeIn();
                         $.ajax({
                             type: "POST",
-                            url: '/',
+                            url: "{% url 'TestCompile' problem %}",
                             data: {
                                 "csrfmiddlewaretoken": csrf,
                                 "code": editor.getValue()
@@ -385,7 +388,7 @@
                 $("#submit").click(function () {
                     $.ajax({
                         type: "POST",
-                        url: '/',
+                        url: "{% url 'TestSubmitCode' problem %}",
                         data: {
                             "csrfmiddlewaretoken": csrf,
                             "code": editor.getValue(),
@@ -399,6 +402,8 @@
                             }
                             if (data == "SubmittedSuccessfully") {
                                 $('div[name = "SubmittedSuccessfully"]').fadeIn();
+                                $("#submit").addClass("disabled");
+                                $("#compile").addClass("disabled");
                             }
                             if (data == "ErrorSubmitting") {
                                 $('div[name = "notestcasespassed"]').fadeIn();
@@ -410,13 +415,13 @@
             </script>
         </main>
         <script src="https://code.jquery.com/jquery-3.5.1.js"
-            integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
+                integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
-            integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
-            crossorigin="anonymous"></script>
+                integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+                crossorigin="anonymous"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
-            integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
-            crossorigin="anonymous"></script>
+                integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+                crossorigin="anonymous"></script>
     </body>
 
 </html>

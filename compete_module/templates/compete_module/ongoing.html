@@ -40,9 +40,13 @@
                         </h6>
                         </p>
                     </div>
+                    {% if competition.id in compeledcompetitions %}
+                    <button class="btn btn-success disabled">Completed</button>
+                    {% else %}
                     <a title="{% url 'AssessmentStartPage' competition.slug %}" class="btn btn-success"
                         onclick="window.open(this.title, '_blank', 'toolbar=1,scrollbars=1,location=1,statusbar=0,menubar=1,resizable=0,width=1980,height=1080');">Start
                         test</a>
+                    {% endif %}
                 </div>
             </div>
         </div>

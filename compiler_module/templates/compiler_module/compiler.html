@@ -44,8 +44,8 @@
             <strong>
                 Problem Constraints
             </strong>
-            <div class="col d-flex align-items-center" style="background-color: whitesmoke; height: 50px;">
-                <h6 class="p mt-2" style="font-weight: 600;">
+            <div class="col d-flex align-items-center" style="background-color: whitesmoke; height: auto;">
+                <h6 class="pt-3 ms-2 mt-2" style="font-weight: 600;">
                     {{ problem_content.problemconstraints|linebreaks }}
                 </h6>
             </div>
@@ -54,8 +54,8 @@
             <strong>
                 Sample Input
             </strong>
-            <div class="col d-flex align-items-center" style="background-color: whitesmoke; height: 50px;">
-                <h6 class="p mt-2" style="font-weight: 600;">
+            <div class="col d-flex align-items-center" style="background-color: whitesmoke; height: pt-3 ms-2;">
+                <h6 class="pt-3 ms-2 mt-2" style="font-weight: 600;">
                     {{ problem_content.sampleinput|linebreaks }}
                 </h6>
             </div>
@@ -72,8 +72,8 @@
             <strong>
                 Sample Output
             </strong>
-            <div class="col d-flex align-items-center" style="background-color: whitesmoke; height: 50px;">
-                <h6 class="p mt-2" style="font-weight: 600;">
+            <div class="col d-flex align-items-center" style="background-color: whitesmoke; height: auto;">
+                <h6 class="pt-3 ms-2 mt-2" style="font-weight: 600;">
                     {{ problem_content.sampleoutput|linebreaks }}
                 </h6>
             </div>
@@ -203,14 +203,14 @@
                             value="{{problem_content.problemtestcasethreeoutput}}" />
                         {% endfor %}
                     </div>
-
-
                 </div>
             </div>
         </div>
     </div>
 </div>
 <script>
+    Split(['#right', '#left'])
+
     function openCity(evt, cityName) {
         var i, tabcontent, tablinks;
         tabcontent = document.getElementsByClassName("tabcontent");
@@ -235,10 +235,6 @@
     $('div[name = "SubmittedSuccessfully"]').hide();
 
     $('div[name = "loader"]').hide();
-
-
-
-
 
     var editor = CodeMirror.fromTextArea(document.getElementById("compilerarea"), {
         lineNumbers: true,

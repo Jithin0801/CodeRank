@@ -1,3 +1,5 @@
+from django.http.response import JsonResponse
+from compiler_module.models import CompeteProblemResult
 from practice_module.models import PracticeProblem
 from compete_module.models import CompeteModel, CompetitionOwnProblem, CompetitionType, RegisteredUserCompete, Status
 from django.shortcuts import redirect, render
@@ -34,12 +36,16 @@ def UpcomingPage(request):
 
 @login_required
 def OngoingPage(request):
+    competltedcompetitionid = list(CompeteProblemResult.objects.filter(
+        user_id=request.user.id).values_list("competition_id", flat=True))
+
     if request.method == "GET":
         ongoingcompetitions = CompeteModel.objects.filter(status_id=2)
         context = {
             "title": "CodeRank - Ongoing competitions",
             "ongoingcompetitions": ongoingcompetitions,
-            "pagetitle": "ongoingpage"
+            "pagetitle": "ongoingpage",
+            "compeledcompetitions": competltedcompetitionid
         }
     return render(request, "compete_module/ongoing.html", context)
 
@@ -62,16 +68,30 @@ def RigsteredPage(request):
         userid = request.user.id
         registeredcompetitionquerylist = list(RegisteredUserCompete.objects.filter(
             user_id=userid).values())
+        competltedcompetitionid = list(CompeteProblemResult.objects.filter(user_id = userid).values_list("competition_id", flat=True))
         registeredcompetition = []
         for competion in registeredcompetitionquerylist:
             temp = CompeteModel.objects.filter(
                 id=competion["competition_id"])
-            registeredcompetition.append(temp)
+            registeredcompetition.append(temp)      
         context = {
             "title": "CodeRank - Regitsered Competitions",
             "registeredcompetitions": registeredcompetition,
-            "pagetitle": "registeredpage"
+            "pagetitle": "registeredpage",
+            "compeledcompetitions":competltedcompetitionid
         }
+    
+    if request.is_ajax():
+        submittedstatus = request.POST['finalSubmit']
+        if submittedstatus == 'Success':
+            messages.success(
+                request, "Test sumbitted successfully")
+            return JsonResponse("DONE", safe=False)
+
+        else:
+            messages.error(
+                request, "Error submitting test, please contact helpdesk")
+
     return render(request, "compete_module/registered.html", context)
 
 
@@ -171,15 +191,16 @@ def AssessmentListPage(request, competitionslug):
     problems = CompetitionOwnProblem.objects.filter(
         competition_id=competitionid)
 
-    # solvedproblemid = []
-    # solvedproblemquerylist = list(PracticeProblemResult.objects.filter(
-    #     user_id=request.user.id).values())
+    solvedproblemid = []
+    solvedproblemquerylist = list(CompeteProblemResult.objects.filter(
+        user_id=request.user.id).values())
 
-    # for solvedproblem in solvedproblemquerylist:
-    #     solvedproblemid.append(solvedproblem["problem_id"])
+    for solvedproblem in solvedproblemquerylist:
+        solvedproblemid.append(solvedproblem["problem_id"])
 
     context = {
         "problems": problems,
+        "solvedproblems": solvedproblemid
     }
 
     return render(request, "compete_module/testproblemlist.html", context)

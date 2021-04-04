@@ -22,25 +22,20 @@
 </div>
 <div class="container mt-3">
     {% for topic in tutorialsub %}
-    <div class="row d-flex border" style=" background-color: white; border-radius:
-                    15px; height: 100px;">
-        <div class="col-lg-3 col-md-4 col-md-3 col-sm-4 d-flex align-items-center justify-content-lg-start">
-            <h4> {{ topic.title }}</h4>
+    <div class="row d-flex border mt-2 py-4" style=" background-color: white; border-radius:15px; height: auto;">
+        <div class="col-5 d-flex align-items-center me-auto">
+            <h4>{{ topic.title }}</h4>
         </div>
-        <div class="col-lg-6 col-md-3 col-sm-2"></div>
-        {% if topic.id in completedtutorialslist %}
-        <div
-            class="col-lg-3 col-md-4 col-sm-6 d-flex align-items-center justify-content-lg-center justify-content-md-center justify-content-sm-center">
+        <div class="col-4  d-flex align-items-center ">
+            {% if topic.id in completedtutorialslist %}
             <a href="{% url 'ViewTutorialPage' maintopicslug subtopicslug topic.slug %}"
-                class="btn btn-outline-primary">Completed</a>
-        </div>
-        {% else %}
-        <div
-            class="col-lg-3 col-md-4 col-sm-6 d-flex align-items-center justify-content-lg-center justify-content-md-center justify-content-sm-center">
-            <a href="{% url 'ViewTutorialPage' maintopicslug subtopicslug topic.slug %}" class="btn btn-primary">View
+               class="btn btn-outline-primary ms-auto">Completed</a>
+            {% else %}
+            <a href="{% url 'ViewTutorialPage' maintopicslug subtopicslug topic.slug %}"
+               class="btn btn-primary ms-auto">View
                 Tutorials</a>
+            {% endif %}
         </div>
-        {% endif %}
     </div>
     {% endfor %}
 </div>

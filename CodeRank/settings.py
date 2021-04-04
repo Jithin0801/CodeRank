@@ -58,7 +58,9 @@ INSTALLED_APPS = [
     'compiler_module',
     'rest_framework',
     'compete_module',
-    'jobs_module'
+    'tutorial_module',
+    'leaderboard_module',
+    'blog_module'
 ]
 
 MIDDLEWARE = [

@@ -2,6 +2,25 @@
 {% load crispy_forms_tags %}
 {% load widget_tweaks %}
 {% block workspace %}
+<div class="row">
+    <div class="col-12">
+        <div class="mt-3 alert alert-danger alert-dismissible" name="typecodealert" role="alert">
+            Please type some code before executing!
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
+            </button>
+        </div>
+        <div class="mt-3 alert alert-danger alert-dismissible" name="notestcasespassed" role="alert">
+            Atleast one test case should have been passed before successful submission!
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
+            </button>
+        </div>
+        <div class="mt-3 alert alert-success alert-dismissible" name="SubmittedSuccessfully" role="alert">
+            Successfully Submitted
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
+            </button>
+        </div>
+    </div>
+</div>
 <div class="col d-flex border-bottom">
     <div class="col-6 pane" id="right">
         {% for problem_content in problemcontent %}
@@ -10,7 +29,7 @@
                 Problem Statement
             </strong>
             <p class="p mt-2">
-                {{ problem_content.problemstatement }}
+                {{ problem_content.problemstatement|linebreaks }}
             </p>
         </div>
         <div class="row mt-3">
@@ -18,16 +37,16 @@
                 Problem Explanation
             </strong>
             <p class="p mt-2">
-                {{ problem_content.problemexplanation }}
+                {{ problem_content.problemexplanation|linebreaks }}
             </p>
         </div>
         <div class="row mt-2">
             <strong>
                 Problem Constraints
             </strong>
-            <div class="col d-flex align-items-center" style="background-color: whitesmoke; height: 50px;">
-                <h6 class="p mt-2" style="font-weight: 600;">
-                    {{ problem_content.problemconstraints }}
+            <div class="col d-flex align-items-center" style="background-color: whitesmoke; height: auto;">
+                <h6 class="pt-3 ms-2 mt-2" style="font-weight: 600;">
+                    {{ problem_content.problemconstraints|linebreaks }}
                 </h6>
             </div>
         </div>
@@ -35,9 +54,9 @@
             <strong>
                 Sample Input
             </strong>
-            <div class="col d-flex align-items-center" style="background-color: whitesmoke; height: 50px;">
-                <h6 class="p mt-2" style="font-weight: 600;">
-                    {{ problem_content.sampleinput }}
+            <div class="col d-flex align-items-center" style="background-color: whitesmoke; height: pt-3 ms-2;">
+                <h6 class="pt-3 ms-2 mt-2" style="font-weight: 600;">
+                    {{ problem_content.sampleinput|linebreaks }}
                 </h6>
             </div>
         </div>
@@ -46,16 +65,16 @@
                 Input Explanation
             </strong>
             <p class="p mt-2">
-                {{ problem_content.inputexplanation }}
+                {{ problem_content.inputexplanation|linebreaks }}
             </p>
         </div>
         <div class="row mt-2">
             <strong>
                 Sample Output
             </strong>
-            <div class="col d-flex align-items-center" style="background-color: whitesmoke; height: 50px;">
-                <h6 class="p mt-2" style="font-weight: 600;">
-                    {{ problem_content.sampleoutput }}
+            <div class="col d-flex align-items-center" style="background-color: whitesmoke; height: auto;">
+                <h6 class="pt-3 ms-2 mt-2" style="font-weight: 600;">
+                    {{ problem_content.sampleoutput|linebreaks }}
                 </h6>
             </div>
         </div>
@@ -64,7 +83,7 @@
                 Output Explanation
             </strong>
             <p class="p mt-2">
-                {{ problem_content.outputexplanation }}
+                {{ problem_content.outputexplanation|linebreaks }}
             </p>
         </div>
         {% endfor %}
@@ -78,34 +97,262 @@
         </form>
         <div class="col me-auto">
             <div class="row d-flex ms-1 mt-2">
-                <div class="col-lg-6 border-end">
+                <div class="col-lg-12 border-end">
+                    <div class="row">
+                        <div class="col-lg-12 d-lg-flex justify-content-center">
+                            <button id="compile" href="#" class="btn btn-secondary d-flex mt-sm-2 ">
+                                <div class="material-icons" style="margin-top: 0.8px;">code</div>
+                                <span class="ms-1">
+                                    Execute
+                                </span>
+                            </button>
+                            <button id="submit" href="#" class="btn btn-primary d-flex ms-lg-2 mt-sm-2">
+                                <div class="material-icons" style="margin-top: 0.8px;">save</div>
+                                <span class="ms-1">
+                                    Submit
+                                </span>
+                            </button>
+                        </div>
+                    </div>
                     {% for problem_content in problemcontent %}
-                    <strong>Test Case 1:</strong>
-                    <div class="mt-2 d-flex align-items-center" style="height: 50px; background-color: whitesmoke;">
-                        <h5 class="ms-2">{{problem_content.problemtestcaseoneinput}}</h5>
+                    <div class="row mt-3">
+                        <div class="col-12 tab">
+                            <button class="tablinks" onclick="openCity(event, 'London')" id="defaultOpen">Test Case
+                                1</button>
+                            <button class="tablinks" onclick="openCity(event, 'Paris')">Test Case 2</button>
+                            <button class="tablinks" onclick="openCity(event, 'Tokyo')">Test Case 3</button>
+                        </div>
+                        <div class="row">
+                            <div id="London" class="tabcontent">
+                                <div class="d-flex">
+                                    <strong name="test-case-one">Test Case 1:</strong>
+                                    <div name="loader" class="m-1 spinner-grow spinner-grow-sm" role="status">
+                                    </div>
+                                </div>
+                                <div class="mt-2 d-flex align-items-center"
+                                    style="height: 50px; background-color: whitesmoke;">
+                                    <h5 class="ms-2">{{problem_content.problemtestcaseoneinput}}</h5>
+                                </div>
+                                <strong>Expected output:</strong>
+                                <div class="mt-2 d-flex align-items-center"
+                                    style="height: 50px; background-color: whitesmoke;">
+                                    <h5 class="ms-2">{{problem_content.problemtestcaseoneoutput}}</h5>
+                                </div>
+                                <div name="actual-output-div-one">
+                                    <strong name='actual-output-heading'>Actual output:</strong>
+                                    <div name="actual-output-box-1" class="mt-2 d-flex align-items-center"
+                                        style="height: max-content; background-color: whitesmoke;">
+                                        <h5 class="ms-2" name="actual-output-one"></h5>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div id="Paris" class="tabcontent">
+                                <div class="d-flex">
+                                    <strong name="test-case-two">Test Case 2:</strong>
+                                    <div name="loader" class="m-1 spinner-grow spinner-grow-sm" role="status">
+                                    </div>
+                                </div>
+                                <div class="mt-2 d-flex align-items-center"
+                                    style="height: 50px; background-color: whitesmoke;">
+                                    <h5 class="ms-2">{{problem_content.problemtestcasetwoinput}}</h5>
+                                </div>
+                                <strong>Expected output:</strong>
+                                <div class="mt-2 d-flex align-items-center"
+                                    style="height: 50px; background-color: whitesmoke;">
+                                    <h5 class="ms-2">{{problem_content.problemtestcasetwooutput}}</h5>
+                                </div>
+                                <div name="actual-output-div-two">
+                                    <strong name='actual-output-heading'>Actual output:</strong>
+                                    <div name="actual-output-box-2" class="mt-2 d-flex align-items-center"
+                                        style="height: max-content; background-color: whitesmoke;">
+                                        <h5 class="ms-2" name="actual-output-two"></h5>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div id="Tokyo" class="tabcontent">
+                                <div class="d-flex">
+                                    <strong name="test-case-three">Test Case 3:</strong>
+                                    <div name="loader" class="m-1 spinner-grow spinner-grow-sm" role="status">
+                                    </div>
+                                </div>
+                                <div class="mt-2 d-flex align-items-center"
+                                    style="height: 50px; background-color: whitesmoke;">
+                                    <h5 class="ms-2">{{problem_content.problemtestcasethreeinput}}</h5>
+                                </div>
+                                <strong>Expected output:</strong>
+                                <div class="mt-2 d-flex align-items-center"
+                                    style="height: 50px; background-color: whitesmoke;">
+                                    <h5 class="ms-2">{{problem_content.problemtestcasethreeoutput}}</h5>
+                                </div>
+                                <div name="actual-output-div-three">
+                                    <strong name='actual-output-heading'>Actual output:</strong>
+                                    <div name="actual-output-box-3" class="mt-2 d-flex align-items-center"
+                                        style="height: max-content; background-color: whitesmoke;">
+                                        <h5 class="ms-2" name="actual-output-three"></h5>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <input name="expectedoutputone" type="hidden"
+                            value="{{problem_content.problemtestcaseoneoutput}}" />
+                        <input name="expectedoutputtwo" type="hidden"
+                            value="{{problem_content.problemtestcasetwooutput}}" />
+                        <input name="expectedoutputthree" type="hidden"
+                            value="{{problem_content.problemtestcasethreeoutput}}" />
+                        {% endfor %}
                     </div>
-                    <strong>Test Case 2:</strong>
-                    <div class="mt-2 d-flex align-items-center" style="height: 50px; background-color: whitesmoke;">
-                        <h5 class="ms-2">{{problem_content.problemtestcasetwoinput}}</h5>
-                    </div>
-                    {% endfor %}
-                </div>
-                <div class="col-lg-6 d-lg-flex justify-content-end h-100">
-                    <button href="#" class="btn btn-secondary d-flex mt-sm-2 ">
-                        <div class="material-icons" style="margin-top: 0.8px;">code</div>
-                        <span class="ms-1">
-                            Run Code
-                        </span>
-                    </button>
-                    <button href="#" class="btn btn-primary d-flex ms-lg-2 mt-sm-2">
-                        <div class="material-icons" style="margin-top: 0.8px;">save</div>
-                        <span class="ms-1">
-                            Submit
-                        </span>
-                    </button>
                 </div>
             </div>
         </div>
     </div>
 </div>
+<script>
+    Split(['#right', '#left'])
+
+    function openCity(evt, cityName) {
+        var i, tabcontent, tablinks;
+        tabcontent = document.getElementsByClassName("tabcontent");
+        for (i = 0; i < tabcontent.length; i++) {
+            tabcontent[i].style.display = "none";
+        }
+        tablinks = document.getElementsByClassName("tablinks");
+        for (i = 0; i < tablinks.length; i++) {
+            tablinks[i].className = tablinks[i].className.replace(" active", "");
+        }
+        document.getElementById(cityName).style.display = "block";
+        evt.currentTarget.className += " active";
+    }
+
+    document.getElementById("defaultOpen").click();
+
+    $('div[name = "actual-output-div-one"]').hide();
+    $('div[name = "actual-output-div-two"]').hide();
+    $('div[name = "actual-output-div-three"]').hide();
+    $('div[name = "typecodealert"]').hide();
+    $('div[name = "notestcasespassed"]').hide();
+    $('div[name = "SubmittedSuccessfully"]').hide();
+
+    $('div[name = "loader"]').hide();
+
+    var editor = CodeMirror.fromTextArea(document.getElementById("compilerarea"), {
+        lineNumbers: true,
+        mode: "python",
+        matchBrackets: true,
+        lineWrapping: true,
+        theme: "dracula",
+        autoCloseBrackets: true,
+        extraKeys: {
+            "Ctrl-Space": "autocomplete"
+        }
+    });
+
+    $(".btn-close").click(function () {
+        $('div[name = "typecodealert"]').fadeOut();
+        $('div[name = "notestcasespassed"]').fadeOut();
+        $('div[name = "SubmittedSuccessfully"]').fadeOut();
+    });
+
+    var actualoutput1 = null
+    var actualoutput2 = null
+    var actualoutput3 = null
+    var csrf = $('input[name="csrfmiddlewaretoken"]').val();
+
+
+    $("#compile").click(function () {
+        if (editor.getValue() == '') {
+            $('div[name = "typecodealert"]').fadeIn();
+
+        }
+        else {
+            $('div[name = "actual-output-div-one"]').fadeOut();
+            $('div[name = "actual-output-div-two"]').fadeOut();
+            $('div[name = "actual-output-div-three"]').fadeOut();
+            $('strong[name="test-case-one"]').text("Executing...");
+            $('strong[name="test-case-two"]').text("Executing...");
+            $('strong[name="test-case-three"]').text("Executing...");
+
+            $('div[name = "loader"]').fadeIn();
+            $.ajax({
+                type: "POST",
+                url: '{% url "Compile" maintopic subtopic problem %}',
+                data: {
+                    "csrfmiddlewaretoken": csrf,
+                    "code": editor.getValue()
+                },
+                success: function (data) {
+                    console.log(data);
+                    $('div[name = "actual-output-div-one"]').fadeIn();
+                    $('div[name = "actual-output-div-two"]').fadeIn();
+                    $('div[name = "actual-output-div-three"]').fadeIn();
+
+                    $('div[name = "loader"]').fadeOut();
+                    $('strong[name="test-case-two"]').text("Finished: " + "Time taken: " + data[1]["cpuTime"] + "ms");
+                    $('strong[name="test-case-three"]').text("Finished: " + "Time taken: " + data[2]["cpuTime"] + "ms");
+                    actualoutput1 = data[0]['output']
+                    actualoutput2 = data[1]['output']
+                    actualoutput3 = data[2]['output']
+                    var expectedoutput1 = $('input[name="expectedoutputone"]').val();
+                    var expectedoutput2 = $('input[name="expectedoutputtwo"]').val();
+                    var expectedoutput3 = $('input[name="expectedoutputthree"]').val();
+
+                    if (actualoutput1.trim() === expectedoutput1.trim()) {
+                        $('strong[name="test-case-one"]').text("Testcase passed | " + "Time taken: " + data[0]["cpuTime"] + "ms").css({ "color": "green" });
+                        $('div[name = "actual-output-box-1"]').css({ "background-color": "DarkSeaGreen", "border-style": "solid", "border-color": "green" });
+                    }
+                    else {
+                        $('strong[name="test-case-one"]').text("Testcase failed").css({ "color": "red" });
+                        $('div[name = "actual-output-box-1"]').css({ "background-color": "DarkSalmon", "border-style": "solid", "border-color": "red" });
+                    }
+                    if (actualoutput2.trim() == expectedoutput2.trim()) {
+                        $('strong[name="test-case-two"]').text("Testcase passed | " + "Time taken: " + data[1]["cpuTime"] + "ms").css({ "color": "green" });
+                        $('div[name = "actual-output-box-2"]').css({ "background-color": "DarkSeaGreen", "border-style": "solid", "border-color": "green" });
+                    }
+                    else {
+                        $('strong[name="test-case-two"]').text("Testcase failed").css({ "color": "red" });
+                        $('div[name = "actual-output-box-2"]').css({ "background-color": "DarkSalmon", "border-style": "solid", "border-color": "red" });
+                    }
+                    if (actualoutput3.trim() == expectedoutput3.trim()) {
+                        $('strong[name="test-case-three"]').text("Testcase passed | " + "Time taken: " + data[2]["cpuTime"] + "ms").css({ "color": "green" });
+                        $('div[name = "actual-output-box-3"]').css({ "background-color": "DarkSeaGreen", "border-style": "solid", "border-color": "green" });
+                    }
+                    else {
+                        $('strong[name="test-case-three"]').text("Testcase failed").css({ "color": "red" });
+                        $('div[name = "actual-output-box-3"]').css({ "background-color": "DarkSalmon", "border-style": "solid", "border-color": "red" });
+                    }
+                    $('h5[name="actual-output-one"]').text(data[0]["output"]);
+                    $('h5[name="actual-output-two"]').text(data[1]["output"]);
+                    $('h5[name="actual-output-three"]').text(data[2]["output"]);
+                }
+            });
+        }
+
+    });
+
+    $("#submit").click(function () {
+        $.ajax({
+            type: "POST",
+            url: '{% url "SubmitCode" maintopic subtopic problem %}',
+            data: {
+                "csrfmiddlewaretoken": csrf,
+                "code": editor.getValue(),
+                "actualoutput1": actualoutput1,
+                "actualoutput2": actualoutput2,
+                "actualoutput3": actualoutput3
+            },
+            success: function (data) {
+                if (data == "NoTestCasesPassed") {
+                    $('div[name = "notestcasespassed"]').fadeIn();
+                }
+                if (data == "SubmittedSuccessfully") {
+                    $('div[name = "SubmittedSuccessfully"]').fadeIn();
+                }
+                if (data == "ErrorSubmitting") {
+                    $('div[name = "notestcasespassed"]').fadeIn();
+                }
+            }
+        });
+    });
+</script>
 {% endblock workspace %}

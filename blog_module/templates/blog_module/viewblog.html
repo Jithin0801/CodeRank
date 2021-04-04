@@ -1,0 +1,67 @@
+{% extends "blog_module/base.html" %}
+{% load crispy_forms_tags %}
+{% load widget_tweaks %}
+{% block content %}
+<div class="container mt-2 mb-2">
+    <div class="row">
+        <div class="col-lg-12 my-auto">
+            <p class="p mt-2" style="font-weight: 300;">Read blog!</p>
+        </div>
+        <div class="col-lg-8 col-md-8 col-sm-6 border-bottom">
+            <h3 style="font-weight: 700;">{{ blogtitle }}</h3>
+        </div>
+        <div class="col-12">
+        </div>
+    </div>
+</div>
+<div class="container mt-3">
+    <div class="row ">
+        {% for blog in blogcontent %}
+        <div style="background-color: white; border-radius: 15px; height: auto" class="col-lg-12 mb-3">
+            <div class="col-lg-12 d-flex">
+                <div class="material-icons mt-2" style="font-size: large; padding-top: 4.5px;">person</div>
+                <h6 class="ms-1 mt-2" style="padding-top: 3.5px;">
+                    {{blog.author.first_name}} {{blog.author.last_name}}
+                </h6>
+                <div class="material-icons ms-2 mt-2" style="font-size: large; padding-top: 4.5px;">schedule</div>
+                <h6 class="ms-1 mt-2" style="padding-top: 3.5px;">
+                    {{blog.date_posted}}
+                </h6>
+            </div>
+            <div class="mt-2 col-11">
+                <p>{{blog.content|linebreaks}}</p>
+            </div>
+            {% if blog.author_id == user.id %}
+            <div class="mt-2 d-flex justify-content-start mb-3">
+                <a class="btn btn-warning" href="{% url 'EditBlog' blog.slug %}">Edit blog</a>
+            </div>
+            {% endif %}
+        </div>
+        {% empty %}
+        <h5>No Blogs</h5>
+        {% endfor %}
+    </div>
+    <div class="row border-top">
+        {% for details in authordetails %}
+        <div class="col-lg-6 d-flex justify-content-center mt-3">
+            <img src="{{details.profile.image.url}}" class="rounded-circle account-img" alt="">
+            <div class="row d-flex align-items-center">
+                <div class="col-12">
+                    <h6>WRRITEN BY</h6>
+                    <h5>{{details.first_name}} {{details.last_name}}</h5>
+                    <h6>{{details.profile.bio}}</h6>
+                    <h6>{{details.email}}</h6>
+                </div>
+            </div>
+        </div>
+        <div class="col-6 d-flex justify-content-center mt-3">
+            <div class="row d-flex align-items-center">
+                <div class="col-12">
+                    <a class="btn btn-dark" href="{% url 'ViewUser' details.profile.slug %}">View Profile</a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock content %}

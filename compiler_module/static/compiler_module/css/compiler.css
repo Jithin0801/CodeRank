@@ -1,0 +1,79 @@
+
+a.nav-link {
+  font-size: medium;
+  font-weight: 200;
+}
+
+div.practice-dashboard {
+  margin: 10px;
+}
+
+
+.pane {
+  width: 50%;
+  height: 965px;
+  background-color: white;
+  overflow-x: auto;
+}
+
+div.compiler {
+  height: 400px;
+}
+
+a.sec-nav {
+  color: grey;
+  font-weight: 600;
+}
+
+a.sec-nav:hover {
+  color: black;
+}
+
+.active a {
+  background-color: green !important;
+}
+
+.gutter {
+  height: 100%;
+  cursor: e-resize;
+  background: url(https://raw.githubusercontent.com/RickStrahl/jquery-resizable/master/assets/vsizegrip.png)
+    center center no-repeat whitesmoke;
+}
+
+div.CodeMirror {
+  height: 600px;
+}
+
+/* Style the tab */
+.tab {
+  overflow: hidden;
+}
+
+/* Style the buttons inside the tab */
+.tab button {
+  background-color: inherit;
+  float: left;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  padding: 14px 16px;
+  transition: 0.3s;
+  font-size: 17px;
+}
+
+/* Change background color of buttons on hover */
+.tab button:hover {
+  background-color: #ddd;
+}
+
+/* Create an active/current tablink class */
+.tab button.active {
+  background-color: #ccc;
+}
+
+/* Style the tab content */
+.tabcontent {
+  display: none;
+  padding: 6px 12px;
+  border-top: none;
+}

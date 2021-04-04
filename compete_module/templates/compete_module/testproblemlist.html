@@ -1,0 +1,142 @@
+{% load static %}
+{% load crispy_forms_tags %}
+{% load widget_tweaks %}
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <!-- Required meta tags -->
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+        <script src="https://code.jquery.com/jquery-3.6.0.js"
+                integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+        <script src="{% static 'compete_module/js/base.js' %}"></script>
+        <link rel="stylesheet" href="{% static 'compete_module/css/base.css' %}" />
+        <!-- Bootstrap CSS  -->
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet"
+              integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl"
+              crossorigin="anonymous" />
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+        {% if title %}
+        <title>{{ title }}</title>
+        {% else %}
+        <title>CodeRank</title>
+        {% endif %}
+    </head>
+
+    <body oncontextmenu="return false;">
+        <main>
+            <div class="container-fluid">
+                <div class="container-fluid mt-3">
+                    <div class="row">
+                        <div class="col-4">
+                            <div class="row">
+                                <strong>Instructions:</strong>
+                                <h6>1. Do not switch tabs</h6>
+                                <h6>2. After you click "Agree & start", you will be navigated to the list of coding
+                                    questions.</h6>
+                                <h6>3. Click on the solve button in the list (Each question will have seperate "Solve"
+                                    button).
+                                </h6>
+                                <h6>4. On clicking "Solve" button the compiler will open with problem statement, code
+                                    editor
+                                    and a submit
+                                    button.</h6>
+                                <h6>5. Make sure you pass all the test cases, you will have a seperate "Run Code" button
+                                    to
+                                    run the code with test cases.
+                                </h6>
+                                <h6>6. Once the submit button is clicked the "Submit" button and the "Solve" button in
+                                    the
+                                    list will be disabled.</h6>
+                                <h6>
+                                    7. Test cases will be passed as stdin and output is read using stdout in string
+                                    format.
+                                </h6>
+                                <h6>
+                                    8. Output is checked with test cases using string compare function so make sure your
+                                    output dosen't print other unnecessary values.
+                                </h6>
+                                <h6>
+                                    9. For proctoring purposes the right click is disabled, the shortcut keys may work
+                                    but
+                                    not inside code editor.
+                                </h6>
+                                <h6>
+                                    10. If no test case is passed then 0 marks will be assigned to that respective
+                                    question.
+                                </h6>
+                            </div>
+                            <div class="row">
+                                <div class="col d-flex justify-content-center">
+                                    <form>
+                                        {% csrf_token %}
+                                        <a onclick="sendDataToService()" class="btn btn-success mt-auto">Final
+                                            Submit</a>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                        {% for problem in problems %}
+                        <div class="col-8">
+                            <div class="col-lg-12">
+                                <div class="card h-100">
+                                    <div class="card-body d-flex flex-column">
+                                        <h4 class="card-title">{{ problem.problemtitle }}</h4>
+                                        <p class="card-text">{{ problem.problemdescription }}</p>
+                                        <div class="d-flex">
+                                            <h6 class="h6 me-1" style="font-size: small; color: darkgray;"> Max Score:
+                                            </h6>
+                                            <h6 class="h6" style="font-size: small;">{{ problem.score }}</h6>
+                                        </div>
+                                        {% if problem.id in solvedproblems %}
+                                        <a href="#" class="btn btn-outline-secondary disabled mt-auto">Solved</a>
+                                        {% else %}
+                                        <a href="{% url 'TestCompiler' problem.slug  %}"
+                                           class="btn btn-success mt-auto">Solve</a>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                                {% empty %}
+                                <h5>No problems</h5>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </main>
+        <script>
+            function disableF5(e) { if ((e.which || e.keyCode) == 116 || (e.which || e.keyCode) == 82) e.preventDefault(); };
+            $(document).ready(function () {
+                $(document).on("keydown", disableF5);
+            });
+            var csrf = $('input[name="csrfmiddlewaretoken"]').val();
+
+            function sendDataToService() {
+                $.ajax({
+                    type: "POST",
+                    url: "{% url 'CompeteRegistered' %}",
+                    data: {
+                        "csrfmiddlewaretoken": csrf,
+                        "finalSubmit": "Success"
+                    },
+                    success: function (data) {
+                        if (data == "DONE"){
+                            window.close()
+                        }
+                    }
+                });
+            }
+        </script>
+        <script src="https://code.jquery.com/jquery-3.5.1.js"
+                integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+                integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+                crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+                integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+                crossorigin="anonymous"></script>
+    </body>
+
+</html>

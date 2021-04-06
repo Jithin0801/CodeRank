@@ -55,7 +55,7 @@ div.practice-dashboard {
   position: fixed;
   top: 0;
   width: 100%;
-   z-index:1; /*Add this*/
+  z-index:1; /*Add this*/
 }
 
 .sticky + .content {

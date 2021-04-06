@@ -58,7 +58,7 @@
                             </p>
                             <div>
                                 <a href="{% url 'DevLogIn' %}" class="btn btn-success">Login</a>
-                                <a href="{% url 'DevSignUp' %}" class="ms-1 btn btn-primary">SignUp</a>
+                                <a href="{% url 'DevSignUp' %}" class="my-2 btn btn-primary">SignUp</a>
                             </div>
                         </div>
                     </div>
@@ -92,16 +92,16 @@
             <div class="row mt-5 border-top">
             </div>
             <div class="row d-flex mt-5 mb-3">
-                <div class="col-6">
+                <div class="col-lg-6 mb-4">
                     <div class="row">
                         <div class="col-12">
+                            <h3 style="text-align: center;">CodeMirror</h3>
                             <div class="p-4">
                                 <textarea class="p-3" id="samplecompiler"></textarea>
                             </div>
                         </div>
                         <div class="col-12 d-flex justify-content-center">
                             <div>
-                                <h3 style="text-align: center;">CodeMirror</h3>
                                 <p style="text-align:center;">
                                     CodeMirror is a versatile text editor implemented in JavaScript for the browser. It
                                     is
@@ -117,7 +117,7 @@
                                 </p>
                                 <div class="d-flex justify-content-center">
                                     <a href="https://codemirror.net/" target="_blank"
-                                       class="btn btn-dark mt-2">Learn more
+                                       class="btn btn-dark mt-2 mb-4">Learn more
                                         about
                                         CodeMirror</a>
                                 </div>
@@ -125,9 +125,10 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-6 d-flex align-items-center">
+                <div class="col-lg-6 d-flex align-items-center">
                     <div class="row">
-                        <div class="col-12">
+                        <div class="col-12 border-sm-top">
+                            <h3 style="text-align: center;">JDoodle</h3>
                             <div class="p-4 d-flex justify-content-center align-items-start">
                                 <img src="{% static 'login_module/img/compiler.svg' %}"
                                      style="height: 300px; width: 400px;" class="rounded img-fluid"
@@ -136,7 +137,6 @@
                         </div>
                         <div class="col-12 d-flex justify-content-center">
                             <div>
-                                <h3 style="text-align: center;">JDoodle</h3>
                                 <p style="text-align:center;">
                                     Joodle is a free Online Compiler, Editor, IDE for Java, C, C++, PHP, Perl, Python,
                                     Ruby. Code Online - Share Save
@@ -146,9 +146,9 @@
                                     compiling
                                     functionality.
                                 </p>
-                                <div class="d-flex justify-content-center">
-                                    <a href="https://codemirror.net/" target="_blank"
-                                       class="btn btn-warning mt-4">Learn more
+                                <div class="d-flex justify-content-center mb-4">
+                                    <a href="https://www.jdoodle.com/c-online-compiler/" target="_blank"
+                                       class="btn btn-warning mt-4 mb-4">Learn more
                                         about
                                         JDoodle</a>
                                 </div>
@@ -174,8 +174,8 @@
             editor.setValue("print(\"Hello, World\")\n#Press ctrl+space for AutoComplete\n\n\n\n\n\n\n\n\n\n\n\n\n")
 
             editor.on("beforeChange", function (_, change) {
-                    if (change.origin == "paste") change.cancel()
-                })
+                if (change.origin == "paste") change.cancel()
+            })
         </script>
         <script src=" https://code.jquery.com/jquery-3.5.1.js"
                 integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous">

@@ -57,9 +57,9 @@
             </div>
             {% if problem.id in solvedproblems %}
             <a href="{% url 'Compiler' maintopic subtopic problem.slug  %}"
-              class="btn btn-outline-success mt-auto">Solved</a>
+              class="btn btn-dark mt-auto">Solved</a>
             {% else %}
-            <a href="{% url 'Compiler' maintopic subtopic problem.slug  %}" class="btn btn-success mt-auto">Solve</a>
+            <a href="{% url 'Compiler' maintopic subtopic problem.slug  %}" class="btn btn-warning mt-auto">Solve</a>
             {% endif %}
           </div>
         </div>

@@ -66,11 +66,28 @@ def Compiler(request, maintopic, subtopic, problem):
 def Submission(request, maintopic, subtopic, problem):
     if request.method == 'GET':
         problemset = ProblemDetailsSet()
-        submissionqueryset = PracticeProblemResult.objects.filter()
         context = problemset.getDetails(request, maintopic, subtopic, problem)
+        problem_id = context["problemcontent"][0]["id"]
+        submissionqueryset = PracticeProblemResult.objects.filter(problem_id = problem_id)
         context["pagetitle"] = "Submission"
+        context["problemresults"] = submissionqueryset
+
 
     return render(request, "compiler_module/submission.html", context)
+
+
+def SubmissionDetails(request, maintopic, subtopic, problemresult):
+    if request.method == 'GET':
+        problemresultqueryset = PracticeProblemResult.objects.filter(slug = problemresult)
+        problemslug = problemresultqueryset[0].problem.slug
+        context = {
+            "resultdetails" :problemresultqueryset,
+            "maintopic":maintopic,
+            "subtopic":subtopic,
+            "problem" :problemslug,
+            "pagetitle":"Submission"
+        }
+    return render(request, "compiler_module/viewsubmission.html", context)
 
 
 @login_required

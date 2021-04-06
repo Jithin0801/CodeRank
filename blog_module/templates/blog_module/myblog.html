@@ -9,7 +9,7 @@
         </div>
     </div>
 </div>
-<div class="container mt-3">
+<div class="container mt-3 mb-5">
     <div class="row ">
         {% for blog in blogs %}
         <div style="background-color: white; 
@@ -32,7 +32,7 @@
                 <h4>{{blog.title}}</h4>
             </div>
             <div class="ms-2 mt-2 col-11">
-                <p>{{blog.content|slice:":500"}}....</p>
+                <p>{{blog.content|slice:":660"}}....</p>
             </div>
             <div class="ms-2 mt-2 d-flex justify-content-start mb-3">
                 <a class="btn btn-primary" href="{% url 'ViewBlog' blog.slug %}">Read more</a>

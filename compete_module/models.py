@@ -81,7 +81,7 @@ class RegisteredUserCompete(models.Model):
     registeredon = models.DateTimeField(default=timezone.now)
 
     def __str__(self):
-        return self.user
+        return self.user.first_name
 
 
 class OngoingCompetition(models.Model):

@@ -25,7 +25,7 @@ def DevSignUpPage(request):
             pass
     else:
         form = UserRegistrationForm()
-    return render(request, "login_module/devsignup.html", {"title": "CodeRank - Sign Up", "form": form})
+    return render(request, "login_module/devsignup.html", {"title": "CodeRank - Sign Up", "form": form, "pagetitle": "signup"})
 
 
 def DevLogIn(request):
@@ -53,7 +53,7 @@ def DevLogIn(request):
                 request, "Username or Password is incorrect")
 
     form = AuthenticationForm()
-    return render(request, "login_module/devlogin.html", {"title": "CodeRank - Log In", "form": form})
+    return render(request, "login_module/devlogin.html", {"title": "CodeRank - Log In", "form": form,"pagetitle":"login"})
 
 
 @login_required
@@ -77,7 +77,8 @@ def DevMyProfile(request):
         context = {"title": "CodeRank - My Profile",
                    "ProfileUpdationform": ProfileUpdationform,
                    "UserUpdationForm": UserUpdationform,
-                   "blogs": blogslist
+                   "blogs": blogslist,
+                   "pagetitle":"myprofile"
                    }
     return render(request, "login_module/devmyprofile.html", context)
 

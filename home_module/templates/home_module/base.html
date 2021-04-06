@@ -17,6 +17,7 @@
     <title>CodeRank</title>
     {% endif %}
   </head>
+
   <body>
     <header class="site-header" id="site-header">
       <nav class="navbar navbar-expand-md navbar-light" style="background-color: white;" id="navbar">
@@ -49,13 +50,20 @@
                 <a class="nav-item nav-link" href="{% url 'BlogListPage' %}">BLOGS</a>
               </li>
               <li>
+
+
                 <a class="nav-item nav-link" href="{% url 'LeaderBoardPage' %}">LEADERBOARD</a>
               </li>
             </ul>
             <!-- Navbar Right Side -->
             <ul class="navbar-nav">
               <li>
+                {%if pagetitle == "myprofile" %}
+                <a class="nav-item nav-link active" style="color: white; background-color:red; border-radius: 5px;"
+                   href="{% url 'DevMyProfile' %}">Profile</a>
+                {% else %}
                 <a class=" nav-item nav-link" href="{% url 'DevMyProfile' %}">Profile</a>
+                {% endif %}
               </li>
               <li>
                 <a class="nav-item nav-link" href="{% url 'DevLogOut' %}">Logout</a>
@@ -77,4 +85,5 @@
             integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
             crossorigin="anonymous"></script>
   </body>
+
 </html>

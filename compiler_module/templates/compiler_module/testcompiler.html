@@ -11,11 +11,11 @@
         <script src="https://code.jquery.com/jquery-3.6.0.js"
                 integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
         <script src="{% static 'compiler_module/js/base.js' %}"></script>
-        <link rel="stylesheet" href="{% static 'compiler_module/css/compiler.css' %}" />
         <!-- Bootstrap CSS  -->
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet"
               integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl"
               crossorigin="anonymous" />
+        <link rel="stylesheet" href="{% static 'compiler_module/css/compiler.css' %}" />
         <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
         <script src="https://cdnjs.cloudflare.com/ajax/libs/split.js/1.6.0/split.min.js"></script>
         <link rel=stylesheet href="{% static 'compiler_module/lib/codemirror.css' %}">
@@ -278,8 +278,7 @@
                     evt.currentTarget.className += " active";
                 }
                 document.getElementById("defaultOpen").click();
-                function disableF5(e) { if ((e.which || e.keyCode) == 116 || (e.which || e.keyCode) == 82) e.preventDefault(); };
-
+                function disableF5(e) { if ((e.which || e.keyCode) == 116 || e.ctrlKey && (e.which === 82)) e.preventDefault(); };
                     $(document).ready(function () {
                         $(document).on("keydown", disableF5);
                     });

@@ -19,7 +19,8 @@
         <div class="container">
             <div class="row">
                 <div class="d-flex justify-content-center mt-4">
-                    <img src="{% static 'login_module/img/practice.svg' %}" style="height: 400px;" class="rounded img-fluid"
+                    <img src="{% static 'login_module/img/practice.svg' %}" style="height: 400px;"
+                         class="rounded img-fluid"
                          alt="">
                 </div>
             </div>
@@ -27,14 +28,16 @@
                 <ul class="nav nav-pills">
                     <li class="nav-item">
                         {% if pagetitle == "upcomingpage" %}
-                        <a class="sec-nav nav-link" style="background-color: orange;" href="{% url 'CompeteUpcoming' %}">Upcoming</a>
+                        <a class="sec-nav nav-link" style="background-color: orange;"
+                           href="{% url 'CompeteUpcoming' %}">Upcoming</a>
                         {% else %}
                         <a class="sec-nav nav-link" href="{% url 'CompeteUpcoming' %}">Upcoming</a>
                         {% endif %}
                     </li>
                     <li class="nav-item">
                         {% if pagetitle == "ongoingpage" %}
-                        <a class="sec-nav nav-link " style="background-color: orange;" href="{% url 'CompeteOngoing' %}">Ongoing</a>
+                        <a class="sec-nav nav-link " style="background-color: orange;"
+                           href="{% url 'CompeteOngoing' %}">Ongoing</a>
                         {% else %}
                         <a class="sec-nav nav-link" href="{% url 'CompeteOngoing' %}">Ongoing</a>
                         {% endif %}
@@ -42,14 +45,16 @@
 
                     <li class="nav-item">
                         {% if pagetitle == "previouspage" %}
-                        <a class="sec-nav nav-link " style="background-color: orange;" href="{% url 'CompetePrevious' %}">Previous</a>
+                        <a class="sec-nav nav-link " style="background-color: orange;"
+                           href="{% url 'CompetePrevious' %}">Previous</a>
                         {% else %}
                         <a class="sec-nav nav-link" href="{% url 'CompetePrevious' %}">Previous</a>
                         {% endif %}
                     </li>
                     <li class="nav-item">
                         {% if pagetitle == "registeredpage" %}
-                        <a class="sec-nav nav-link " style="background-color: orange;" href="{% url 'CompeteRegistered' %}">Registered
+                        <a class="sec-nav nav-link " style="background-color: orange;"
+                           href="{% url 'CompeteRegistered' %}">Registered
                             Events</a>
                         {% else %}
                         <a class="sec-nav nav-link" href="{% url 'CompeteRegistered' %}">Registered
@@ -60,6 +65,8 @@
             </div>
         </div>
     </div>
-    {% block events %}{% endblock %}
+    <div class="mb-5">
+        {% block events %}{% endblock %}
+    </div>
 </div>
 {% endblock content %}

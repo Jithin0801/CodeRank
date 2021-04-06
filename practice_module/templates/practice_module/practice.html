@@ -53,9 +53,14 @@
                             <h4 class="card-title">{{ topic.title }}</h4>
                             <p class="card-text">{{ topic.content }}</p>
                             <a href="{% url 'TutorialSubTopicPage' maintopic.slug topic.slug %}"
-                               class="btn btn-primary mt-auto">View Tutorials</a>
+                               class="btn btn-outline-dark mt-auto">View Tutorials</a>
+                            {% if maintopic.title|length > 10 %}
                             <a href="{% url 'ViewChallenges' maintopic.slug topic.slug %}"
-                               class="btn btn-success mt-2">View Challanges</a>
+                               class="btn btn-primary mt-2">View Challanges</a>
+                            {% else %}
+                            <a href="{% url 'ViewChallenges' maintopic.slug topic.slug %}"
+                               class="btn btn-warning mt-2">View Challanges</a>
+                            {% endif %}
                         </div>
                     </div>
                 </div>

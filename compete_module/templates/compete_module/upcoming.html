@@ -41,10 +41,10 @@
                     </div>
                     {% if competition.id in registeredcompetitions %}
                     <a href="{% url 'RegisterCompetition' competition.slug %}" class="btn btn-outline-success mt-auto"
-                        style="border-radius: 10px;">Registered</a>
+                        style="border-radius: 5px;">Registered</a>
                     {% else %}
-                    <a href="{% url 'RegisterCompetition' competition.slug %}" class="btn btn-success mt-auto"
-                        style="border-radius: 10px;">Register</a>
+                    <a href="{% url 'RegisterCompetition' competition.slug %}" class="btn btn-warning mt-auto"
+                        style="border-radius: 5px;">Register</a>
                     {% endif %}
                 </div>
             </div>

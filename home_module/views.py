@@ -27,6 +27,7 @@ def DevHomePage(request):
 
     context = {
         "title": "CodeRank - Home",
+        "pagetitle": "home",
         "blogsqueryset":blogsqueryset,
         "competitionqueryset": competitionqueryset,
         "tutorialsqueryset":tutorialsqueryset,

@@ -50,7 +50,7 @@ class ProblemDetailsSet():
         }
         return context
 
- 
+
 @login_required
 def Compiler(request, maintopic, subtopic, problem):
     if request.method == 'GET':
@@ -66,8 +66,10 @@ def Compiler(request, maintopic, subtopic, problem):
 def Submission(request, maintopic, subtopic, problem):
     if request.method == 'GET':
         problemset = ProblemDetailsSet()
+        submissionqueryset = PracticeProblemResult.objects.filter()
         context = problemset.getDetails(request, maintopic, subtopic, problem)
         context["pagetitle"] = "Submission"
+
     return render(request, "compiler_module/submission.html", context)
 
 
@@ -125,13 +127,15 @@ def SubmitCode(request, maintopic, subtopic, problem):
         actualoutput1 = request.POST['actualoutput1']
         actualoutput2 = request.POST['actualoutput2']
         actualoutput3 = request.POST['actualoutput3']
-
+        
         problem_content = list(
             PracticeProblem.objects.filter(slug=problem).values())
 
         testcases = [problem_content[0]["problemtestcaseoneoutput"],
                      problem_content[0]["problemtestcasetwooutput"],
                      problem_content[0]["problemtestcasethreeoutput"]]
+
+        problemid = problem_content[0]["id"]
 
         userscore = 0
         testcasespassed = False
@@ -206,8 +210,9 @@ def TestCompiler(request, problem):
         form = CodeForm()
         testproblemqueryset = CompetitionOwnProblem.objects.filter(
             slug=problem)
-        competitionid = list(CompetitionOwnProblem.objects.filter(slug = problem).values_list("competition_id", flat=True))
-        competitonqueryset = CompeteModel.objects.filter(id = competitionid[0])
+        competitionid = list(CompetitionOwnProblem.objects.filter(
+            slug=problem).values_list("competition_id", flat=True))
+        competitonqueryset = CompeteModel.objects.filter(id=competitionid[0])
         context = {
             "problemcontent": testproblemqueryset,
             "form": form,
@@ -307,7 +312,7 @@ def TestSubmitCode(request, problem):
                 score=userscore,
                 code=code,
                 problem_id=problem_content[0]["id"],
-                competition_id = problem_content[0]["competition_id"],
+                competition_id=problem_content[0]["competition_id"],
                 user_id=request.user.id,
                 useroutputonestatus_id=useroutputonestatusid,
                 useroutputtwostatus_id=useroutputtwostatusid,

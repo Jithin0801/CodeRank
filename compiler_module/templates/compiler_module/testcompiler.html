@@ -304,6 +304,10 @@
                     }
                 });
 
+                editor.on("beforeChange", function (_, change) {
+                        if (change.origin == "paste") change.cancel()
+                    })
+
                 $(".btn-close").click(function () {
                     $('div[name = "typecodealert"]').fadeOut();
                     $('div[name = "notestcasespassed"]').fadeOut();

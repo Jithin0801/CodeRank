@@ -10,7 +10,6 @@
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet"
               integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl"
               crossorigin="anonymous">
-        <script src="{% static 'login_module/js/base.js' %}"></script>
 
         {% if title %}
         <title>{{ title }}</title>
@@ -32,6 +31,10 @@
                         <div class="navbar-nav me-auto"></div>
                         <!-- Navbar Right Side -->
                         <ul class="nav navbar-nav">
+                            <li>
+                                <a class="nav-item nav-link" style="font-weight: 600;"
+                                   href="{% url 'Home' %}">Go Back</a>
+                            </li>
                             <li>
                                 {% if pagetitle == "signup" %}
                                 <a class="nav-item nav-link"
@@ -63,6 +66,8 @@
         <script src=" https://code.jquery.com/jquery-3.5.1.js"
                 integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous">
                 </script>
+        <script src="{% static 'login_module/js/base.js' %}"></script>
+            
         <link rel="stylesheet" href="{% static 'login_module/css/base.css' %}">
         </link>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"

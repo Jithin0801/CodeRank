@@ -45,9 +45,8 @@ def DevLogIn(request):
                     return redirect('DevHome')
 
             else:
-                username = form.cleaned_data.get('username')
                 messages.error(
-                    request, f'Account { username } is inactive, Please contact the admin')
+                    request, f'Account is inactive, Please contact the admin')
         else:
             messages.error(
                 request, "Username or Password is incorrect")

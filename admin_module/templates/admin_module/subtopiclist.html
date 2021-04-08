@@ -1,0 +1,71 @@
+{% extends "admin_module/basetwo.html" %}
+{% load crispy_forms_tags %}
+{% load widget_tweaks %}
+{% load static %}
+{% block content %}
+<div class="container mt-2 mb-2">
+    <div class="row">
+        <div class="col-lg-12 my-auto">
+            <p class="p mt-2" style="font-weight: 300;">View, Edit or Add topics.</p>
+        </div>
+        <div class="d-flex col-lg-12 ">
+            <h3 style="font-weight: 700;">{{maintopictitle}}</h3>
+            <a href="javascript:history.back()" class="btn btn-transparent ms-auto"><u>Go back</u></a>
+
+        </div>
+    </div>
+</div>
+<div class="container">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="row d-flex justify-content-center">
+                <img src="{% static 'login_module/img/topic.svg' %}"
+                     style="height: 500px; width: 500px;" class="rounded img-fluid" alt="">
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-12">
+            {% if messages %}
+            {% for message in messages %}
+            <div class="alert alert-{{message.tags}}">{{ message }}</div>
+            {% endfor %}
+            {% endif %}
+        </div>
+        <div class="col-lg-12 d-flex">
+            <h4>Sub Topics</h4>
+            <a class="btn btn-outline-primary ms-auto" href="{% url 'UpdateMainTopic' maintopicslug %}">Edit title</a>
+            <a class="btn btn-outline-danger ms-1" href="{% url 'DelMainTopic' maintopicslug %}">Delete Topic</a>
+        </div>
+    </div>
+    <div class="row" style="height: 835px;">
+        <div class="col-lg-12">
+            <div class="row d-flex justify-content-center">
+                {% for topic in subtopiclist %}
+                <div class="col-auto border m-2" style=" border-radius: 5px;">
+                    <div class="px-1 py-2 d-flex">
+                        <div class="col-auto d-flex me-auto">
+                            <h5 class="" style="margin-top: 5px;">{{topic.title|slice:"20"}}</h5>
+                        </div>
+                        <div class=" col-auto d-flex ms-5">
+                            <a class="btn btn-dark ms-auto" href="{% url 'ViewSubTopicContent' maintopicslug topic.slug %}">View</a>
+                            <a class="btn btn-warning ms-1" href="{% url 'UpdateSubTopic' maintopicslug topic.slug %}">Edit</a>
+                            <a class="btn btn-danger ms-1" href="{% url 'DelSubTopic' maintopicslug topic.slug %}">Delete</a>
+                        </div>
+                    </div>
+                </div>
+                {% empty %}
+                <h5>No topics</h5>
+                {% endfor %}
+                <div class="col-lg-4 border m-2" style="background-color: #212529; border-radius: 5px;">
+                    <div class="px-1 py-2 d-flex justify-content-center">
+                        <a class="btn btn-dark" style="width: 100%;"
+                           href="{% url 'AddNewSubTopic' maintopicslug %}">+ Add new
+                            topic</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}

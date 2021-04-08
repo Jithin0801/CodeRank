@@ -33,6 +33,12 @@ class PracticeProblemResult(models.Model):
     score = IntegerField(default=0, null=False)
     code = TextField(max_length=5000)
     date_posted = models.DateTimeField(default=timezone.now)
+    testcaseonetime = models.CharField(max_length=50, null=False, default=0)
+    testcasetwotime = models.CharField(max_length=50, null=False, default=0)
+    testcasethreetime = models.CharField(max_length=50, null=False, default=0)
+    testcaseonememory = models.CharField(max_length=50, null=False, default=0)
+    testcasetwomemory = models.CharField(max_length=50, null=False, default=0)
+    testcasethreememory = models.CharField(max_length=50, null=False, default=0)
     slug = models.SlugField(max_length=100,  null=False, blank=True)
 
 
@@ -40,8 +46,9 @@ class PracticeProblemResult(models.Model):
         return self.problem.problemtitle
 
     def save(self, *args, **kwargs):
-        self.slug = slugify(self.problem.problemtitle + " " + str(self.id))
+        self.slug = slugify(str(self.date_posted))
         super(PracticeProblemResult, self).save(*args, **kwargs)
+
 
 
 class CompeteProblemResult(models.Model):

@@ -1,3 +1,467 @@
-from django.shortcuts import render
-
+from django.contrib.auth.decorators import login_required
+from django.utils.text import slugify
+from admin_module.models import InstitutionProfile
+from admin_module.forms import AddCompetitionForm, AddNewMainTopicForm, AddNewSubTopicForm, AddTutorialContentForm, AddTutorialSubTopicForm, DelMainTopicForm, DelSubTopicForm, DelTutorialSubTopic, EditTutorialContent, EditTutorialSubTopic, ProfileUpdationForm, UpdateMainTopicForm, UpdateSubTopicForm, UserRegistrationForm, UserUpdationForm
+from django.contrib.auth import authenticate, login
+from django.contrib.auth.forms import AuthenticationForm
+from django.shortcuts import redirect, render
+from django.contrib import messages
+from django.contrib.auth.models import User
+from django.contrib.admin.views.decorators import staff_member_required
+from practice_module.models import PracticeMainTopic, PracticeSubTopic, PracticeProblem
+from tutorial_module.models import TutorialContent, TutorialSubtopic
+from compete_module.models import CompeteModel, CompetitionOwnProblem, CompetitionResult, RegisteredUserCompete
+from django.utils import timezone
 # Create your views here.
+
+
+def InsitiutionHomePage(request):
+    return render(request, "admin_module/home.html")
+
+
+def InstitutionSignUpPage(request):
+    if request.method == "POST":
+        form = UserRegistrationForm(request.POST)
+        if form.is_valid():
+            formdata = form.cleaned_data
+            try:
+                user = User.objects.create(
+                    username=formdata['username'], first_name=formdata['first_name'], last_name=formdata['last_name'],
+                    email=formdata['email'], is_staff=True)
+                user.set_password(formdata['password2'])
+                user.save()
+                username = form.cleaned_data.get('username')
+            except:
+                messages.success(request, f'Error creating account')
+                return redirect("InstitutionSignUpPage")
+            messages.success(
+                request, f'Account created for { username }, Now login!')
+            return redirect("InstitutionLoginPage")
+        else:
+            pass
+    else:
+        form = UserRegistrationForm()
+    return render(request, "admin_module/inssignup.html", {"title": "CodeRank - Sign Up", "form": form, "pagetitle": "signup"})
+
+
+def InstitutionLoginPage(request):
+    if request.method == "POST":
+        form = AuthenticationForm(request.POST)
+        username = request.POST['username']
+        password = request.POST['password']
+        user = authenticate(request, username=username, password=password)
+        if user is not None:
+            if user.is_staff:
+                form = login(request, user)
+                try:
+                    user.institutionprofile
+                except:
+                    return redirect('InsCompleteProfile')
+                else:
+                    return redirect('InsDashboard')
+            else:
+                messages.error(
+                    request, f'You are not a staff member')
+        else:
+            messages.error(
+                request, "Username or Password is incorrect")
+
+    form = AuthenticationForm()
+    return render(request, "admin_module/inslogin.html", {"title": "CodeRank - Log In", "form": form, "pagetitle": "login"})
+
+
+@staff_member_required
+def InsCompleteProfile(request):
+    if request.method == 'POST':
+        profile = InstitutionProfile.objects.create(user=request.user)
+        UserUpdationform = UserUpdationForm(
+            request.POST, instance=request.user)
+        ProfileUpdationform = ProfileUpdationForm(
+            request.POST, request.FILES, instance=request.user.institutionprofile)
+        if UserUpdationform.is_valid() and ProfileUpdationform.is_valid():
+            UserUpdationform.save()
+            ProfileUpdationform.save()
+            messages.success(request, "Your information has been updated!")
+            return redirect('InsDashboard')
+    else:
+        ProfileUpdationform = ProfileUpdationForm()
+        UserUpdationform = UserUpdationForm(instance=request.user)
+    return render(request, "admin_module/inscompleteprofile.html", {"title": "Welcome-Complete your profile", "ProfileUpdationform": ProfileUpdationform, "UserUpdationForm": UserUpdationform})
+
+
+@staff_member_required
+def InsDashboard(request):
+    context = {
+        "title": "CodeRank - Dashboard",
+        "pagetitle": "dash"
+    }
+    return render(request, "admin_module/dashboard.html", context)
+
+
+@staff_member_required
+def MainTopicList(request):
+    maintopicqueryset = PracticeMainTopic.objects.all()
+    context = {
+        "title": "CodeRank - Main Topic",
+        "maintopiclist": maintopicqueryset,
+        "pagetitle": "main"
+    }
+    return render(request, "admin_module/maintopiclist.html", context)
+
+
+@staff_member_required
+def AddNewMainTopic(request):
+    form = AddNewMainTopicForm()
+    if request.method == 'GET':
+        context = {
+            "title": "CodeRank - Add new topic",
+            "pagetitle": "prob",
+            "form": form
+        }
+    elif request.method == 'POST':
+        form = AddNewMainTopicForm(request.POST)
+        if form.is_valid():
+            form.save()
+            title = form.cleaned_data.get('title')
+            messages.success(
+                request, f"{title} has been added successfully!")
+            return redirect('MainTopicList')
+
+    return render(request, "admin_module/addnewtopic.html", context)
+
+
+@staff_member_required
+def UpdateMainTopic(request, maintopic):
+    maintopictitlelist = list(PracticeMainTopic.objects.filter(
+        slug=maintopic).values_list('title', flat=True))
+    form_data = {
+        "title": maintopictitlelist[0],
+    }
+    form = UpdateMainTopicForm(initial=form_data)
+    if request.method == 'GET':
+        context = {
+            "title": "CodeRank - Update topic",
+            "pagetitle": "prob",
+            "form": form
+        }
+    elif request.method == 'POST':
+        form = AddNewMainTopicForm(request.POST)
+        if form.is_valid():
+            title = form.cleaned_data.get('title')
+            PracticeMainTopic.objects.filer(slug=maintopic).update(title=title)
+            messages.success(
+                request, f"{title} has been updated successfully!")
+            return redirect('MainTopicList')
+
+    return render(request, "admin_module/edittopic.html", context)
+
+
+@staff_member_required
+def DelMainTopic(request, maintopic):
+    maintopictquerylist = list(PracticeMainTopic.objects.filter(
+        slug=maintopic).values())
+    maintopictitle = maintopictquerylist[0]['title']
+    form = DelMainTopicForm()
+    if request.method == 'GET':
+        context = {
+            "title": "CodeRank - Update topic",
+            "pagetitle": "main",
+            "maintopictitle": maintopictquerylist[0]['title'],
+            "form": form,
+            "maintopicslug": maintopic,
+        }
+    elif request.method == 'POST':
+        form = DelMainTopicForm(request.POST)
+        PracticeMainTopic.objects.filter(slug=maintopic).delete()
+        messages.success(
+            request, f"{maintopictitle} has been deleted successfully!")
+        return redirect('MainTopicList')
+    return render(request, "admin_module/deletemaintopic.html", context)
+
+
+@staff_member_required
+def SubTopicList(request, maintopic):
+    maintopicid = list(PracticeMainTopic.objects.filter(
+        slug=maintopic).values_list("id", flat=True))
+    maintopictitle = list(PracticeMainTopic.objects.filter(
+        slug=maintopic).values_list("title", flat=True))
+    subtopicqueryset = PracticeSubTopic.objects.filter(
+        maintopic_id=maintopicid[0])
+    context = {
+        "title": "CodeRank - Sub Topic",
+        "subtopiclist": subtopicqueryset,
+        "maintopicslug": maintopic,
+        "maintopictitle": maintopictitle[0],
+        "pagetitle": "main"
+    }
+    return render(request, "admin_module/subtopiclist.html", context)
+
+
+@staff_member_required
+def AddNewSubTopic(request, maintopic):
+    maintopicid = list(PracticeMainTopic.objects.filter(
+        slug=maintopic).values_list("id", flat=True))
+    form = AddNewSubTopicForm()
+    if request.method == 'GET':
+        context = {
+            "title": "CodeRank - Add new topic",
+            "pagetitle": "main",
+            "form": form
+        }
+    elif request.method == 'POST':
+        form = AddNewSubTopicForm(request.POST)
+        if form.is_valid():
+            data = form.cleaned_data
+            PracticeSubTopic.objects.update_or_create(
+                maintopic_id=maintopicid[0], title=data['title'], content=data['content'])
+            messages.success(
+                request, f"{data['title']} has been added successfully!")
+            return redirect('SubTopicList', maintopic=maintopic)
+
+    return render(request, "admin_module/addnewtopic.html", context)
+
+
+@staff_member_required
+def ViewSubTopicContent(request, maintopic, subtopic):
+    subtopicqueryset = PracticeSubTopic.objects.filter(slug=subtopic)
+    subtopictitle = list(PracticeSubTopic.objects.filter(
+        slug=subtopic).values_list('title', flat=True))
+    context = {
+        "title": "CodeRank - View topic",
+        "pagetitle": "main",
+        "subtopictitle": subtopictitle[0],
+        "subtopicqueryset": subtopicqueryset,
+        "maintopicslug": maintopic,
+        "subtopicslug": subtopic
+    }
+    return render(request, 'admin_module/viewtopic.html', context)
+
+
+@staff_member_required
+def UpdateSubTopic(request, maintopic, subtopic):
+    subtopictquerylist = list(PracticeSubTopic.objects.filter(
+        slug=subtopic).values())
+    form_data = {
+        "title": subtopictquerylist[0]['title'],
+        "content": subtopictquerylist[0]['content']
+    }
+    form = UpdateSubTopicForm(initial=form_data)
+    if request.method == 'GET':
+        context = {
+            "title": "CodeRank - Update topic",
+            "pagetitle": "main",
+            "subtopictitle": subtopictquerylist[0]['title'],
+            "form": form
+        }
+    elif request.method == 'POST':
+        form = UpdateSubTopicForm(request.POST)
+        if form.is_valid():
+            title = form.cleaned_data.get('title')
+            content = form.cleaned_data.get('content')
+            PracticeSubTopic.objects.filter(slug=subtopic).update(
+                title=title, content=content)
+            messages.success(
+                request, f"{title} has been updated successfully!")
+            return redirect('ViewSubTopicContent', maintopic=maintopic, subtopic=subtopic)
+
+    return render(request, "admin_module/edittopic.html", context)
+
+
+@staff_member_required
+def DelSubTopic(request, maintopic, subtopic):
+    subtopictquerylist = list(PracticeSubTopic.objects.filter(
+        slug=subtopic).values())
+    title = subtopictquerylist[0]['title']
+    form = DelSubTopicForm()
+    if request.method == 'GET':
+        context = {
+            "title": "CodeRank - Update topic",
+            "pagetitle": "main",
+            "subtopictitle": subtopictquerylist[0]['title'],
+            "form": form,
+            "maintopicslug": maintopic,
+            "subtopicslug": subtopic
+        }
+    elif request.method == 'POST':
+        form = DelSubTopicForm(request.POST)
+        PracticeSubTopic.objects.filter(slug=subtopic).delete()
+        messages.success(
+            request, f"{title} has been deleted successfully!")
+        return redirect('SubTopicList', maintopic=maintopic)
+    return render(request, "admin_module/deletesubtopic.html", context)
+
+
+@staff_member_required
+def InsTutorialsList(request):
+    tutorialsubtopicqueryset = TutorialSubtopic.objects.all()
+    context = {
+        "title": "CodeRank - Tutorials",
+        "tutorials": tutorialsubtopicqueryset,
+        "pagetitle": "tuto"
+    }
+    return render(request, "admin_module/tutorialslist.html", context)
+
+
+@staff_member_required
+def InsViewTutorial(request, tutorialsubtopic):
+    tutorialsubtopicidlist = list(TutorialSubtopic.objects.filter(
+        slug=tutorialsubtopic).values_list("id", flat=True))
+    tutorialsubtopiclist = list(TutorialSubtopic.objects.filter(
+        slug=tutorialsubtopic).values())
+    tutorialcontentqueryset = TutorialContent.objects.filter(
+        tutorialsubtopic_id=tutorialsubtopicidlist[0])
+    context = {
+        "title": "CodeRank - Tutorials",
+        "tutorials": tutorialcontentqueryset,
+        "title": tutorialsubtopiclist[0]['title'],
+        "tutorialsubtopicslug": tutorialsubtopic,
+        "pagetitle": "tuto"
+    }
+    return render(request, "admin_module/viewtutorial.html", context)
+
+
+@staff_member_required
+def InsDelTutorial(request, tutorialsubtopic):
+    tutorialsubtopictquerylist = list(TutorialSubtopic.objects.filter(
+        slug=tutorialsubtopic).values())
+    title = tutorialsubtopictquerylist[0]['title']
+    form = DelTutorialSubTopic()
+    if request.method == 'GET':
+        context = {
+            "title": "CodeRank - Update topic",
+            "pagetitle": "main",
+            "title": tutorialsubtopictquerylist[0]['title'],
+            "form": form,
+            "tutorialsubtopicslug": tutorialsubtopic
+        }
+    elif request.method == 'POST':
+        form = DelSubTopicForm(request.POST)
+        TutorialSubtopic.objects.filter(slug=tutorialsubtopic).delete()
+        messages.success(
+            request, f"\"{title}\" has been deleted successfully!")
+        return redirect('InsTutorialsList')
+    return render(request, "admin_module/deletetutorial.html", context)
+
+
+@staff_member_required
+def InsEditTutorial(request, tutorialsubtopic):
+    tutorialsubtopictquerylist = list(TutorialSubtopic.objects.filter(
+        slug=tutorialsubtopic).values())
+    title = tutorialsubtopictquerylist[0]['title']
+    tutorialsubtopicidid = tutorialsubtopictquerylist[0]['id']
+    tutorialcontentquerylist = list(TutorialContent.objects.filter(
+        tutorialsubtopic_id=tutorialsubtopicidid).values())
+    title_form_data = {
+        "subtopic": tutorialsubtopictquerylist[0]['subtopic_id'],
+        "title": title
+    }
+    content_form_data = {
+        "content": tutorialcontentquerylist[0]['content'],
+        "exampleone": tutorialcontentquerylist[0]['exampleone'],
+        "exampletwo": tutorialcontentquerylist[0]['exampletwo']
+    }
+
+    titleform = EditTutorialSubTopic(initial=title_form_data)
+    contentfrom = EditTutorialContent(initial=content_form_data)
+
+    context = {
+        "titleform": titleform,
+        "contentfrom": contentfrom,
+        "title": title,
+        "tutorialsubtopicslug": tutorialsubtopic
+    }
+
+    if request.method == "POST":
+        titleform = EditTutorialSubTopic(request.POST)
+        contentfrom = EditTutorialContent(request.POST)
+
+        if titleform.is_valid() and contentfrom.is_valid():
+            TutorialSubtopic.objects.filter(slug=tutorialsubtopic).update(
+                subtopic_id=tutorialsubtopictquerylist[0]['subtopic_id'], title=titleform.cleaned_data.get("title"))
+            TutorialContent.objects.filter(tutorialsubtopic_id=tutorialcontentquerylist[0]['tutorialsubtopic_id']).update(
+                content=contentfrom.cleaned_data.get("content"), exampleone=contentfrom.cleaned_data.get("exampleone"),
+                exampletwo=contentfrom.cleaned_data.get("exampletwo"))
+            newtitle = titleform.cleaned_data.get('title')
+            messages.success(
+                request, f"\"{newtitle}\" has been updated successfully!")
+        return redirect('InsViewTutorial', tutorialsubtopic=tutorialsubtopic)
+    return render(request, 'admin_module/edittutorial.html', context)
+
+
+@staff_member_required
+def InsAddTutorial(request):
+    titleform = AddTutorialSubTopicForm()
+    contentfrom = AddTutorialContentForm()
+    context = {
+        "titleform": titleform,
+        "contentfrom": contentfrom,
+    }
+    if request.method == "POST":
+        titleform = AddTutorialSubTopicForm(request.POST)
+        contentfrom = AddTutorialContentForm(request.POST)
+        if titleform.is_valid() and contentfrom.is_valid():
+            titleformdata = titleform.cleaned_data
+            TutorialSubtopic.objects.create(
+                title=titleformdata['title'], subtopic_id=titleformdata['subtopic_id'].id)
+            titleslug = slugify(titleformdata['title'])
+            tutorialsubtopicid = list(TutorialSubtopic.objects.filter(
+                slug=titleslug).values_list("id", flat=True))[0]
+            contentformdata = contentfrom.cleaned_data
+            TutorialContent.objects.create(content=contentformdata['content'],
+                                           exampleone=contentformdata['exampleone'],
+                                           exampletwo=contentformdata['exampletwo'], tutorialsubtopic_id=tutorialsubtopicid)
+            messages.success(
+                request, f"\"\" has been added successfully!")
+        return redirect('InsTutorialsList')
+    return render(request, 'admin_module/addtutorial.html', context)
+
+
+@ staff_member_required
+def InsCompetitionsList(request):
+    competitionqueryset = CompeteModel.objects.filter(
+        posted_by_id=request.user.id)
+    context = {
+        "competitions": competitionqueryset,
+        "title": "CodeRank - Competitions",
+        "pagetitle": "comp"
+    }
+    return render(request, "admin_module/competitionslist.html", context)
+
+
+@ staff_member_required
+def InsAddCompetition(request):
+    form = AddCompetitionForm()
+    if request.method == 'GET':
+        context = {
+            "form": form,
+            "title": "CodeRank - Competitions",
+            "pagetitle": "comp"
+        }
+    elif request.method == 'POST':
+        form = AddCompetitionForm(request.POST)
+        if form.is_valid():
+            form_data = form.cleaned_data
+            title = form_data['competition_title']
+            CompeteModel.objects.create(competition_title=form_data['competition_title'],
+                                        competition_description=form_data['competition_description'],
+                                        registration_start_date=form_data['registration_start_date'],
+                                        registration_end_date=form_data['registration_end_date'],
+                                        competition_start_date=form_data['competition_start_date'],
+                                        competition_end_date=form_data['competition_end_date'],
+                                        assessment_time=form_data['assessment_time'],
+                                        status_id=form_data['status_id'].id,
+                                        type_id = form_data['type_id'].id,
+                                        posted_by_id = request.user.id)
+            messages.success(request, f"\"{title}\" has been added successfully!")
+            return redirect('InsCompetitionsList')
+
+    return render(request, "admin_module/addcompetition.html", context)
+
+
+@ staff_member_required
+def InsBlogsList(request):
+    context = {
+        "title": "CodeRank - Blogs",
+        "pagetitle": "blog"
+    }
+    return render(request, "admin_module/blogslist.html", context)

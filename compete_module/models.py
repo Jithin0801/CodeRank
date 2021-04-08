@@ -27,23 +27,23 @@ class CompetitionType(models.Model):
 
 class CompeteModel(models.Model):
     posted_by = models.ForeignKey(User, on_delete=models.CASCADE)
-    competitiontitle = models.CharField(max_length=100)
-    competitiondescription = models.TextField(max_length=3000)
-    regstartdate = models.DateTimeField(null=False)
-    regenddate = models.DateTimeField(null=False)
-    competitionstartdate = models.DateTimeField(null=False)
-    competitionenddate = models.DateTimeField(null=False)
-    assessmenttime = models.IntegerField(default=10, null=False)
+    competition_title = models.CharField(max_length=100)
+    competition_description = models.TextField(max_length=3000)
+    registration_start_date = models.DateTimeField(null=False)
+    registration_end_date = models.DateTimeField(null=False)
+    competition_start_date = models.DateTimeField(null=False)
+    competition_end_date = models.DateTimeField(null=False)
+    assessment_time = models.IntegerField(default=10, null=False)
     date_posted = models.DateTimeField(default=timezone.now)
     status = models.ForeignKey(Status, on_delete=CASCADE, default=1)
     type = models.ForeignKey(CompetitionType, on_delete=CASCADE, default=1)
     slug = models.SlugField(null=False, blank=True)
 
     def __str__(self):
-        return self.competitiontitle
+        return self.competition_title
 
     def save(self, *args, **kwargs):
-        self.slug = slugify(self.competitiontitle)
+        self.slug = slugify(self.competition_title)
         super(CompeteModel, self).save(*args, **kwargs)
 
 

@@ -78,7 +78,7 @@ def Submission(request, maintopic, subtopic, problem):
 
 def SubmissionDetails(request, maintopic, subtopic, problemresult):
     if request.method == 'GET':
-        problemresultqueryset = PracticeProblemResult.objects.filter(slug = problemresult)
+        problemresultqueryset = list(PracticeProblemResult.objects.filter(slug = problemresult))
         problemslug = problemresultqueryset[0].problem.slug
         context = {
             "resultdetails" :problemresultqueryset,
@@ -144,7 +144,12 @@ def SubmitCode(request, maintopic, subtopic, problem):
         actualoutput1 = request.POST['actualoutput1']
         actualoutput2 = request.POST['actualoutput2']
         actualoutput3 = request.POST['actualoutput3']
-        
+        actualmemory1 = request.POST['actualmemory1']
+        actualmemory2 = request.POST['actualmemory2']
+        actualmemory3 = request.POST['actualmemory3']
+        actualtime1 = request.POST['actualtime1']
+        actualtime2 = request.POST['actualtime2']
+        actualtime3 = request.POST['actualtime3']
         problem_content = list(
             PracticeProblem.objects.filter(slug=problem).values())
 
@@ -153,7 +158,6 @@ def SubmitCode(request, maintopic, subtopic, problem):
                      problem_content[0]["problemtestcasethreeoutput"]]
 
         problemid = problem_content[0]["id"]
-
         userscore = 0
         testcasespassed = False
         useroutputonestatusid = 2
@@ -207,7 +211,13 @@ def SubmitCode(request, maintopic, subtopic, problem):
                 user_id=request.user.id,
                 useroutputonestatus_id=useroutputonestatusid,
                 useroutputtwostatus_id=useroutputtwostatusid,
-                useroutputthreestatus_id=useroutputthreestatusid
+                useroutputthreestatus_id=useroutputthreestatusid,
+                testcaseonememory = actualmemory1,
+                testcasetwomemory = actualmemory2,
+                testcasethreememory = actualmemory3,
+                testcaseonetime = actualtime1,
+                testcasetwotime = actualtime2,
+                testcasethreetime = actualtime3,
             )
             cumulativeuserscore += userscore
             problem_content = Profile.objects.filter(

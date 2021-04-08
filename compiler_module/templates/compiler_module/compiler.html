@@ -174,18 +174,18 @@
                                     </div>
                                 </div>
                                 <div class="mt-2 d-flex align-items-center"
-                                    style="height: 50px; background-color: whitesmoke;">
+                                     style="height: 50px; background-color: whitesmoke;">
                                     <h5 class="ms-2">{{problem_content.problemtestcaseoneinput}}</h5>
                                 </div>
                                 <strong>Expected output:</strong>
                                 <div class="mt-2 d-flex align-items-center"
-                                    style="height: 50px; background-color: whitesmoke;">
+                                     style="height: 50px; background-color: whitesmoke;">
                                     <h5 class="ms-2">{{problem_content.problemtestcaseoneoutput}}</h5>
                                 </div>
                                 <div name="actual-output-div-one">
                                     <strong name='actual-output-heading'>Actual output:</strong>
                                     <div name="actual-output-box-1" class="mt-2 d-flex align-items-center"
-                                        style="height: max-content; background-color: whitesmoke;">
+                                         style="height: max-content; background-color: whitesmoke;">
                                         <h5 class="ms-2" name="actual-output-one"></h5>
                                     </div>
                                 </div>
@@ -198,18 +198,18 @@
                                     </div>
                                 </div>
                                 <div class="mt-2 d-flex align-items-center"
-                                    style="height: 50px; background-color: whitesmoke;">
+                                     style="height: 50px; background-color: whitesmoke;">
                                     <h5 class="ms-2">{{problem_content.problemtestcasetwoinput}}</h5>
                                 </div>
                                 <strong>Expected output:</strong>
                                 <div class="mt-2 d-flex align-items-center"
-                                    style="height: 50px; background-color: whitesmoke;">
+                                     style="height: 50px; background-color: whitesmoke;">
                                     <h5 class="ms-2">{{problem_content.problemtestcasetwooutput}}</h5>
                                 </div>
                                 <div name="actual-output-div-two">
                                     <strong name='actual-output-heading'>Actual output:</strong>
                                     <div name="actual-output-box-2" class="mt-2 d-flex align-items-center"
-                                        style="height: max-content; background-color: whitesmoke;">
+                                         style="height: max-content; background-color: whitesmoke;">
                                         <h5 class="ms-2" name="actual-output-two"></h5>
                                     </div>
                                 </div>
@@ -222,29 +222,29 @@
                                     </div>
                                 </div>
                                 <div class="mt-2 d-flex align-items-center"
-                                    style="height: 50px; background-color: whitesmoke;">
+                                     style="height: 50px; background-color: whitesmoke;">
                                     <h5 class="ms-2">{{problem_content.problemtestcasethreeinput}}</h5>
                                 </div>
                                 <strong>Expected output:</strong>
                                 <div class="mt-2 d-flex align-items-center"
-                                    style="height: 50px; background-color: whitesmoke;">
+                                     style="height: 50px; background-color: whitesmoke;">
                                     <h5 class="ms-2">{{problem_content.problemtestcasethreeoutput}}</h5>
                                 </div>
                                 <div name="actual-output-div-three">
                                     <strong name='actual-output-heading'>Actual output:</strong>
                                     <div name="actual-output-box-3" class="mt-2 d-flex align-items-center"
-                                        style="height: max-content; background-color: whitesmoke;">
+                                         style="height: max-content; background-color: whitesmoke;">
                                         <h5 class="ms-2" name="actual-output-three"></h5>
                                     </div>
                                 </div>
                             </div>
                         </div>
                         <input name="expectedoutputone" type="hidden"
-                            value="{{problem_content.problemtestcaseoneoutput}}" />
+                               value="{{problem_content.problemtestcaseoneoutput}}" />
                         <input name="expectedoutputtwo" type="hidden"
-                            value="{{problem_content.problemtestcasetwooutput}}" />
+                               value="{{problem_content.problemtestcasetwooutput}}" />
                         <input name="expectedoutputthree" type="hidden"
-                            value="{{problem_content.problemtestcasethreeoutput}}" />
+                               value="{{problem_content.problemtestcasethreeoutput}}" />
                         {% endfor %}
                     </div>
                 </div>
@@ -337,6 +337,13 @@
                     actualoutput1 = data[0]['output']
                     actualoutput2 = data[1]['output']
                     actualoutput3 = data[2]['output']
+                    actualmemory1 = data[0]['memory']
+                    actualmemory2 = data[1]['memory']
+                    actualmemory3 = data[2]['memory']
+                    actualtime1 = data[0]['cpuTime']
+                    actualtime2 = data[1]['cpuTime']
+                    actualtime3 = data[2]['cpuTime']
+
                     var expectedoutput1 = $('input[name="expectedoutputone"]').val();
                     var expectedoutput2 = $('input[name="expectedoutputtwo"]').val();
                     var expectedoutput3 = $('input[name="expectedoutputthree"]').val();
@@ -383,7 +390,13 @@
                 "code": editor.getValue(),
                 "actualoutput1": actualoutput1,
                 "actualoutput2": actualoutput2,
-                "actualoutput3": actualoutput3
+                "actualoutput3": actualoutput3,
+                "actualmemory1": actualmemory1,
+                "actualmemory2": actualmemory2,
+                "actualmemory3": actualmemory3,
+                "actualtime1": actualtime1,
+                "actualtime2": actualtime2,
+                "actualtime3": actualtime3,
             },
             success: function (data) {
                 if (data == "NoTestCasesPassed") {

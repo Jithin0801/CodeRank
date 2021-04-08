@@ -43,12 +43,12 @@
                          style="background-color: whitesmoke;">
                         <div class="ms-4">
                             {% for detail in competitiondetails %}
-                            <h2>{{detail.competitiontitle}}</h2>
+                            <h2>{{detail.competition_title}}</h2>
                             <h4>{{detail.posted_by.first_name}} {{detail.posted_by.last_name}}</h4>
                             <h4>Type of event: {{detail.type}}</h4>
-                            <h6>Time: {{detail.assessmenttime}} minutes</h6>
+                            <h6>Time: {{detail.assessment_time}} minutes</h6>
                             <h6><u>Description:</u> </h6>
-                            <h6 style="font-style: oblique;">{{detail.competitiondescription|linebreaks}}</h6>
+                            <h6 style="font-style: oblique;">{{detail.competition_description|linebreaks}}</h6>
                             <a onclick="window.close()" class="btn btn-secondary">Go back</a>
                             {% endfor %}
                         </div>

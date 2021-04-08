@@ -101,7 +101,7 @@ def ViewCompetitionDetails(request, competitionslug):
         slug=competitionslug).values())
     competitiondetails = CompeteModel.objects.filter(
         slug=competitionslug)
-    competitiontitle = competitiondetailsquerylist[0]['competitiontitle']
+    competitiontitle = competitiondetailsquerylist[0]['competition_title']
     competitiontypeid = competitiondetailsquerylist[0]['type_id']
     competitiontypequerylist = list(CompetitionType.objects.filter(
         id=competitiontypeid).values())

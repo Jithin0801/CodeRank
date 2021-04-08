@@ -70,7 +70,7 @@ def ViewTutorialPage(request, maintopic, subtopic, tutorialsubtopic):
     tutorialsubtopicid = tutorialsubtopicqueryset[0]["id"]
     tutorialsubtopictitle = tutorialsubtopicqueryset[0]["title"]
     tutorialsubtopiccontent = TutorialContent.objects.filter(
-        id=tutorialsubtopicid)
+        tutorialsubtopic_id=tutorialsubtopicid)
     tutorialsubtopiccompletedstatusquerylist = list(TutorialSubtopicCompletedStatus.objects.filter(
         user_id=request.user.id).values_list("tutorialsubtopic_id", flat=True))
 

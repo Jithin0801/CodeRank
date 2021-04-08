@@ -16,8 +16,17 @@
 <div class="main-content" style="background-color: white;">
     <div class="container">
         <div class="row">
+            <div class="col-12">
+                {% if messages %}
+                {% for message in messages %}
+                <div class="alert alert-{{message.tags}}">{{ message }}</div>
+                {% endfor %}
+                {% endif %}
+            </div>
+        </div>
+        <div class="row">
             <div class="col-lg-8 mt-2 border-end">
-                <h4>Continue you practice <a style="font-size: small;" href="{% url 'PracticePage' %}">View all</a></h4>
+                <h4>Continue your practice <a style="font-size: small;" href="{% url 'PracticePage' %}">View all</a></h4>
                 <div class="d-flex justify-content-center">
                     <div class="col-6">
                         <img src="{% static 'login_module/img/home.svg' %}" class="rounded img-fluid" alt="">
@@ -59,13 +68,6 @@
                     </div>
                     <div class="col-12">
                         <h6 class="h6">Find intresting blogs to read</h6>
-                    </div>
-                    <div class="col-12">
-                        {% if messages %}
-                        {% for message in messages %}
-                        <div class="alert alert-{{message.tags}}">{{ message }}</div>
-                        {% endfor %}
-                        {% endif %}
                     </div>
                     {% for blog in blogsqueryset %}
                     <div style="background-color: white; border-radius: 5px; height:auto"

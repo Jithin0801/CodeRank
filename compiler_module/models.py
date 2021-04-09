@@ -43,7 +43,7 @@ class PracticeProblemResult(models.Model):
 
 
     def __str__(self):
-        return self.problem.problemtitle
+        return self.problem.problem_title
 
     def save(self, *args, **kwargs):
         self.slug = slugify(str(self.date_posted))
@@ -68,12 +68,19 @@ class CompeteProblemResult(models.Model):
     code = TextField(max_length=5000)
     competition = models.ForeignKey(competemodel.CompeteModel, on_delete=CASCADE)
     date_posted = models.DateTimeField(default=timezone.now)
+    testcaseonetime = models.CharField(max_length=50, null=False, default=0)
+    testcasetwotime = models.CharField(max_length=50, null=False, default=0)
+    testcasethreetime = models.CharField(max_length=50, null=False, default=0)
+    testcaseonememory = models.CharField(max_length=50, null=False, default=0)
+    testcasetwomemory = models.CharField(max_length=50, null=False, default=0)
+    testcasethreememory = models.CharField(
+        max_length=50, null=False, default=0)
     slug = models.SlugField(max_length=100,  null=False, blank=True)
 
     def save(self, *args, **kwargs):
-        self.slug = slugify(self.problem.problemtitle)
+        self.slug = slugify(self.problem.problem_title)
         super(CompeteProblemResult, self).save(*args, **kwargs)
 
 
     def __str__(self):
-        return self.problem.problemtitle
+        return self.problem.problem_title

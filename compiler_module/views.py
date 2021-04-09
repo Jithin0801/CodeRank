@@ -258,9 +258,9 @@ def TestCompile(request, problem):
         problem_content = list(
             CompetitionOwnProblem.objects.filter(slug=problem).values())
 
-        testcases = [problem_content[0]["problemtestcaseoneinput"],
-                     problem_content[0]["problemtestcasetwoinput"],
-                     problem_content[0]["problemtestcasethreeinput"]]
+        testcases = [problem_content[0]["problem_testcase_one_input"],
+                     problem_content[0]["problem_testcase_two_input"],
+                     problem_content[0]["problem_testcase_three_input"]]
 
         responselist = []
         for testcase in testcases:
@@ -285,13 +285,18 @@ def TestSubmitCode(request, problem):
         actualoutput1 = request.POST['actualoutput1']
         actualoutput2 = request.POST['actualoutput2']
         actualoutput3 = request.POST['actualoutput3']
-
+        actualmemory1 = request.POST['actualmemory1']
+        actualmemory2 = request.POST['actualmemory2']
+        actualmemory3 = request.POST['actualmemory3']
+        actualtime1 = request.POST['actualtime1']
+        actualtime2 = request.POST['actualtime2']
+        actualtime3 = request.POST['actualtime3']
         problem_content = list(
             CompetitionOwnProblem.objects.filter(slug=problem).values())
 
-        testcases = [problem_content[0]["problemtestcaseoneoutput"],
-                     problem_content[0]["problemtestcasetwooutput"],
-                     problem_content[0]["problemtestcasethreeoutput"]]
+        testcases = [problem_content[0]["problem_testcase_one_output"],
+                     problem_content[0]["problem_testcase_two_output"],
+                     problem_content[0]["problem_testcase_three_output"]]
 
         userscore = 0
         testcasespassed = False
@@ -343,7 +348,13 @@ def TestSubmitCode(request, problem):
                 user_id=request.user.id,
                 useroutputonestatus_id=useroutputonestatusid,
                 useroutputtwostatus_id=useroutputtwostatusid,
-                useroutputthreestatus_id=useroutputthreestatusid
+                useroutputthreestatus_id=useroutputthreestatusid,
+                testcaseonememory=actualmemory1,
+                testcasetwomemory=actualmemory2,
+                testcasethreememory=actualmemory3,
+                testcaseonetime=actualtime1,
+                testcasetwotime=actualtime2,
+                testcasethreetime=actualtime3,
             )
             issubmitted = True
         else:

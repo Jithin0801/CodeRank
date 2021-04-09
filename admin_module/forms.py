@@ -1,5 +1,5 @@
 from django.forms.widgets import DateInput, DateTimeInput
-from compete_module.models import CompeteModel, CompetitionType, Status
+from compete_module.models import CompeteModel, CompetitionOwnProblem, CompetitionType, RegisteredUserCompete, Status
 from practice_module import models
 from tutorial_module.models import TutorialContent, TutorialSubtopic
 from practice_module.models import PracticeMainTopic, PracticeSubTopic
@@ -144,3 +144,45 @@ class AddCompetitionForm(forms.ModelForm):
             queryset=CompetitionType.objects.all(), empty_label="Select competition type")
         self.fields['status_id'] = forms.ModelChoiceField(
             queryset=Status.objects.all(), empty_label="Select competition status")
+
+
+class DelCompetitionForm(forms.ModelForm):
+    class Meta:
+        model = CompeteModel
+        fields = ['competition_title', 'competition_description',
+                  'registration_start_date', 'registration_end_date', 'competition_start_date', 'competition_end_date', 'assessment_time']
+
+
+class EditCompetitionForm(forms.ModelForm):
+    class Meta:
+        model = CompeteModel
+        fields = ['competition_title', 'competition_description',
+                  'registration_start_date', 'registration_end_date', 'competition_start_date', 'competition_end_date', 'assessment_time','status','type']
+        widgets = {
+            'registration_start_date': DateTimeInput(attrs={'type': 'datetime-local'}),
+            'registration_end_date': DateTimeInput(attrs={'type': 'datetime-local'}),
+            'competition_start_date': DateTimeInput(attrs={'type': 'datetime-local'}),
+            'competition_end_date': DateTimeInput(attrs={'type': 'datetime-local'})
+        }
+
+class DelRegisteredUserForm(forms.ModelForm):
+    class Meta:
+        model = RegisteredUserCompete
+        fields = ['registeredon', 'competition', 'user']
+
+class AddCompetitionProblemForm(forms.ModelForm):
+    class Meta:
+        model = CompetitionOwnProblem
+        exclude = ['slug','competition']
+
+
+class EditCompetitionProblemForm(forms.ModelForm):
+    class Meta:
+        model = CompetitionOwnProblem
+        exclude = ['slug', 'competition']
+
+
+class DelCompetitionProblemForm(forms.ModelForm):
+    class Meta:
+        model = CompetitionOwnProblem
+        exclude = ['slug', 'competition']

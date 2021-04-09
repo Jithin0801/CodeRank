@@ -1,10 +1,12 @@
+from login_module.models import Profile
+from blog_module.models import BlogModel
 from django.contrib.auth.decorators import login_required
 from django.utils.text import slugify
 from admin_module.models import InstitutionProfile
-from admin_module.forms import AddCompetitionForm, AddNewMainTopicForm, AddNewSubTopicForm, AddTutorialContentForm, AddTutorialSubTopicForm, DelMainTopicForm, DelSubTopicForm, DelTutorialSubTopic, EditTutorialContent, EditTutorialSubTopic, ProfileUpdationForm, UpdateMainTopicForm, UpdateSubTopicForm, UserRegistrationForm, UserUpdationForm
+from admin_module.forms import AddCompetitionForm, AddCompetitionProblemForm, AddNewMainTopicForm, AddNewSubTopicForm, AddTutorialContentForm, AddTutorialSubTopicForm, DelCompetitionForm, DelMainTopicForm, DelSubTopicForm, DelTutorialSubTopic, EditCompetitionForm, EditCompetitionProblemForm, EditTutorialContent, EditTutorialSubTopic, ProfileUpdationForm, UpdateMainTopicForm, UpdateSubTopicForm, UserRegistrationForm, UserUpdationForm
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.forms import AuthenticationForm
-from django.shortcuts import redirect, render
+from django.shortcuts import get_object_or_404, redirect, render
 from django.contrib import messages
 from django.contrib.auth.models import User
 from django.contrib.admin.views.decorators import staff_member_required
@@ -450,12 +452,207 @@ def InsAddCompetition(request):
                                         competition_end_date=form_data['competition_end_date'],
                                         assessment_time=form_data['assessment_time'],
                                         status_id=form_data['status_id'].id,
-                                        type_id = form_data['type_id'].id,
-                                        posted_by_id = request.user.id)
-            messages.success(request, f"\"{title}\" has been added successfully!")
+                                        type_id=form_data['type_id'].id,
+                                        posted_by_id=request.user.id)
+            messages.success(
+                request, f"\"{title}\" has been added successfully!")
             return redirect('InsCompetitionsList')
 
     return render(request, "admin_module/addcompetition.html", context)
+
+
+@staff_member_required
+def InsDelCompetition(request, competitiontitle):
+    competitionquerylist = list(CompeteModel.objects.filter(
+        slug=competitiontitle).values())
+    title = competitionquerylist[0]['competition_title']
+    form = DelCompetitionForm()
+    if request.method == 'GET':
+        context = {
+            "title": "CodeRank - Delete Competition",
+            "pagetitle": "main",
+            "title": competitionquerylist[0]['competition_title'],
+            "form": form,
+            "competitiontitleslug": competitiontitle
+        }
+    elif request.method == 'POST':
+        form = DelCompetitionForm(request.POST)
+        CompeteModel.objects.filter(slug=competitiontitle).delete()
+        messages.success(
+            request, f"\"{title}\" has been deleted successfully!")
+        return redirect('InsCompetitionsList')
+    return render(request, "admin_module/deletecompetition.html", context)
+
+
+@staff_member_required
+def InsEditCompetition(request, competitiontitle):
+    competitionquerylist = list(CompeteModel.objects.filter(
+        slug=competitiontitle).values())
+    title = competitionquerylist[0]['competition_title']
+    instance = get_object_or_404(CompeteModel, slug=competitiontitle)
+    form = EditCompetitionForm(instance=instance)
+
+    if request.method == 'GET':
+        context = {
+            "title": "CodeRank - Delete Competition",
+            "pagetitle": "main",
+            "title": competitionquerylist[0]['competition_title'],
+            "form": form,
+            "competitiontitleslug": competitiontitle
+        }
+    elif request.method == 'POST':
+        form = EditCompetitionForm(request.POST)
+        if form.is_valid():
+            form_data = form.cleaned_data
+            title = form_data['competition_title']
+            CompeteModel.objects.filter(slug=competitiontitle).update(competition_title=form_data['competition_title'],
+                                                                      competition_description=form_data[
+                                                                          'competition_description'],
+                                                                      registration_start_date=form_data[
+                                                                          'registration_start_date'],
+                                                                      registration_end_date=form_data[
+                                                                          'registration_end_date'],
+                                                                      competition_start_date=form_data[
+                                                                          'competition_start_date'],
+                                                                      competition_end_date=form_data[
+                                                                          'competition_end_date'],
+                                                                      assessment_time=form_data['assessment_time'],
+                                                                      status_id=form_data['status'].id,
+                                                                      type_id=form_data['type'].id,
+                                                                      posted_by_id=request.user.id)
+            messages.success(
+                request, f"\"{title}\" has been updated successfully!")
+            # Change this to view conpetition details page
+            return redirect('InsCompetitionsList')
+    return render(request, "admin_module/editcompetition.html", context)
+
+
+@staff_member_required
+def ResigteredUsers(request, competitiontitle):
+    competitionquerylist = list(CompeteModel.objects.filter(
+        slug=competitiontitle).values())
+    title = competitionquerylist[0]['competition_title']
+    competitionid = competitionquerylist[0]['id']
+    profilelist = RegisteredUserCompete.objects.filter(
+        competition_id=competitionid)
+    context = {
+        "title": "CodeRank - Users",
+        "pagetitle": "comp",
+        "title": title,
+        "competitiontitleslug": competitiontitle,
+        "profilelist": profilelist
+    }
+    return render(request, 'admin_module/reguserslist.html', context)
+
+
+@staff_member_required
+def DelResigteredUser(request, competitiontitle, nameslug):
+    competitionquerylist = list(CompeteModel.objects.filter(
+        slug=competitiontitle).values())
+    profilequerylist = list(Profile.objects.filter(
+        slug=nameslug).values())
+    competitionid = competitionquerylist[0]['id']
+    title = competitionquerylist[0]['competition_title']
+    userid = profilequerylist[0]['id']
+    userquerylist = list(User.objects.filter(id=userid).values())
+    username = userquerylist[0]['first_name'] + \
+        " " + userquerylist[0]['last_name']
+    context = {
+        "pagetitle": "comp",
+        "smalltitle": "Remove User",
+        "maintitle": username,
+        "exp": f"\"{username}\" will be unenrolled from the competition \"{title}\""
+    }
+    if request.method == 'POST':
+        RegisteredUserCompete.objects.filter(
+            competition_id=competitionid).filter(user_id=userid).delete()
+        messages.success(
+            request, f'\"{username}\" removed from the registered users list successfully!')
+        return redirect("ResigteredUsers", competitiontitle=competitiontitle)
+
+    return render(request, 'admin_module/deletecompetitioncontent.html', context)
+
+
+def ViewCompetitionDetails(request, competitiontitle):
+    competitionqueryset = CompeteModel.objects.filter(slug=competitiontitle)
+    competitionquerylist = list(CompeteModel.objects.filter(
+        slug=competitiontitle).values())
+    title = competitionquerylist[0]['competition_title']
+    competitionid = competitionquerylist[0]['id']
+    competitionproblemsqueryset = CompetitionOwnProblem.objects.filter(
+        competition_id=competitionid)
+
+    context = {
+        "pagetitle":"comp",
+        "details":competitionqueryset,
+        "title":title,
+        "slug":competitiontitle,
+        "problems":competitionproblemsqueryset
+    }
+    return render(request, 'admin_module/viewcompetition.html', context)
+
+
+def AddCompetitionProblem(request, competitiontitle):
+    competitionquerylist = list(CompeteModel.objects.filter(
+        slug=competitiontitle).values())
+    title = competitionquerylist[0]['competition_title']
+    competitionid = competitionquerylist[0]['id']
+    form = AddCompetitionProblemForm()
+    context = {
+        "pagetitle":"comp",
+        "form":form,
+        "slug":competitiontitle,
+        "title":title
+    }
+    if request.method == 'POST':
+        form = AddCompetitionProblemForm(request.POST)
+
+    return render(request, 'admin_module/addcompetitionproblem.html', context)
+
+
+def EditCompetitionProblem(request, competitiontitle, problemslug):
+    competitionquerylist = list(CompeteModel.objects.filter(
+        slug=competitiontitle).values())
+    title = competitionquerylist[0]['competition_title']
+
+    instance = get_object_or_404(CompetitionOwnProblem, slug=problemslug)
+    form = EditCompetitionProblemForm(instance=instance)
+    context = {
+        "pagetitle": "comp",
+        "form": form,
+        "slug": competitiontitle,
+        "title": title
+    }
+    if request.method == 'POST':
+        form = AddCompetitionProblemForm(request.POST)
+
+    return render(request, 'admin_module/editcompetitionproblem.html', context)
+
+
+@staff_member_required
+def DelCompetitionProblem(request, competitiontitle, problemslug):
+    competitionquerylist = list(CompeteModel.objects.filter(
+        slug=competitiontitle).values())
+    problemquerylist = list(CompetitionOwnProblem.objects.filter(
+        slug=problemslug).values())
+    competitionid = competitionquerylist[0]['id']
+    title = competitionquerylist[0]['competition_title']
+    problemtitle = problemquerylist[0]['problem_title']
+    context = {
+        "pagetitle": "comp",
+        "smalltitle": "Remove problem",
+        "maintitle": problemtitle,
+        "exp": f"\"{problemtitle}\" will be removed from the competition \"{title}\""
+    }
+    if request.method == 'POST':
+        CompetitionOwnProblem.objects.filter(
+            competition_id=competitionid).filter(slug = problemslug).delete()
+        messages.success(
+            request, f'\"{problemtitle}\" removed from the competition problems successfully!')
+        return redirect("ViewCompetitionDetails", competitiontitle=competitiontitle)
+
+    return render(request, 'admin_module/deletecompetitioncontent.html', context)
+
 
 
 @ staff_member_required
@@ -465,3 +662,21 @@ def InsBlogsList(request):
         "pagetitle": "blog"
     }
     return render(request, "admin_module/blogslist.html", context)
+
+
+def ViewUser(request, nameslug):
+    userdetailsqueryset = Profile.objects.filter(
+        slug=nameslug)
+    useridquerylist = list(Profile.objects.filter(
+        slug=nameslug).values_list("user_id", flat=True))
+
+    userid = useridquerylist[0]
+
+    blogslist = BlogModel.objects.filter(author_id=userid)
+    context = {
+        "title": "CodeRank - View User",
+        "userdetails": userdetailsqueryset,
+        "blogs": blogslist,
+        "pagetitle": "comp"
+    }
+    return render(request, "admin_module/viewprofile.html", context)

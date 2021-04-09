@@ -1,3 +1,4 @@
+from compiler_module.models import CompeteProblemResult
 from login_module.models import Profile
 from blog_module.models import BlogModel
 from django.contrib.auth.decorators import login_required
@@ -73,6 +74,7 @@ def InstitutionLoginPage(request):
 
 
 @staff_member_required
+@login_required
 def InsCompleteProfile(request):
     if request.method == 'POST':
         profile = InstitutionProfile.objects.create(user=request.user)
@@ -92,6 +94,7 @@ def InsCompleteProfile(request):
 
 
 @staff_member_required
+@login_required
 def InsDashboard(request):
     context = {
         "title": "CodeRank - Dashboard",
@@ -101,6 +104,7 @@ def InsDashboard(request):
 
 
 @staff_member_required
+@login_required
 def MainTopicList(request):
     maintopicqueryset = PracticeMainTopic.objects.all()
     context = {
@@ -112,6 +116,7 @@ def MainTopicList(request):
 
 
 @staff_member_required
+@login_required
 def AddNewMainTopic(request):
     form = AddNewMainTopicForm()
     if request.method == 'GET':
@@ -133,6 +138,7 @@ def AddNewMainTopic(request):
 
 
 @staff_member_required
+@login_required
 def UpdateMainTopic(request, maintopic):
     maintopictitlelist = list(PracticeMainTopic.objects.filter(
         slug=maintopic).values_list('title', flat=True))
@@ -159,6 +165,7 @@ def UpdateMainTopic(request, maintopic):
 
 
 @staff_member_required
+@login_required
 def DelMainTopic(request, maintopic):
     maintopictquerylist = list(PracticeMainTopic.objects.filter(
         slug=maintopic).values())
@@ -182,6 +189,7 @@ def DelMainTopic(request, maintopic):
 
 
 @staff_member_required
+@login_required
 def SubTopicList(request, maintopic):
     maintopicid = list(PracticeMainTopic.objects.filter(
         slug=maintopic).values_list("id", flat=True))
@@ -200,6 +208,7 @@ def SubTopicList(request, maintopic):
 
 
 @staff_member_required
+@login_required
 def AddNewSubTopic(request, maintopic):
     maintopicid = list(PracticeMainTopic.objects.filter(
         slug=maintopic).values_list("id", flat=True))
@@ -224,6 +233,7 @@ def AddNewSubTopic(request, maintopic):
 
 
 @staff_member_required
+@login_required
 def ViewSubTopicContent(request, maintopic, subtopic):
     subtopicqueryset = PracticeSubTopic.objects.filter(slug=subtopic)
     subtopictitle = list(PracticeSubTopic.objects.filter(
@@ -240,6 +250,7 @@ def ViewSubTopicContent(request, maintopic, subtopic):
 
 
 @staff_member_required
+@login_required
 def UpdateSubTopic(request, maintopic, subtopic):
     subtopictquerylist = list(PracticeSubTopic.objects.filter(
         slug=subtopic).values())
@@ -270,6 +281,7 @@ def UpdateSubTopic(request, maintopic, subtopic):
 
 
 @staff_member_required
+@login_required
 def DelSubTopic(request, maintopic, subtopic):
     subtopictquerylist = list(PracticeSubTopic.objects.filter(
         slug=subtopic).values())
@@ -294,6 +306,7 @@ def DelSubTopic(request, maintopic, subtopic):
 
 
 @staff_member_required
+@login_required
 def InsTutorialsList(request):
     tutorialsubtopicqueryset = TutorialSubtopic.objects.all()
     context = {
@@ -305,6 +318,7 @@ def InsTutorialsList(request):
 
 
 @staff_member_required
+@login_required
 def InsViewTutorial(request, tutorialsubtopic):
     tutorialsubtopicidlist = list(TutorialSubtopic.objects.filter(
         slug=tutorialsubtopic).values_list("id", flat=True))
@@ -323,6 +337,7 @@ def InsViewTutorial(request, tutorialsubtopic):
 
 
 @staff_member_required
+@login_required
 def InsDelTutorial(request, tutorialsubtopic):
     tutorialsubtopictquerylist = list(TutorialSubtopic.objects.filter(
         slug=tutorialsubtopic).values())
@@ -346,6 +361,7 @@ def InsDelTutorial(request, tutorialsubtopic):
 
 
 @staff_member_required
+@login_required
 def InsEditTutorial(request, tutorialsubtopic):
     tutorialsubtopictquerylist = list(TutorialSubtopic.objects.filter(
         slug=tutorialsubtopic).values())
@@ -391,6 +407,7 @@ def InsEditTutorial(request, tutorialsubtopic):
 
 
 @staff_member_required
+@login_required
 def InsAddTutorial(request):
     titleform = AddTutorialSubTopicForm()
     contentfrom = AddTutorialContentForm()
@@ -419,6 +436,7 @@ def InsAddTutorial(request):
 
 
 @ staff_member_required
+@login_required
 def InsCompetitionsList(request):
     competitionqueryset = CompeteModel.objects.filter(
         posted_by_id=request.user.id)
@@ -431,6 +449,7 @@ def InsCompetitionsList(request):
 
 
 @ staff_member_required
+@login_required
 def InsAddCompetition(request):
     form = AddCompetitionForm()
     if request.method == 'GET':
@@ -462,6 +481,7 @@ def InsAddCompetition(request):
 
 
 @staff_member_required
+@login_required
 def InsDelCompetition(request, competitiontitle):
     competitionquerylist = list(CompeteModel.objects.filter(
         slug=competitiontitle).values())
@@ -485,6 +505,7 @@ def InsDelCompetition(request, competitiontitle):
 
 
 @staff_member_required
+@login_required
 def InsEditCompetition(request, competitiontitle):
     competitionquerylist = list(CompeteModel.objects.filter(
         slug=competitiontitle).values())
@@ -528,6 +549,7 @@ def InsEditCompetition(request, competitiontitle):
 
 
 @staff_member_required
+@login_required
 def ResigteredUsers(request, competitiontitle):
     competitionquerylist = list(CompeteModel.objects.filter(
         slug=competitiontitle).values())
@@ -546,6 +568,7 @@ def ResigteredUsers(request, competitiontitle):
 
 
 @staff_member_required
+@login_required
 def DelResigteredUser(request, competitiontitle, nameslug):
     competitionquerylist = list(CompeteModel.objects.filter(
         slug=competitiontitle).values())
@@ -572,7 +595,8 @@ def DelResigteredUser(request, competitiontitle, nameslug):
 
     return render(request, 'admin_module/deletecompetitioncontent.html', context)
 
-
+@staff_member_required
+@login_required
 def ViewCompetitionDetails(request, competitiontitle):
     competitionqueryset = CompeteModel.objects.filter(slug=competitiontitle)
     competitionquerylist = list(CompeteModel.objects.filter(
@@ -583,15 +607,17 @@ def ViewCompetitionDetails(request, competitiontitle):
         competition_id=competitionid)
 
     context = {
-        "pagetitle":"comp",
-        "details":competitionqueryset,
-        "title":title,
-        "slug":competitiontitle,
-        "problems":competitionproblemsqueryset
+        "pagetitle": "comp",
+        "details": competitionqueryset,
+        "title": title,
+        "slug": competitiontitle,
+        "problems": competitionproblemsqueryset
     }
     return render(request, 'admin_module/viewcompetition.html', context)
 
 
+@staff_member_required
+@login_required
 def AddCompetitionProblem(request, competitiontitle):
     competitionquerylist = list(CompeteModel.objects.filter(
         slug=competitiontitle).values())
@@ -599,10 +625,10 @@ def AddCompetitionProblem(request, competitiontitle):
     competitionid = competitionquerylist[0]['id']
     form = AddCompetitionProblemForm()
     context = {
-        "pagetitle":"comp",
-        "form":form,
-        "slug":competitiontitle,
-        "title":title
+        "pagetitle": "comp",
+        "form": form,
+        "slug": competitiontitle,
+        "title": title
     }
     if request.method == 'POST':
         form = AddCompetitionProblemForm(request.POST)
@@ -610,6 +636,8 @@ def AddCompetitionProblem(request, competitiontitle):
     return render(request, 'admin_module/addcompetitionproblem.html', context)
 
 
+@staff_member_required
+@login_required
 def EditCompetitionProblem(request, competitiontitle, problemslug):
     competitionquerylist = list(CompeteModel.objects.filter(
         slug=competitiontitle).values())
@@ -630,6 +658,7 @@ def EditCompetitionProblem(request, competitiontitle, problemslug):
 
 
 @staff_member_required
+@login_required
 def DelCompetitionProblem(request, competitiontitle, problemslug):
     competitionquerylist = list(CompeteModel.objects.filter(
         slug=competitiontitle).values())
@@ -646,7 +675,7 @@ def DelCompetitionProblem(request, competitiontitle, problemslug):
     }
     if request.method == 'POST':
         CompetitionOwnProblem.objects.filter(
-            competition_id=competitionid).filter(slug = problemslug).delete()
+            competition_id=competitionid).filter(slug=problemslug).delete()
         messages.success(
             request, f'\"{problemtitle}\" removed from the competition problems successfully!')
         return redirect("ViewCompetitionDetails", competitiontitle=competitiontitle)
@@ -654,7 +683,81 @@ def DelCompetitionProblem(request, competitiontitle, problemslug):
     return render(request, 'admin_module/deletecompetitioncontent.html', context)
 
 
+@staff_member_required
+@login_required
+def ResultListPage(request, competitiontitle, nameslug):
+    profilequerylist = list(Profile.objects.filter(
+        slug=nameslug).values())
+    competitionquerylist = list(CompeteModel.objects.filter(
+        slug=competitiontitle).values())
+    competitionid = competitionquerylist[0]['id']
+    title = competitionquerylist[0]['competition_title']
+    userid = profilequerylist[0]['id']
+    competitionprobelmresultqueryset = CompeteProblemResult.objects.filter(
+        competition_id=competitionid).filter(user_id=userid)
+    userquerylist = list(User.objects.filter(id=userid).values())
+    username = userquerylist[0]['first_name'] + \
+        " " + userquerylist[0]['last_name']
+    context = {
+        "results": competitionprobelmresultqueryset,
+        "competitionslug": competitiontitle,
+        "nameslug": nameslug,
+        "pagetitle":"comp",
+        "title":title,
+        "username": username
+    }
+    return render(request, "admin_module/resultlist.html", context)
 
+
+@staff_member_required
+@login_required
+def ResultListPage(request, competitiontitle, nameslug):
+    profilequerylist = list(Profile.objects.filter(
+        slug=nameslug).values())
+    competitionquerylist = list(CompeteModel.objects.filter(
+        slug=competitiontitle).values())
+    competitionid = competitionquerylist[0]['id']
+    title = competitionquerylist[0]['competition_title']
+    userid = profilequerylist[0]['id']
+    competitionprobelmresultqueryset = CompeteProblemResult.objects.filter(
+        competition_id=competitionid).filter(user_id=userid)
+    userquerylist = list(User.objects.filter(id=userid).values())
+    username = userquerylist[0]['first_name'] + \
+        " " + userquerylist[0]['last_name']
+    context = {
+        "results": competitionprobelmresultqueryset,
+        "competitionslug": competitiontitle,
+        "nameslug": nameslug,
+        "pagetitle": "comp",
+        "title": title,
+        "username": username
+    }
+    return render(request, "admin_module/resultlist.html", context)
+
+
+def ViewResult(request, competitiontitle, nameslug, resultslug):
+    competitionprobelmresultqueryset = CompeteProblemResult.objects.filter(slug = resultslug)
+    profilequerylist = list(Profile.objects.filter(
+        slug=nameslug).values())
+    competitionquerylist = list(CompeteModel.objects.filter(
+        slug=competitiontitle).values())
+    competitionid = competitionquerylist[0]['id']
+    title = competitionquerylist[0]['competition_title']
+    userid = profilequerylist[0]['id']
+    competitionprobelmresultqueryset = CompeteProblemResult.objects.filter(
+        competition_id=competitionid).filter(user_id=userid)
+    userquerylist = list(User.objects.filter(id=userid).values())
+    username = userquerylist[0]['first_name'] + \
+        " " + userquerylist[0]['last_name']
+    context = {
+        "resultdetails": competitionprobelmresultqueryset,
+        "username": username,
+        "title": title,
+        "pagetitle": "comp"
+    }
+    return render(request, 'admin_module/viewresult.html', context)
+
+@login_required
 @ staff_member_required
 def InsBlogsList(request):
     context = {
@@ -664,6 +767,8 @@ def InsBlogsList(request):
     return render(request, "admin_module/blogslist.html", context)
 
 
+@login_required
+@ staff_member_required
 def ViewUser(request, nameslug):
     userdetailsqueryset = Profile.objects.filter(
         slug=nameslug)

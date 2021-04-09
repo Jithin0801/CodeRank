@@ -15,7 +15,7 @@ urlpatterns = [
          views.Compile, name="Compile"),
     path("practice/<slug:maintopic>/<slug:subtopic>/<slug:problem>/compiler/submit/",
          views.SubmitCode, name="SubmitCode"),
-    path("practice/<slug:maintopic>/<slug:subtopic>/submission/<slug:problemresult>/details/",
+    path("practice/<slug:maintopic>/<slug:subtopic>/<slug:problemslug>/submission/<slug:problemresult>/",
          views.SubmissionDetails, name="SubmissionDetails"),
     path("test/<slug:problem>/compiler/",
          views.TestCompiler, name="TestCompiler"),

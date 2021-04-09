@@ -78,7 +78,7 @@ class CompeteProblemResult(models.Model):
     slug = models.SlugField(max_length=100,  null=False, blank=True)
 
     def save(self, *args, **kwargs):
-        self.slug = slugify(self.problem.problem_title)
+        self.slug = slugify(self.date_posted)
         super(CompeteProblemResult, self).save(*args, **kwargs)
 
 

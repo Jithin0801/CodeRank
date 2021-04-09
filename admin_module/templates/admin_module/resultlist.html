@@ -6,7 +6,7 @@
 <div class="container mt-2 mb-2">
     <div class="row">
         <div class="col-lg-12 my-auto">
-            <p class="p mt-2" style="font-weight: 300;">List of all users registered for this competition!
+            <p class="p mt-2" style="font-weight: 300;">Results of {{username}}!
             </p>
         </div>
         <div class="col-lg-12 d-flex">
@@ -25,7 +25,7 @@
             </div>
         </div>
     </div>
-    <div class="container">
+    <div class="container" style="height: 100%;">
         <div class="row">
             <div class="col-lg-12">
                 {% if messages %}
@@ -35,31 +35,25 @@
                 {% endif %}
             </div>
         </div>
-        {% for profile in profilelist %}
+        {% for result in results %}
         <div class="row">
-            <div class="col-12 d-flex border align-items-center p-3 mt-2" style="border-radius: 15px;">
-                <div class="col-4 me-auto">
-                    <h6 class="ms-5">
-                        {{profile.user.first_name}} {{profile.user.last_name}}
-                    </h6>
-                </div>
-                <div class="col-4 ms-auto">
-                    <h6 class="ms-5">
-                        Registered: {{ profile.registeredon }}
-                    </h6>
-                </div>
-                <div class="col-4 d-flex ms-auto me-5">
-                    <a class="btn btn-primary ms-auto me-1"
-                       href="{% url 'ResultListPage' competitiontitleslug profile.user.profile.slug %}">View
-                        Results</a>
-                    <a class="btn btn-danger "
-                       href="{% url 'DelResigteredUser' competitiontitleslug profile.user.profile.slug %}">Delete</a>
-                </div>
+            <div class="col d-flex border align-items-center p-3 mt-2" style="border-radius: 15px;">
+                <h6 class="ms-5 me-auto">
+                    Problem: {{result.problem.problem_title}}
+                </h6>
+                <h6 class="ms-auto">
+                    Completed: {{ result.date_posted }}
+                </h6>
+                <h6 class="ms-auto">
+                    Score: {{ result.score }}
+                </h6>
+                <a href="{% url 'ViewResult' competitionslug nameslug result.slug %}"
+                   class="btn btn-primary ms-auto me-5">View Details</a>
             </div>
-        </div>
-        {% empty %}
-        <div class="d-flex justify-content-center">
-            <h5>No results</h5>
+            {% empty %}
+            <div class="d-flex justify-content-center">
+                <h5>No results</h5>
+            </div>
         </div>
         {% endfor %}
     </div>

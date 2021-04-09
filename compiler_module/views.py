@@ -76,7 +76,7 @@ def Submission(request, maintopic, subtopic, problem):
     return render(request, "compiler_module/submission.html", context)
 
 
-def SubmissionDetails(request, maintopic, subtopic, problemresult):
+def SubmissionDetails(request, maintopic, subtopic, problemslug, problemresult):
     if request.method == 'GET':
         problemresultqueryset = list(PracticeProblemResult.objects.filter(slug = problemresult))
         problemslug = problemresultqueryset[0].problem.slug

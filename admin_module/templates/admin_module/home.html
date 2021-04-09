@@ -1,0 +1,213 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+
+    <head>
+        <!-- Required meta tags -->
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <link rel=stylesheet href="{% static 'compiler_module/lib/codemirror.css' %}">
+        <!-- <link rel=stylesheet href="{% static 'compiler_module/doc/docs.css' %}"> -->
+        <script src="{% static 'compiler_module/lib/codemirror.js' %}"></script>
+        <script src="{% static 'compiler_module/mode/xml/xml.js' %}"></script>
+        <script src="{% static 'compiler_module/mode/python/python.js' %}"></script>
+        <script src="{% static 'compiler_module/mode/javascript/javascript.js' %}"></script>
+        <script src="{% static 'compiler_module/mode/css/css.js' %}"></script>
+        <script src="{% static 'compiler_module/mode/htmlmixed/htmlmixed.js' %}"></script>
+        <script src="{% static 'compiler_module/addon/edit/matchbrackets.js' %}"></script>
+        <script src="{% static 'compiler_module/addon/edit/matchtags.js' %}"></script>
+        <script src="{% static 'compiler_module/addon/edit/closetag.js' %}"></script>
+        <script src="{% static 'compiler_module/addon/edit/closebrackets.js' %}"></script>
+        <script src="{% static 'compiler_module/doc/activebookmark.js' %}"></script>
+        <script src="{% static 'compiler_module/addon/hint/show-hint.js' %}"></script>
+        <script src="{% static 'compiler_module/addon/hint/anyword-hint.js' %}"></script>
+        <link rel="stylesheet" href="{% static 'compiler_module/addon/hint/show-hint.css' %}">
+        <link rel="stylesheet" href="{% static 'compiler_module/theme/dracula.css' %}">
+        </link>
+        <!-- Bootstrap CSS  -->
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet"
+              integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl"
+              crossorigin="anonymous">
+        <link rel="stylesheet" href="{% static 'login_module/css/base.css' %}">
+        {% if title %}
+        <title>{{ title }}</title>
+        {% else %}
+        <title>CodeRank</title>
+        {% endif %}
+    </head>
+
+    <body>
+        <header class="site-header" id="site-header">
+            <nav class="navbar navbar-expand-md navbar-light" style="background-color: white;" id="navbar">
+                <div class="container">
+                    <h3 class="me-auto">Welcome to CodeRank for Institutions</h3>
+                    <button class="navbar-toggler" type="button" data-toggle="collapse"
+                            data-target="#navbarSupportedContent"
+                            aria-controls="navbarToggle" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                        <ul class="navbar-nav me-auto">
+                            <li>
+                            </li>
+                        </ul>
+                        <!-- Navbar Right Side -->
+                        <ul class="nav navbar-nav">
+                            <li>
+                                <a class="nav-item nav-link"
+                                   href="{% url 'Home' %}">HOME</a>
+                            </li>
+                            <li>
+                                {% if pagetitle == "signup" %}
+                                <a class="nav-item nav-link"
+                                   style="color: white; background-color:red; border-radius: 5px;"
+                                   href="{% url 'InstitutionSignUpPage' %}">SIGNUP</a>
+                                {% else %}
+                                <a class="nav-item nav-link" style="font-weight: 600;"
+                                   href="{% url 'InstitutionSignUpPage' %}">SIGNUP</a>
+                                {% endif %}
+                            </li>
+                            <li>
+                                {% if pagetitle == "login" %}
+                                <a class="nav-item nav-link"
+                                   style="color: white; background-color:red; border-radius: 5px;"
+                                   href="{% url 'InstitutionLoginPage' %}">LOGIN</a>
+                                {% else %}
+                                <a class="nav-item nav-link" style="font-weight: 600;"
+                                   href="{% url 'InstitutionLoginPage' %}">LOGIN</a>
+                                {% endif %}
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+        </header>
+        <main>
+            <div class="container">
+                <div class="row d-flex align-items-center" style="height: 700px;">
+                    <div class="col-lg-6 col-md-6 col-sm-6">
+                        <img src="{% static 'login_module/img/interview.svg' %}" class="rounded img-fluid" alt="">
+                    </div>
+
+                    <div class="col-md-6">
+                        <h4>Hire Developers.</h4>
+                        <h6 style="text-align: justify;">
+                            Build great teams end-to-end, fully remote and from anywhere in the world.
+                            The CodeRank Developer Skills Platform creates a seamless experience that developers and
+                            hiring
+                            teams love every step
+                            of the way.
+                        </h6>
+                        <a href="{% url 'InstitutionSignUpPage' %}" class="btn btn-warning m-1">Sign-up</a>
+                        <a href="{% url 'InstitutionLoginPage' %}" class="btn btn-dark m-1">Login</a>
+                    </div>
+                </div>
+                <hr>
+                <div class="row">
+                    <div class="col-12 mt-4 d-flex justify-content-center">
+                        <h4>Our assessment tools include!</h4>
+                    </div>
+                </div>
+                <div class="row d-flex mt-5 mb-3">
+                    <div class="col-lg-6 mb-4">
+                        <div class="row">
+                            <div class="col-12">
+                                <h3 style="text-align: center;">CodeMirror</h3>
+                                <div class="p-4">
+                                    <textarea class="p-3" id="samplecompiler"></textarea>
+                                </div>
+                            </div>
+                            <div class="col-12 d-flex justify-content-center">
+                                <div>
+                                    <p style="text-align:center;">
+                                        CodeMirror is a versatile text editor implemented in JavaScript for the browser.
+                                        It
+                                        is
+                                        specialized for editing code, and
+                                        comes with a number of language modes and addons that implement more advanced
+                                        editing
+                                        functionality.
+
+                                        A rich programming API and a CSS theming system are available for customizing
+                                        CodeMirror
+                                        to fit your application, and
+                                        extending it with new functionality.
+                                    </p>
+                                    <div class="d-flex justify-content-center">
+                                        <a href="https://codemirror.net/" target="_blank"
+                                           class="btn btn-dark mt-2 mb-4">Learn more
+                                            about
+                                            CodeMirror</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 d-flex align-items-center">
+                        <div class="row">
+                            <div class="col-12 border-sm-top">
+                                <h3 style="text-align: center;">JDoodle</h3>
+                                <div class="p-4 d-flex justify-content-center align-items-start">
+                                    <img src="{% static 'login_module/img/compiler.svg' %}"
+                                         style="height: 300px; width: 400px;" class="rounded img-fluid"
+                                         alt="">
+                                </div>
+                            </div>
+                            <div class="col-12 d-flex justify-content-center">
+                                <div>
+                                    <p style="text-align:center;">
+                                        Joodle is a free Online Compiler, Editor, IDE for Java, C, C++, PHP, Perl,
+                                        Python,
+                                        Ruby. Code Online - Share Save
+                                        Java/C/C++/Perl/Python/Ruby online.
+                                        This comes with a number of language modes and addons that implement more
+                                        advanced
+                                        compiling
+                                        functionality. Currently this website supports Python3, more
+                                        languages will be added soon.
+                                    </p>
+                                    <div class="d-flex justify-content-center mb-4">
+                                        <a href="https://www.jdoodle.com/c-online-compiler/" target="_blank"
+                                           class="btn btn-warning mt-4 mb-4">Learn more
+                                            about
+                                            JDoodle</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+        <script>
+            var editor = CodeMirror.fromTextArea(document.getElementById("samplecompiler"), {
+                lineNumbers: true,
+                mode: "python",
+                matchBrackets: true,
+                lineWrapping: true,
+                theme: "dracula",
+                autoCloseBrackets: true,
+                extraKeys: {
+                    "Ctrl-Space": "autocomplete"
+                }
+            });
+
+            editor.setValue("print(\"Hello, World\")\n#Press ctrl+space for AutoComplete\n\n\n\n\n\n\n\n\n\n\n\n\n")
+
+            editor.on("beforeChange", function (_, change) {
+                if (change.origin == "paste") change.cancel()
+            })
+        </script>
+        <script src=" https://code.jquery.com/jquery-3.5.1.js"
+                integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous">
+                </script>
+        <script src="{% static 'login_module/js/base.js' %}"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+                integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+                crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+                integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+                crossorigin="anonymous"></script>
+    </body>
+
+</html>

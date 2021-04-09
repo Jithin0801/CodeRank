@@ -25,7 +25,7 @@ def DevSignUpPage(request):
             pass
     else:
         form = UserRegistrationForm()
-    return render(request, "login_module/devsignup.html", {"title": "CodeRank - Sign Up", "form": form})
+    return render(request, "login_module/devsignup.html", {"title": "CodeRank - Sign Up", "form": form, "pagetitle": "signup"})
 
 
 def DevLogIn(request):
@@ -45,15 +45,14 @@ def DevLogIn(request):
                     return redirect('DevHome')
 
             else:
-                username = form.cleaned_data.get('username')
                 messages.error(
-                    request, f'Account { username } is inactive, Please contact the admin')
+                    request, f'Account is inactive, Please contact the admin')
         else:
             messages.error(
                 request, "Username or Password is incorrect")
 
     form = AuthenticationForm()
-    return render(request, "login_module/devlogin.html", {"title": "CodeRank - Log In", "form": form})
+    return render(request, "login_module/devlogin.html", {"title": "CodeRank - Log In", "form": form,"pagetitle":"login"})
 
 
 @login_required
@@ -77,7 +76,8 @@ def DevMyProfile(request):
         context = {"title": "CodeRank - My Profile",
                    "ProfileUpdationform": ProfileUpdationform,
                    "UserUpdationForm": UserUpdationform,
-                   "blogs": blogslist
+                   "blogs": blogslist,
+                   "pagetitle":"myprofile"
                    }
     return render(request, "login_module/devmyprofile.html", context)
 

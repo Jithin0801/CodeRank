@@ -14,6 +14,7 @@ def PracticePage(request):
             "title": "CodeRank - Practice",
             "main": main_topic,
             "sub": sub_topic,
+            "pagetitle":"practice"
         }
     return render(request, "practice_module/practice.html", context)
 
@@ -45,6 +46,7 @@ def ViewChallenges(request, maintopic, subtopic):
             "subtitle": subtitle,
             "maintopic": maintopic,
             "subtopic": subtopic,
-            "solvedproblems": solvedproblemid
+            "solvedproblems": solvedproblemid,
+            "pagetitle": "practice"
         }
     return render(request, "practice_module/viewchallenges.html", context)

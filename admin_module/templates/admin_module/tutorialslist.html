@@ -1,0 +1,70 @@
+{% extends "admin_module/basetwo.html" %}
+{% load crispy_forms_tags %}
+{% load widget_tweaks %}
+{% load static %}
+{% block content %}
+<div class="container mt-2 mb-2">
+    <div class="row">
+        <div class="col-lg-12 my-auto">
+            <p class="p mt-2" style="font-weight: 300;">View, Edit or Add tutorial.</p>
+        </div>
+        <div class="col-lg-8 col-md-8 col-sm-6">
+            <h3 style="font-weight: 700;">TUTORIAL</h3>
+        </div>
+    </div>
+</div>
+
+<div class="container">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="row d-flex justify-content-center">
+                <img src="{% static 'login_module/img/tutorialins.svg' %}"
+                     style="height: 600px; width: 600px;" class="rounded img-fluid" alt="">
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container">
+    <div class="row">
+        <div class="col-lg-12">
+            {% if messages %}
+            {% for message in messages %}
+            <div class="alert alert-{{message.tags}}">{{ message }}</div>
+            {% endfor %}
+            {% endif %}
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-12 d-flex">
+            <h4>List of all tutorial subtopics</h4>
+            <a class="btn btn-dark ms-auto" href="{% url 'InsAddTutorial' %}">+ Add tutorial</a>
+        </div>
+    </div>
+</div>
+<div class="container mt-3" style="height: 835px;">
+    {% for tutorial in tutorials %}
+    <div class="row mt-2">
+        <div class="col-lg-12 border" style="border-radius: 10px;">
+            <div class="p-3 d-lg-flex">
+                <div>
+                    <h4>{{ tutorial.title }}</h4>
+                    <div class="d-lg-flex">
+                        <p class="me-2">Maintopic:<strong> {{tutorial.subtopic.maintopic.title}}</strong></p>
+                        <p>Subtopic:<strong> {{tutorial.subtopic}}</strong></p>
+                    </div>
+                </div>
+                <div class="d-flex ms-auto">
+                    <div class="d-flex align-items-center">
+                        <a class="btn btn-primary" href="{% url 'InsViewTutorial' tutorial.slug %}">View</a>
+                        <a class="btn btn-warning ms-1" href="{% url 'InsEditTutorial' tutorial.slug %}">Edit</a>
+                        <a class="btn btn-danger ms-1" href="{% url 'InsDelTutorial' tutorial.slug %}">Delete</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% empty %}
+    <h5>No tutorial topics.</h5>
+    {% endfor %}
+</div>
+{% endblock content %}

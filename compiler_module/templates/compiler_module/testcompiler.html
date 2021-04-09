@@ -11,11 +11,11 @@
         <script src="https://code.jquery.com/jquery-3.6.0.js"
                 integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
         <script src="{% static 'compiler_module/js/base.js' %}"></script>
-        <link rel="stylesheet" href="{% static 'compiler_module/css/compiler.css' %}" />
         <!-- Bootstrap CSS  -->
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet"
               integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl"
               crossorigin="anonymous" />
+        <link rel="stylesheet" href="{% static 'compiler_module/css/compiler.css' %}" />
         <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
         <script src="https://cdnjs.cloudflare.com/ajax/libs/split.js/1.6.0/split.min.js"></script>
         <link rel=stylesheet href="{% static 'compiler_module/lib/codemirror.css' %}">
@@ -77,7 +77,7 @@
                             Problem Statement
                         </strong>
                         <p class="p mt-2">
-                            {{ problem_content.problemstatement|linebreaks }}
+                            {{ problem_content.problem_statement|linebreaks }}
                         </p>
                     </div>
                     <div class="row mt-3">
@@ -85,7 +85,7 @@
                             Problem Explanation
                         </strong>
                         <p class="p mt-2">
-                            {{ problem_content.problemexplanation|linebreaks }}
+                            {{ problem_content.problem_explanation|linebreaks }}
                         </p>
                     </div>
                     <div class="row mt-2">
@@ -95,7 +95,7 @@
                         <div class="col d-flex align-items-center" style="background-color: whitesmoke; height: auto;">
                             <div>
                                 <h6 class="p pt-4 ms-2" style="font-weight: 600;">
-                                    {{ problem_content.problemconstraints|linenumbers|linebreaks }}
+                                    {{ problem_content.problem_constraints|linenumbers|linebreaks }}
                                 </h6>
                             </div>
                         </div>
@@ -106,7 +106,7 @@
                         </strong>
                         <div class="col d-flex align-items-center" style="background-color: whitesmoke; height: 50px;">
                             <h6 class="pt-4 ms-2" style="font-weight: 600;">
-                                {{ problem_content.sampleinput|linebreaks }}
+                                {{ problem_content.sample_input|linebreaks }}
                             </h6>
                         </div>
                     </div>
@@ -115,7 +115,7 @@
                             Input Explanation
                         </strong>
                         <p class="p mt-2">
-                            {{ problem_content.inputexplanation|linebreaks }}
+                            {{ problem_content.input_explanation|linebreaks }}
                         </p>
                     </div>
                     <div class="row mt-2">
@@ -124,7 +124,7 @@
                         </strong>
                         <div class="col d-flex align-items-center" style="background-color: whitesmoke; height: auto;">
                             <h6 class="pt-4 ms-2" style="font-weight: 600;">
-                                {{ problem_content.sampleoutput|linebreaks }}
+                                {{ problem_content.sample_output|linebreaks }}
                             </h6>
                         </div>
                     </div>
@@ -133,7 +133,7 @@
                             Output Explanation
                         </strong>
                         <p class="p mt-2">
-                            {{ problem_content.outputexplanation|linebreaks }}
+                            {{ problem_content.output_explanation|linebreaks }}
                         </p>
                     </div>
                     {% endfor %}
@@ -183,12 +183,12 @@
                                             </div>
                                             <div class="mt-2 d-flex align-items-center"
                                                  style="height: 50px; background-color: whitesmoke;">
-                                                <h5 class="ms-2">{{problem_content.problemtestcaseoneinput}}</h5>
+                                                <h5 class="ms-2">{{problem_content.problem_testcase_one_input}}</h5>
                                             </div>
                                             <strong>Expected output:</strong>
                                             <div class="mt-2 d-flex align-items-center"
                                                  style="height: 50px; background-color: whitesmoke;">
-                                                <h5 class="ms-2">{{problem_content.problemtestcaseoneoutput}}</h5>
+                                                <h5 class="ms-2">{{problem_content.problem_testcase_one_output}}</h5>
                                             </div>
                                             <div name="actual-output-div-one">
                                                 <strong name='actual-output-heading'>Actual output:</strong>
@@ -208,12 +208,12 @@
                                             </div>
                                             <div class="mt-2 d-flex align-items-center"
                                                  style="height: 50px; background-color: whitesmoke;">
-                                                <h5 class="ms-2">{{problem_content.problemtestcasetwoinput}}</h5>
+                                                <h5 class="ms-2">{{problem_content.problem_testcase_two_input}}</h5>
                                             </div>
                                             <strong>Expected output:</strong>
                                             <div class="mt-2 d-flex align-items-center"
                                                  style="height: 50px; background-color: whitesmoke;">
-                                                <h5 class="ms-2">{{problem_content.problemtestcasetwooutput}}</h5>
+                                                <h5 class="ms-2">{{problem_content.problem_testcase_two_output}}</h5>
                                             </div>
                                             <div name="actual-output-div-two">
                                                 <strong name='actual-output-heading'>Actual output:</strong>
@@ -233,12 +233,12 @@
                                             </div>
                                             <div class="mt-2 d-flex align-items-center"
                                                  style="height: 50px; background-color: whitesmoke;">
-                                                <h5 class="ms-2">{{problem_content.problemtestcasethreeinput}}</h5>
+                                                <h5 class="ms-2">{{problem_content.problem_testcase_three_input}}</h5>
                                             </div>
                                             <strong>Expected output:</strong>
                                             <div class="mt-2 d-flex align-items-center"
                                                  style="height: 50px; background-color: whitesmoke;">
-                                                <h5 class="ms-2">{{problem_content.problemtestcasethreeoutput}}</h5>
+                                                <h5 class="ms-2">{{problem_content.problem_testcase_three_output}}</h5>
                                             </div>
                                             <div name="actual-output-div-three">
                                                 <strong name='actual-output-heading'>Actual output:</strong>
@@ -250,11 +250,11 @@
                                         </div>
                                     </div>
                                     <input name="expectedoutputone" type="hidden"
-                                           value="{{problem_content.problemtestcaseoneoutput}}" />
+                                           value="{{problem_content.problem_testcase_one_output}}" />
                                     <input name="expectedoutputtwo" type="hidden"
-                                           value="{{problem_content.problemtestcasetwooutput}}" />
+                                           value="{{problem_content.problem_testcase_two_output}}" />
                                     <input name="expectedoutputthree" type="hidden"
-                                           value="{{problem_content.problemtestcasethreeoutput}}" />
+                                           value="{{problem_content.problem_testcase_three_output}}" />
                                     {% endfor %}
                                 </div>
                             </div>
@@ -278,8 +278,7 @@
                     evt.currentTarget.className += " active";
                 }
                 document.getElementById("defaultOpen").click();
-                function disableF5(e) { if ((e.which || e.keyCode) == 116 || (e.which || e.keyCode) == 82) e.preventDefault(); };
-
+                function disableF5(e) { if ((e.which || e.keyCode) == 116 || e.ctrlKey && (e.which === 82)) e.preventDefault(); };
                     $(document).ready(function () {
                         $(document).on("keydown", disableF5);
                     });
@@ -303,6 +302,10 @@
                         "Ctrl-Space": "autocomplete"
                     }
                 });
+
+                // editor.on("beforeChange", function (_, change) {
+                //         if (change.origin == "paste") change.cancel()
+                //     })
 
                 $(".btn-close").click(function () {
                     $('div[name = "typecodealert"]').fadeOut();
@@ -348,6 +351,12 @@
                                 actualoutput1 = data[0]['output']
                                 actualoutput2 = data[1]['output']
                                 actualoutput3 = data[2]['output']
+                                actualmemory1 = data[0]['memory']
+                                actualmemory2 = data[1]['memory']
+                                actualmemory3 = data[2]['memory']
+                                actualtime1 = data[0]['cpuTime']
+                                actualtime2 = data[1]['cpuTime']
+                                actualtime3 = data[2]['cpuTime']
                                 var expectedoutput1 = $('input[name="expectedoutputone"]').val();
                                 var expectedoutput2 = $('input[name="expectedoutputtwo"]').val();
                                 var expectedoutput3 = $('input[name="expectedoutputthree"]').val();
@@ -394,7 +403,13 @@
                             "code": editor.getValue(),
                             "actualoutput1": actualoutput1,
                             "actualoutput2": actualoutput2,
-                            "actualoutput3": actualoutput3
+                            "actualoutput3": actualoutput3,
+                            "actualmemory1": actualmemory1,
+                            "actualmemory2": actualmemory2,
+                            "actualmemory3": actualmemory3,
+                            "actualtime1": actualtime1,
+                            "actualtime2": actualtime2,
+                            "actualtime3": actualtime3,
                         },
                         success: function (data) {
                             if (data == "NoTestCasesPassed") {

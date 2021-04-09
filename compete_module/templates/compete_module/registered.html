@@ -57,7 +57,7 @@
              class="d-flex align-items-center col-lg-12 mb-3 border">
             <div class="col-lg-3">
                 <h5 class="ms-2">
-                    {{competition.competitiontitle}}
+                    {{competition.competition_title}}
                 </h5>
             </div>
             <div class="col-lg-2">
@@ -67,7 +67,7 @@
             </div>
             <div class="col-lg-2">
                 <h5 class="ms-2">
-                    {{competition.assessmenttime}} min
+                    {{competition.assessment_time}} min
                 </h5>
             </div>
             <div class="col-lg-2">
@@ -78,10 +78,10 @@
             <div class="col-lg-3 d-flex justify-content-end">
                 <h5 class="ms-2">
                     {% if competition.id in compeledcompetitions %}
-                    <button class="btn btn-success disabled">Completed</button>
+                    <button class="btn btn-outline-success disabled">Completed</button>
                     {% else %}
                     {% if competition.status_id == 1%}
-                    <button class="btn btn-success disabled">Event not started</button>
+                    <button class="btn btn-dark disabled">Event not started</button>
                     {% elif competition.status_id == 2 %}
                     <input type="hidden" name="url" value=>
                     <a title="{% url 'AssessmentStartPage' competition.slug %}" class="btn btn-success" name="StartPage"

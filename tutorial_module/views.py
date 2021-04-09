@@ -15,6 +15,7 @@ def MainTopicPage(request):
         context = {
             "title": "CodeRank - Tutorials",
             "main": main_topic,
+            "pagetitle": "tutorial"
         }
     return render(request, "tutorial_module/maintopics.html", context)
 
@@ -33,6 +34,7 @@ def SubTopicPage(request, maintopic):
         "maintopicslug": maintopic,
         "maintopictitle": maintopictitle,
         "sub": subtopics,
+        "pagetitle": "tutorial"
     }
     return render(request, "tutorial_module/subtopics.html", context)
 
@@ -54,7 +56,8 @@ def TutorialSubTopicPage(request, maintopic, subtopic):
         "maintopicslug": maintopic,
         'subtopicslug': subtopic,
         "tutorialsub": tutorialsubtopic,
-        "completedtutorialslist": tutorialsubtopiccompletedstatusquerylist
+        "completedtutorialslist": tutorialsubtopiccompletedstatusquerylist,
+        "pagetitle": "tutorial"
     }
 
     return render(request, "tutorial_module/tutorialsubtopics.html", context)
@@ -67,7 +70,7 @@ def ViewTutorialPage(request, maintopic, subtopic, tutorialsubtopic):
     tutorialsubtopicid = tutorialsubtopicqueryset[0]["id"]
     tutorialsubtopictitle = tutorialsubtopicqueryset[0]["title"]
     tutorialsubtopiccontent = TutorialContent.objects.filter(
-        id=tutorialsubtopicid)
+        tutorialsubtopic_id=tutorialsubtopicid)
     tutorialsubtopiccompletedstatusquerylist = list(TutorialSubtopicCompletedStatus.objects.filter(
         user_id=request.user.id).values_list("tutorialsubtopic_id", flat=True))
 
@@ -80,7 +83,8 @@ def ViewTutorialPage(request, maintopic, subtopic, tutorialsubtopic):
             "tutorialsubslug": tutorialsubtopic,
             "tutorialsubtopiccontent": tutorialsubtopiccontent,
             "form": form,
-            "completedtutorialslist": tutorialsubtopiccompletedstatusquerylist
+            "completedtutorialslist": tutorialsubtopiccompletedstatusquerylist,
+            "pagetitle": "tutorial"
         }
     elif request.method == "POST":
 
@@ -94,7 +98,8 @@ def ViewTutorialPage(request, maintopic, subtopic, tutorialsubtopic):
             "tutorialsubslug": tutorialsubtopic,
             "tutorialsubtopiccontent": tutorialsubtopiccontent,
             "form": form,
-            "completedtutorialslist": tutorialsubtopiccompletedstatusquerylist
+            "completedtutorialslist": tutorialsubtopiccompletedstatusquerylist,
+            "pagetitle": "tutorial"
         }
         return redirect("TutorialSubTopicPage", maintopic=maintopic, subtopic=subtopic)
 

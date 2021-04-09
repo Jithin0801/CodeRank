@@ -31,7 +31,8 @@ urlpatterns = [
     path('', include("compete_module.urls")),
     path('', include("tutorial_module.urls")),
     path('', include("leaderboard_module.urls")),
-    path('', include("blog_module.urls"))
+    path('', include("blog_module.urls")),
+    path('', include("admin_module.urls"))
 
 
 ]

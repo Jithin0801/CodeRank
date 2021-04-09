@@ -2,7 +2,92 @@
 {% load crispy_forms_tags %}
 {% load widget_tweaks %}
 {% block workspace %}
-<div>
-    <h1>Submission</h1>
+{% load static %}
+
+<style>
+    body{
+        margin-top: 3rem;
+    }
+</style>
+<div class="container">
+    <div class="row">
+        <h2 class="py-3">SUBMISSIONS</h2>
+    </div>
+    <div class="row">
+        <div class="d-flex justify-content-center mt-4">
+            <img src="{% static 'login_module/img/submission.svg' %}" style="height: 400px;" class="rounded img-fluid"
+                 alt="">
+        </div>
+    </div>
+    <div class="row">
+        <div class="container">
+            <div class="col-lg-12 col-md-8 col-sm-6 ">
+                <div class="row">
+                    <div class="col-auto me-auto">
+                        <h2>{{ problemtitle }}</h2>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-auto d-flex">
+                    {% if difficulty == 1 %}
+                    <h6 class="material-icons" style="font-size: larger;  color:green;">done_all</h6>
+                    <h6 class="h6 ms-1" style="color: green; font-size: small;">Easy</h6>
+                    {% endif %}
+                    {% if difficulty == 2 %}
+                    <h6 class="material-icons" style="font-size: larger;  color:orange;">error_outline</h6>
+                    <h6 class="h6 ms-1" style="color: orange; font-size: small;">Medium</h6>
+                    {% endif %}
+                    {% if difficulty == 3 %}
+                    <h6 class="material-icons" style="font-size: larger;  color:red;">error</h6>
+                    <h6 class="h6 ms-1" style="color: red; font-size: small;">Hard</h6>
+                    {% endif %}
+                </div>
+                <div class="col-auto d-flex ps-0">
+                    <h6 class="material-icons" style="font-size: larger;  color:gray;">supervisor_account</h6>
+                    <h6 class="ms-1" style="margin-top: 0.8px; font-size: small; color: gray;">{{ attempted }}</h6>
+                </div>
+                <div class="col-auto d-flex ps-0">
+                    <h6 class="material-icons" style="font-size: larger;  color:gray;">radar</h6>
+                    <h6 class="ms-1" style="margin-top: 0.8px; font-size: small; color: gray;">{{ accuracy }}%</h6>
+                </div>
+                <div class="col-auto d-flex ps-0">
+                    <h6 class="material-icons" style="font-size: larger;  color:gray;">emoji_events</h6>
+                    <h6 class="ms-1" style="margin-top: 0.8px; font-size: small; color: gray;">{{ score }} points
+                    </h6>
+                </div>
+                <div class="col-auto d-flex ps-0">
+                    <h6 class="material-icons" style="font-size: larger;  color:gray;">sell</h6>
+                    <h6 class="ms-1" style="margin-top: 0.8px; font-size: small; font-style: oblique; color: gray;">
+                        {{ tags }}
+                    </h6>
+                </div>
+            </div>
+        </div>
+        <div class="col-12">
+            <h4 class="py-3">Previous Sumbissions</h4>
+        </div>
+        <div style="height: 810px;">
+            {% for submission in problemresults %}
+            {% if submission.user_id == request.user.id %}
+            <div class="row d-flex border p-3 mt-2" style="border-radius: 15px;">
+                <div class="col-lg-4">
+                    <h6>
+                        {{submission.date_posted}}
+                    </h6>
+                </div>
+                <div class="col-lg-5">
+                    <h6>
+                        Score:{{submission.score}}
+                    </h6>
+                </div>
+                <div class="col-lg-2 d-flex justify-content-end">
+                    <a href="{% url 'SubmissionDetails' maintopic subtopic submission.slug %}" class="btn btn-primary">View Details</a>
+                </div>
+            </div>
+            {% endif %}
+            {% endfor %}
+        </div>
+    </div>
 </div>
 {% endblock workspace %}

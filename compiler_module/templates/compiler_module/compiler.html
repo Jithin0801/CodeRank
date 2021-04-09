@@ -21,7 +21,51 @@
         </div>
     </div>
 </div>
-<div class="col d-flex border-bottom">
+<div class="container_fluid border-bottom">
+    <div class="col-lg-12 col-md-8 col-sm-6 ">
+        <div class="row">
+            <div class="col-auto me-auto">
+                <h2>{{ problemtitle }}</h2>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-auto d-flex">
+            {% if difficulty == 1 %}
+            <h6 class="material-icons" style="font-size: larger;  color:green;">done_all</h6>
+            <h6 class="h6 ms-1" style="color: green; font-size: small;">Easy</h6>
+            {% endif %}
+            {% if difficulty == 2 %}
+            <h6 class="material-icons" style="font-size: larger;  color:orange;">error_outline</h6>
+            <h6 class="h6 ms-1" style="color: orange; font-size: small;">Medium</h6>
+            {% endif %}
+            {% if difficulty == 3 %}
+            <h6 class="material-icons" style="font-size: larger;  color:red;">error</h6>
+            <h6 class="h6 ms-1" style="color: red; font-size: small;">Hard</h6>
+            {% endif %}
+        </div>
+        <div class="col-auto d-flex ps-0">
+            <h6 class="material-icons" style="font-size: larger;  color:gray;">supervisor_account</h6>
+            <h6 class="ms-1" style="margin-top: 0.8px; font-size: small; color: gray;">{{ attempted }}</h6>
+        </div>
+        <div class="col-auto d-flex ps-0">
+            <h6 class="material-icons" style="font-size: larger;  color:gray;">radar</h6>
+            <h6 class="ms-1" style="margin-top: 0.8px; font-size: small; color: gray;">{{ accuracy }}%</h6>
+        </div>
+        <div class="col-auto d-flex ps-0">
+            <h6 class="material-icons" style="font-size: larger;  color:gray;">emoji_events</h6>
+            <h6 class="ms-1" style="margin-top: 0.8px; font-size: small; color: gray;">{{ score }} points
+            </h6>
+        </div>
+        <div class="col-auto d-flex ps-0">
+            <h6 class="material-icons" style="font-size: larger;  color:gray;">sell</h6>
+            <h6 class="ms-1" style="margin-top: 0.8px; font-size: small; font-style: oblique; color: gray;">
+                {{ tags }}
+            </h6>
+        </div>
+    </div>
+</div>
+<div class="col d-flex border-bottom ">
     <div class="col-6 pane" id="right">
         {% for problem_content in problemcontent %}
         <div class="row mt-3">
@@ -100,13 +144,13 @@
                 <div class="col-lg-12 border-end">
                     <div class="row">
                         <div class="col-lg-12 d-lg-flex justify-content-center">
-                            <button id="compile" href="#" class="btn btn-secondary d-flex mt-sm-2 ">
+                            <button id="compile" href="#" class="btn btn-warning d-flex mt-sm-2 ">
                                 <div class="material-icons" style="margin-top: 0.8px;">code</div>
                                 <span class="ms-1">
                                     Execute
                                 </span>
                             </button>
-                            <button id="submit" href="#" class="btn btn-primary d-flex ms-lg-2 mt-sm-2">
+                            <button id="submit" href="#" class="btn btn-dark d-flex ms-lg-2 mt-sm-2">
                                 <div class="material-icons" style="margin-top: 0.8px;">save</div>
                                 <span class="ms-1">
                                     Submit
@@ -130,18 +174,18 @@
                                     </div>
                                 </div>
                                 <div class="mt-2 d-flex align-items-center"
-                                    style="height: 50px; background-color: whitesmoke;">
+                                     style="height: 50px; background-color: whitesmoke;">
                                     <h5 class="ms-2">{{problem_content.problemtestcaseoneinput}}</h5>
                                 </div>
                                 <strong>Expected output:</strong>
                                 <div class="mt-2 d-flex align-items-center"
-                                    style="height: 50px; background-color: whitesmoke;">
+                                     style="height: 50px; background-color: whitesmoke;">
                                     <h5 class="ms-2">{{problem_content.problemtestcaseoneoutput}}</h5>
                                 </div>
                                 <div name="actual-output-div-one">
                                     <strong name='actual-output-heading'>Actual output:</strong>
                                     <div name="actual-output-box-1" class="mt-2 d-flex align-items-center"
-                                        style="height: max-content; background-color: whitesmoke;">
+                                         style="height: max-content; background-color: whitesmoke;">
                                         <h5 class="ms-2" name="actual-output-one"></h5>
                                     </div>
                                 </div>
@@ -154,18 +198,18 @@
                                     </div>
                                 </div>
                                 <div class="mt-2 d-flex align-items-center"
-                                    style="height: 50px; background-color: whitesmoke;">
+                                     style="height: 50px; background-color: whitesmoke;">
                                     <h5 class="ms-2">{{problem_content.problemtestcasetwoinput}}</h5>
                                 </div>
                                 <strong>Expected output:</strong>
                                 <div class="mt-2 d-flex align-items-center"
-                                    style="height: 50px; background-color: whitesmoke;">
+                                     style="height: 50px; background-color: whitesmoke;">
                                     <h5 class="ms-2">{{problem_content.problemtestcasetwooutput}}</h5>
                                 </div>
                                 <div name="actual-output-div-two">
                                     <strong name='actual-output-heading'>Actual output:</strong>
                                     <div name="actual-output-box-2" class="mt-2 d-flex align-items-center"
-                                        style="height: max-content; background-color: whitesmoke;">
+                                         style="height: max-content; background-color: whitesmoke;">
                                         <h5 class="ms-2" name="actual-output-two"></h5>
                                     </div>
                                 </div>
@@ -178,29 +222,29 @@
                                     </div>
                                 </div>
                                 <div class="mt-2 d-flex align-items-center"
-                                    style="height: 50px; background-color: whitesmoke;">
+                                     style="height: 50px; background-color: whitesmoke;">
                                     <h5 class="ms-2">{{problem_content.problemtestcasethreeinput}}</h5>
                                 </div>
                                 <strong>Expected output:</strong>
                                 <div class="mt-2 d-flex align-items-center"
-                                    style="height: 50px; background-color: whitesmoke;">
+                                     style="height: 50px; background-color: whitesmoke;">
                                     <h5 class="ms-2">{{problem_content.problemtestcasethreeoutput}}</h5>
                                 </div>
                                 <div name="actual-output-div-three">
                                     <strong name='actual-output-heading'>Actual output:</strong>
                                     <div name="actual-output-box-3" class="mt-2 d-flex align-items-center"
-                                        style="height: max-content; background-color: whitesmoke;">
+                                         style="height: max-content; background-color: whitesmoke;">
                                         <h5 class="ms-2" name="actual-output-three"></h5>
                                     </div>
                                 </div>
                             </div>
                         </div>
                         <input name="expectedoutputone" type="hidden"
-                            value="{{problem_content.problemtestcaseoneoutput}}" />
+                               value="{{problem_content.problemtestcaseoneoutput}}" />
                         <input name="expectedoutputtwo" type="hidden"
-                            value="{{problem_content.problemtestcasetwooutput}}" />
+                               value="{{problem_content.problemtestcasetwooutput}}" />
                         <input name="expectedoutputthree" type="hidden"
-                            value="{{problem_content.problemtestcasethreeoutput}}" />
+                               value="{{problem_content.problemtestcasethreeoutput}}" />
                         {% endfor %}
                     </div>
                 </div>
@@ -293,6 +337,13 @@
                     actualoutput1 = data[0]['output']
                     actualoutput2 = data[1]['output']
                     actualoutput3 = data[2]['output']
+                    actualmemory1 = data[0]['memory']
+                    actualmemory2 = data[1]['memory']
+                    actualmemory3 = data[2]['memory']
+                    actualtime1 = data[0]['cpuTime']
+                    actualtime2 = data[1]['cpuTime']
+                    actualtime3 = data[2]['cpuTime'] 
+
                     var expectedoutput1 = $('input[name="expectedoutputone"]').val();
                     var expectedoutput2 = $('input[name="expectedoutputtwo"]').val();
                     var expectedoutput3 = $('input[name="expectedoutputthree"]').val();
@@ -339,7 +390,13 @@
                 "code": editor.getValue(),
                 "actualoutput1": actualoutput1,
                 "actualoutput2": actualoutput2,
-                "actualoutput3": actualoutput3
+                "actualoutput3": actualoutput3,
+                "actualmemory1": actualmemory1,
+                "actualmemory2": actualmemory2,
+                "actualmemory3": actualmemory3,
+                "actualtime1": actualtime1,
+                "actualtime2": actualtime2,
+                "actualtime3": actualtime3,
             },
             success: function (data) {
                 if (data == "NoTestCasesPassed") {

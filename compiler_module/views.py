@@ -25,7 +25,7 @@ class ProblemDetailsSet():
             ProblemInfo.objects.filter(problem_id=problemqueryset[0]['id']).values())
         maintitle = maintopicquertset[0]['title']
         subtitle = subtopicqueryset[0]['title']
-        problemtitle = problemqueryset[0]['problemtitle']
+        problemtitle = problemqueryset[0]['problem_title']
         dificulty = problemqueryset[0]['difficulty_id']
         score = problemqueryset[0]['score']
         attempted = probleminfoqueryset[0]['attempted']
@@ -68,7 +68,8 @@ def Submission(request, maintopic, subtopic, problem):
         problemset = ProblemDetailsSet()
         context = problemset.getDetails(request, maintopic, subtopic, problem)
         problem_id = context["problemcontent"][0]["id"]
-        submissionqueryset = PracticeProblemResult.objects.filter(problem_id = problem_id)
+        submissionqueryset = PracticeProblemResult.objects.filter(
+            problem_id=problem_id).order_by('-date_posted')
         context["pagetitle"] = "Submission"
         context["problemresults"] = submissionqueryset
 
@@ -117,9 +118,9 @@ def Compile(request, maintopic, subtopic, problem):
         problem_content = list(
             PracticeProblem.objects.filter(slug=problem).values())
 
-        testcases = [problem_content[0]["problemtestcaseoneinput"],
-                     problem_content[0]["problemtestcasetwoinput"],
-                     problem_content[0]["problemtestcasethreeinput"]]
+        testcases = [problem_content[0]["problem_testcase_one_input"],
+                     problem_content[0]["problem_testcase_two_input"],
+                     problem_content[0]["problem_testcase_three_input"]]
 
         responselist = []
         for testcase in testcases:
@@ -153,9 +154,9 @@ def SubmitCode(request, maintopic, subtopic, problem):
         problem_content = list(
             PracticeProblem.objects.filter(slug=problem).values())
 
-        testcases = [problem_content[0]["problemtestcaseoneoutput"],
-                     problem_content[0]["problemtestcasetwooutput"],
-                     problem_content[0]["problemtestcasethreeoutput"]]
+        testcases = [problem_content[0]["problem_testcase_one_output"],
+                     problem_content[0]["problem_testcase_two_output"],
+                     problem_content[0]["problem_testcase_three_output"]]
 
         problemid = problem_content[0]["id"]
         userscore = 0

@@ -1,0 +1,54 @@
+{% extends "admin_module/basetwo.html" %}
+{% load crispy_forms_tags %}
+{% load widget_tweaks %}
+{% load static %}
+{% block content %}
+<div class="container mt-2 mb-2">
+    <div class="row">
+        <div class="col-lg-12 my-auto">
+            <p class="p mt-2" style="font-weight: 300;">Edit problem</p>
+        </div>
+        <div class="col-lg-12 d-flex">
+            <h3 style="font-weight: 700;">{{probtitle}}</h3>
+            <a href="{% url 'ProblemList' %}" class="btn btn-transparent ms-auto"><u>Go back</u></a>
+        </div>
+    </div>
+</div>
+<div class="container">
+    <div class="row">
+        <div class="col-lg-12">
+            <h4 class="mb-3">Edit problem for content.</h4>
+            <h6>Details to note:</h6>
+            <ol>
+                <li>While giving the testcases(input & output) give the exact input and output when you designed this
+                    problem.</li>
+                <li>If the input is a list or array, type all the elements in a single line seperated by coma( , ).</li>
+                <li>If the input is not a list and multiple separate inputs, type each input in a separate newlines</li>
+                <li>If the input contains both list and other single inputs, type the list in a separate newline and
+                    other inputs in separate newline in correct order. </li>
+                <li>Output should be exactly like what your programs gives as passing of testcase is done by string
+                    comparing your output and users output.</li>
+            </ol>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-12" style="height: 835px;">
+            <form method="POST">
+                <div class="form-group">
+                    {% csrf_token %}
+                    {% for field in form.visible_fields %}
+                    <div class="form-group">
+                        <h5 class="mt-3">{{field.label}}</h5>
+                        {% render_field field class="form-control" placeholder=field.label %}
+                    </div>
+                    {% endfor %}
+                </div>
+                <div class="from-group">
+                    <button class="btn btn-warning mt-4 mb-4" type="submit">Update</button>
+                    <input type="hidden" name="next" value="{{next}}" />
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock content %}

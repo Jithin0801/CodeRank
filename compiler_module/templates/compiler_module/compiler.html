@@ -73,7 +73,7 @@
                 Problem Statement
             </strong>
             <p class="p mt-2">
-                {{ problem_content.problemstatement|linebreaks }}
+                {{ problem_content.problem_statement|linebreaks }}
             </p>
         </div>
         <div class="row mt-3">
@@ -81,7 +81,7 @@
                 Problem Explanation
             </strong>
             <p class="p mt-2">
-                {{ problem_content.problemexplanation|linebreaks }}
+                {{ problem_content.problem_explanation|linebreaks }}
             </p>
         </div>
         <div class="row mt-2">
@@ -90,7 +90,7 @@
             </strong>
             <div class="col d-flex align-items-center" style="background-color: whitesmoke; height: auto;">
                 <h6 class="pt-3 ms-2 mt-2" style="font-weight: 600;">
-                    {{ problem_content.problemconstraints|linebreaks }}
+                    {{ problem_content.problem_constraints|linebreaks }}
                 </h6>
             </div>
         </div>
@@ -100,7 +100,7 @@
             </strong>
             <div class="col d-flex align-items-center" style="background-color: whitesmoke; height: pt-3 ms-2;">
                 <h6 class="pt-3 ms-2 mt-2" style="font-weight: 600;">
-                    {{ problem_content.sampleinput|linebreaks }}
+                    {{ problem_content.sample_input|linebreaks }}
                 </h6>
             </div>
         </div>
@@ -109,7 +109,7 @@
                 Input Explanation
             </strong>
             <p class="p mt-2">
-                {{ problem_content.inputexplanation|linebreaks }}
+                {{ problem_content.input_explanation|linebreaks }}
             </p>
         </div>
         <div class="row mt-2">
@@ -118,7 +118,7 @@
             </strong>
             <div class="col d-flex align-items-center" style="background-color: whitesmoke; height: auto;">
                 <h6 class="pt-3 ms-2 mt-2" style="font-weight: 600;">
-                    {{ problem_content.sampleoutput|linebreaks }}
+                    {{ problem_content.sample_output|linebreaks }}
                 </h6>
             </div>
         </div>
@@ -127,7 +127,7 @@
                 Output Explanation
             </strong>
             <p class="p mt-2">
-                {{ problem_content.outputexplanation|linebreaks }}
+                {{ problem_content.output_explanation|linebreaks }}
             </p>
         </div>
         {% endfor %}
@@ -175,12 +175,12 @@
                                 </div>
                                 <div class="mt-2 d-flex align-items-center"
                                      style="height: 50px; background-color: whitesmoke;">
-                                    <h5 class="ms-2">{{problem_content.problemtestcaseoneinput}}</h5>
+                                    <h5 class="ms-2">{{problem_content.problem_testcase_one_input}}</h5>
                                 </div>
                                 <strong>Expected output:</strong>
                                 <div class="mt-2 d-flex align-items-center"
                                      style="height: 50px; background-color: whitesmoke;">
-                                    <h5 class="ms-2">{{problem_content.problemtestcaseoneoutput}}</h5>
+                                    <h5 class="ms-2">{{problem_content.problem_testcase_one_output}}</h5>
                                 </div>
                                 <div name="actual-output-div-one">
                                     <strong name='actual-output-heading'>Actual output:</strong>
@@ -199,12 +199,12 @@
                                 </div>
                                 <div class="mt-2 d-flex align-items-center"
                                      style="height: 50px; background-color: whitesmoke;">
-                                    <h5 class="ms-2">{{problem_content.problemtestcasetwoinput}}</h5>
+                                    <h5 class="ms-2">{{problem_content.problem_testcase_two_input}}</h5>
                                 </div>
                                 <strong>Expected output:</strong>
                                 <div class="mt-2 d-flex align-items-center"
                                      style="height: 50px; background-color: whitesmoke;">
-                                    <h5 class="ms-2">{{problem_content.problemtestcasetwooutput}}</h5>
+                                    <h5 class="ms-2">{{problem_content.problem_testcase_two_output}}</h5>
                                 </div>
                                 <div name="actual-output-div-two">
                                     <strong name='actual-output-heading'>Actual output:</strong>
@@ -223,12 +223,12 @@
                                 </div>
                                 <div class="mt-2 d-flex align-items-center"
                                      style="height: 50px; background-color: whitesmoke;">
-                                    <h5 class="ms-2">{{problem_content.problemtestcasethreeinput}}</h5>
+                                    <h5 class="ms-2">{{problem_content.problem_testcase_three_input}}</h5>
                                 </div>
                                 <strong>Expected output:</strong>
                                 <div class="mt-2 d-flex align-items-center"
                                      style="height: 50px; background-color: whitesmoke;">
-                                    <h5 class="ms-2">{{problem_content.problemtestcasethreeoutput}}</h5>
+                                    <h5 class="ms-2">{{problem_content.problem_testcase_three_output}}</h5>
                                 </div>
                                 <div name="actual-output-div-three">
                                     <strong name='actual-output-heading'>Actual output:</strong>
@@ -240,11 +240,11 @@
                             </div>
                         </div>
                         <input name="expectedoutputone" type="hidden"
-                               value="{{problem_content.problemtestcaseoneoutput}}" />
+                               value="{{problem_content.problem_testcase_one_output}}" />
                         <input name="expectedoutputtwo" type="hidden"
-                               value="{{problem_content.problemtestcasetwooutput}}" />
+                               value="{{problem_content.problem_testcase_two_output}}" />
                         <input name="expectedoutputthree" type="hidden"
-                               value="{{problem_content.problemtestcasethreeoutput}}" />
+                               value="{{problem_content.problem_testcase_three_output}}" />
                         {% endfor %}
                     </div>
                 </div>

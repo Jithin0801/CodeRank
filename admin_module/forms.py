@@ -2,7 +2,7 @@ from django.forms.widgets import DateInput, DateTimeInput
 from compete_module.models import CompeteModel, CompetitionOwnProblem, CompetitionType, RegisteredUserCompete, Status
 from practice_module import models
 from tutorial_module.models import TutorialContent, TutorialSubtopic
-from practice_module.models import PracticeMainTopic, PracticeSubTopic
+from practice_module.models import PracticeMainTopic, PracticeProblem, PracticeSubTopic
 from admin_module.models import InstitutionProfile
 from django.db.models import fields
 from django import forms
@@ -29,24 +29,6 @@ class AuthenticationForm(AuthenticationForm):
         super(AuthenticationForm, self).__init__(*args, **kwargs)
         for visible in self.visible_fields():
             visible.field.widget.attrs['class'] = 'form-control'
-
-
-class UserUpdationForm(forms.ModelForm):
-    class Meta:
-        model = User
-        fields = ['username', 'first_name', 'last_name',
-                  'email']
-
-
-class ProfileUpdationForm(forms.ModelForm):
-
-    image = forms.ImageField(label=_('Profile Picture'), required=False, error_messages={
-                             'invalid': _("Image files only")}, widget=forms.FileInput)
-
-    class Meta:
-        model = InstitutionProfile
-        fields = ['bio', 'institutionname', 'address', 'phonenumber', 'image']
-
 
 class AddNewMainTopicForm(forms.ModelForm):
 
@@ -186,3 +168,33 @@ class DelCompetitionProblemForm(forms.ModelForm):
     class Meta:
         model = CompetitionOwnProblem
         exclude = ['slug', 'competition']
+
+
+class UserUpdationForm(forms.ModelForm):
+    class Meta:
+        model = User
+        fields = ['username', 'first_name', 'last_name',
+                  'email']
+
+
+class InsProfileUpdationForm(forms.ModelForm):
+
+    image = forms.ImageField(label=_('Profile Picture'), required=False, error_messages={
+                             'invalid': _("Image files only")}, widget=forms.FileInput)
+
+    class Meta:
+        model = InstitutionProfile
+        fields = ['institution_name', 'bio', 'address', 'phone_number', 'image']
+
+
+class AddProblemForm(forms.ModelForm):
+    class Meta:
+        model = PracticeProblem
+        exclude = ['isbookmarked', 'slug']
+
+
+
+class EditProblemForm(forms.ModelForm):
+    class Meta:
+        model = PracticeProblem
+        exclude = ['isbookmarked', 'slug']

@@ -38,7 +38,7 @@
         <div class="mt-2 col-12" style="background-color: whitesmoke; border-radius: 15px; height: auto;">
             <p> {{ content.exampletwo|linebreaks }}</p>
         </div>
-        <div class="col-12 d-flex mt-3 ">
+        <div class="col-12 d-flex mt-3 justify-content-center">
             <form method="POST">
                 {% csrf_token %}
                 {% if content.id in completedtutorialslist %}

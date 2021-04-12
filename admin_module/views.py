@@ -638,8 +638,9 @@ def AddCompetitionProblem(request, competitiontitle):
             obj = form.save(commit=False)
             obj.competition_id = competitionid
             obj.save()
-            messages.success(request, f"\"{formdata['problem_title']}\" has been successfully added for \"{title}\"")
-            return redirect("ViewCompetitionDetails", competitiontitle = competitiontitle)
+            messages.success(
+                request, f"\"{formdata['problem_title']}\" has been successfully added for \"{title}\"")
+            return redirect("ViewCompetitionDetails", competitiontitle=competitiontitle)
 
     return render(request, 'admin_module/addcompetitionproblem.html', context)
 
@@ -662,7 +663,7 @@ def EditCompetitionProblem(request, competitiontitle, problemslug):
         form = AddCompetitionProblemForm(request.POST)
         if form.is_valid():
             form_data = form.cleaned_data
-            CompetitionOwnProblem.objects.filter(slug = problemslug).update(
+            CompetitionOwnProblem.objects.filter(slug=problemslug).update(
                 problem_title=form_data['problem_title'],
                 problem_description=form_data['problem_description'],
                 problem_statement=form_data['problem_statement'],
@@ -681,8 +682,7 @@ def EditCompetitionProblem(request, competitiontitle, problemslug):
             )
             messages.success(
                 request, f"\"{form_data['problem_title']}\" has been successfully added for \"{title}\"")
-            return redirect("ViewCompetitionDetails", competitiontitle = competitiontitle)
-            
+            return redirect("ViewCompetitionDetails", competitiontitle=competitiontitle)
 
     return render(request, 'admin_module/editcompetitionproblem.html', context)
 
@@ -711,32 +711,6 @@ def DelCompetitionProblem(request, competitiontitle, problemslug):
         return redirect("ViewCompetitionDetails", competitiontitle=competitiontitle)
 
     return render(request, 'admin_module/deletecompetitioncontent.html', context)
-
-
-@staff_member_required
-@login_required
-def ResultListPage(request, competitiontitle, nameslug):
-    profilequerylist = list(Profile.objects.filter(
-        slug=nameslug).values())
-    competitionquerylist = list(CompeteModel.objects.filter(
-        slug=competitiontitle).values())
-    competitionid = competitionquerylist[0]['id']
-    title = competitionquerylist[0]['competition_title']
-    userid = profilequerylist[0]['id']
-    competitionprobelmresultqueryset = CompeteProblemResult.objects.filter(
-        competition_id=competitionid).filter(user_id=userid)
-    userquerylist = list(User.objects.filter(id=userid).values())
-    username = userquerylist[0]['first_name'] + \
-        " " + userquerylist[0]['last_name']
-    context = {
-        "results": competitionprobelmresultqueryset,
-        "competitionslug": competitiontitle,
-        "nameslug": nameslug,
-        "pagetitle": "comp",
-        "title": title,
-        "username": username
-    }
-    return render(request, "admin_module/resultlist.html", context)
 
 
 @staff_member_required
@@ -1020,7 +994,8 @@ def EditProblem(request, problemslug):
                 problem_testcase_three_output=form_data['problem_testcase_three_output'],
                 difficulty=form_data['difficulty'],
             )
-            messages.success(request, f"\"{form_data['problem_title']}\" has been successfully updated!")
+            messages.success(
+                request, f"\"{form_data['problem_title']}\" has been successfully updated!")
             return redirect('ViewProblem', problemslug=problemslug)
     return render(request, "admin_module/editproblem.html", context)
 
@@ -1045,6 +1020,7 @@ def AddProblem(request):
             return redirect('ProblemList')
     return render(request, "admin_module/addproblem.html", context)
 
+
 @staff_member_required
 @login_required
 def DelProblem(request,  problemslug):
@@ -1052,7 +1028,7 @@ def DelProblem(request,  problemslug):
         slug=problemslug).values())
     problemtitle = problemquerylist[0]['problem_title']
     context = {
-        "title":"CodeRank - Delete Problem",
+        "title": "CodeRank - Delete Problem",
         "pagetitle": "prob",
         "smalltitle": "Remove problem",
         "maintitle": problemtitle,

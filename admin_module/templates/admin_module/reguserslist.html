@@ -50,16 +50,16 @@
                 </div>
                 <div class="col-4 d-flex ms-auto me-5">
                     <a class="btn btn-primary ms-auto me-1"
-                       href="{% url 'ResultListPage' competitiontitleslug profile.user.profile.slug %}">View
+                        href="{% url 'ResultListPage' competitiontitleslug profile.user.profile.slug %}">View
                         Results</a>
                     <a class="btn btn-danger "
-                       href="{% url 'DelResigteredUser' competitiontitleslug profile.user.profile.slug %}">Delete</a>
+                        href="{% url 'DelResigteredUser' competitiontitleslug profile.user.profile.slug %}">Delete</a>
                 </div>
             </div>
         </div>
         {% empty %}
         <div class="d-flex justify-content-center">
-            <h5>No results</h5>
+            <h5>No Users</h5>
         </div>
         {% endfor %}
     </div>

@@ -5,7 +5,7 @@ from blog_module.models import BlogModel
 from django.contrib.auth.decorators import login_required
 from django.utils.text import slugify
 from admin_module.models import InstitutionProfile
-from admin_module.forms import AddCompetitionForm, AddCompetitionProblemForm, AddNewMainTopicForm, AddNewSubTopicForm, AddProblemForm, AddTutorialContentForm, AddTutorialSubTopicForm, DelCompetitionForm, DelMainTopicForm, DelSubTopicForm, DelTutorialSubTopic, EditCompetitionForm, EditCompetitionProblemForm, EditProblemForm, EditTutorialContent, EditTutorialSubTopic, InsProfileUpdationForm, UpdateMainTopicForm, UpdateSubTopicForm, UserRegistrationForm, UserUpdationForm
+from admin_module.forms import *
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.forms import AuthenticationForm
 from django.shortcuts import get_object_or_404, redirect, render
@@ -959,22 +959,31 @@ def ViewProblem(request, problemslug):
 def EditProblem(request, problemslug):
     instance = get_object_or_404(PracticeProblem, slug=problemslug)
     form = EditProblemForm(instance=instance)
+
     practiceproblemqueryset = PracticeProblem.objects.filter(slug=problemslug)
     practiceproblemquerylist = list(
         PracticeProblem.objects.filter(slug=problemslug).values())
+    instanceinfo = get_object_or_404(
+        ProblemInfo, problem_id=practiceproblemquerylist[0]['id'])
+    forminfo = AddProblemInfoForm(instance=instanceinfo)
+
     title = practiceproblemquerylist[0]['problem_title']
+    problem_id = practiceproblemquerylist[0]['id']
     context = {
         "title": "CodeRank - Edit Problem",
         "problems": practiceproblemqueryset,
         "pagetitle": "prob",
         "form": form,
-        "probtitle": title
+        "probtitle": title,
+        "infoform": forminfo
     }
 
     if request.method == "POST":
         form = EditProblemForm(request.POST)
-        if form.is_valid():
+        forminfo = EditProblemInfoForm(request.POST)
+        if form.is_valid() and forminfo.is_valid():
             form_data = form.cleaned_data
+            infoform_data = forminfo.cleaned_data
             PracticeProblem.objects.filter(slug=problemslug).update(
                 subtopic=form_data['subtopic'],
                 problem_title=form_data['problem_title'],
@@ -994,6 +1003,11 @@ def EditProblem(request, problemslug):
                 problem_testcase_three_output=form_data['problem_testcase_three_output'],
                 difficulty=form_data['difficulty'],
             )
+            ProblemInfo.objects.filter(problem_id=problem_id).update(
+                tags=infoform_data['tags'],
+                attempted=infoform_data['attempted'],
+                accuracy=infoform_data['accuracy']
+            )
             messages.success(
                 request, f"\"{form_data['problem_title']}\" has been successfully updated!")
             return redirect('ViewProblem', problemslug=problemslug)
@@ -1004,17 +1018,28 @@ def EditProblem(request, problemslug):
 @login_required
 def AddProblem(request):
     form = AddProblemForm()
+    forminfo = AddProblemInfoForm()
     context = {
         "title": "CodeRank - Add Problem",
         "pagetitle": "prob",
         "form": form,
+        "infoform": forminfo
     }
 
     if request.method == "POST":
         form = AddProblemForm(request.POST)
-        if form.is_valid():
+        forminfo = AddProblemInfoForm(request.POST)
+        if form.is_valid() and forminfo.is_valid():
             form_data = form.cleaned_data
             form.save()
+            title = form_data['problem_title']
+            slugfied = slugify(title)
+            problem_id = list(
+                PracticeProblem.objects.filter(slug=slugfied).values())
+            obj = forminfo.save(commit=False)
+            obj.problem_id = problem_id[0]['id']
+            obj.save()
+
             messages.success(
                 request, f"\"{form_data['problem_title']}\" has been successfully added!")
             return redirect('ProblemList')
@@ -1038,6 +1063,6 @@ def DelProblem(request,  problemslug):
         PracticeProblem.objects.filter(slug=problemslug).delete()
         messages.success(
             request, f'\"{problemtitle}\" removed from the competition problems successfully!')
-        return redirect("ProblemList", problemslug=problemslug)
+        return redirect("ProblemList")
 
     return render(request, 'admin_module/deletecompetitioncontent.html', context)

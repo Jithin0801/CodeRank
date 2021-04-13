@@ -12,8 +12,7 @@
         <div class="col-lg-12 d-flex">
             <h3 style="font-weight: 700;">{{title}}</h3>
             <a href="javascript:history.back()" class="btn btn-transparent ms-auto"><u>Go back</u></a>
-            <a class="btn btn-primary me-1"
-               href="{% url 'ViewUser' nameslug %}">View
+            <a class="btn btn-primary me-1" href="{% url 'ViewUser' nameslug %}">View
                 User</a>
         </div>
     </div>
@@ -23,8 +22,7 @@
         <div class="col-lg-12">
             <div class="d-flex justify-content-center mt-4">
                 <img src="{% static 'login_module/img/submission.svg' %}" style="height: 400px;"
-                     class="rounded img-fluid"
-                     alt="">
+                    class="rounded img-fluid" alt="">
             </div>
         </div>
     </div>
@@ -62,7 +60,7 @@
                         <h6>Memory: {{ detail.testcaseonememory}} Bytes </h6>
                         <div class="d-flex">
                             <h6>Expected output:</h6>
-                            <h6 class="ms-1">{{ detail.problem.problemtestcaseoneoutput }}</h6>
+                            <h6 class="ms-1">{{ detail.problem.problem_testcase_one_output }}</h6>
                         </div>
                         <div class="d-flex">
                             {% if detail.useroutputonestatus_id == 1 %}
@@ -95,7 +93,7 @@
                         <h6>Memory: {{ detail.testcasetwomemory}} </h6>
                         <div class="d-flex">
                             <h6>Expected output:</h6>
-                            <h6 class="ms-1">{{ detail.problem.problemtestcasetwooutput }}</h6>
+                            <h6 class="ms-1">{{ detail.problem.problem_testcase_two_output }}</h6>
                         </div>
                         <div class="d-flex">
                             {% if detail.useroutputtwostatus_id == 1 %}
@@ -128,7 +126,7 @@
                         <h6>Memory: {{ detail.testcasethreememory}} </h6>
                         <div class="d-flex">
                             <h6>Expected output:</h6>
-                            <h6 class="ms-1">{{ detail.problem.problemtestcasethreeoutput }}</h6>
+                            <h6 class="ms-1">{{ detail.problem.problem_testcase_three_output }}</h6>
                         </div>
                         <div class="d-flex">
                             {% if detail.useroutputthreestatus_id == 1 %}
@@ -166,9 +164,8 @@
     <div class="row">
         <div class="col-lg-12">
             <div class="d-flex justify-content-center mt-4">
-                <img src="{% static 'login_module/img/pair.svg' %}" style="height: 400px;"
-                     class="rounded img-fluid"
-                     alt="">
+                <img src="{% static 'login_module/img/pair.svg' %}" style="height: 400px;" class="rounded img-fluid"
+                    alt="">
             </div>
         </div>
     </div>

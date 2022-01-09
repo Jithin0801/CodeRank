@@ -352,6 +352,6 @@ MigrationBackup/
 
 #CodeRank 
 **/__pycache__
-
+CodeRank/settings.py
 .vscode
 

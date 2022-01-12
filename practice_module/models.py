@@ -45,31 +45,31 @@ class DifficultyLevel(models.Model):
 
 class PracticeProblem(models.Model):
     subtopic = models.ForeignKey(PracticeSubTopic, on_delete=models.CASCADE)
-    problemtitle = CharField(max_length=150, null=False)
-    problemdescription = TextField(max_length=1000, null=False)
-    problemstatement = TextField(max_length=1000, null=False)
-    problemexplanation = TextField(max_length=1000, null=False)
-    problemconstraints = TextField(max_length=50, null=False)
-    sampleinput = TextField(max_length=500, null=False)
-    inputexplanation = TextField(max_length=1000, null=False)
-    sampleoutput = TextField(max_length=500, null=False)
-    outputexplanation = TextField(max_length=1000, null=False)
-    problemtestcaseoneinput = TextField(max_length=200, null=False)
-    problemtestcasetwoinput = TextField(max_length=200, null=False)
-    problemtestcasethreeinput = TextField(max_length=200, null=False)
-    problemtestcaseoneoutput = TextField(max_length=200, null=False)
-    problemtestcasetwooutput = TextField(max_length=200, null=False)
-    problemtestcasethreeoutput = TextField(max_length=200, null=False)
+    problem_title = CharField(max_length=150, null=False)
+    problem_description = TextField(max_length=1000, null=False)
+    problem_statement = TextField(max_length=1000, null=False)
+    problem_explanation = TextField(max_length=1000, null=False)
+    problem_constraints = TextField(max_length=50, null=False)
+    sample_input = TextField(max_length=500, null=False)
+    input_explanation = TextField(max_length=1000, null=False)
+    sample_output = TextField(max_length=500, null=False)
+    output_explanation = TextField(max_length=1000, null=False)
+    problem_testcase_one_input = TextField(max_length=200, null=False)
+    problem_testcase_two_input = TextField(max_length=200, null=False)
+    problem_testcase_three_input = TextField(max_length=200, null=False)
+    problem_testcase_one_output = TextField(max_length=200, null=False)
+    problem_testcase_two_output = TextField(max_length=200, null=False)
+    problem_testcase_three_output = TextField(max_length=200, null=False)
     isbookmarked = BooleanField(default=False)
     difficulty = models.ForeignKey(DifficultyLevel, on_delete=CASCADE)
     score = IntegerField(default=20, null=False)
     slug = models.SlugField(null=False, blank=True)
 
     def __str__(self):
-        return self.problemtitle
+        return self.problem_title 
 
     def save(self, *args, **kwargs):
-        self.slug = slugify(self.problemtitle)
+        self.slug = slugify(self.problem_title)
         super(PracticeProblem, self).save(*args, **kwargs)
 
 
@@ -80,4 +80,4 @@ class ProblemInfo(models.Model):
     accuracy = IntegerField(default=0, null=False)
 
     def __str__(self):
-        return self.problem.problemtitle
+        return self.problem.problem_title

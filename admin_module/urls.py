@@ -11,11 +11,37 @@ urlpatterns = [
          name="InstitutionSignUpPage"),
     path("institutions/completeprofile", views.InsCompleteProfile,
          name="InsCompleteProfile"),
+    path("institutions/myprofile", views.InsMyProfile,
+         name="InsMyProfile"),
+
+    # blog
+    path("institutions/blogs", views.BlogListPage,
+         name="InsBlogListPage"),
+    path("institutions/myblogs", views.MyBlogListPage, name="InsMyBlogListPage"),
+    path("institutions/newblog", views.PostNewBlog, name="InsPostNewBlog"),
+    path("institutions/blogs/<slug:titleslug>",
+         views.ViewBlog, name="InsViewBlog"),
+    path("institutions/blogs/<slug:titleslug>/edit",
+         views.EditBlog, name="InsEditBlog"),
+    path("institutions/blogs/user-details/<slug:nameslug>", views.BlogViewUser,
+         name="BlogViewUser"),
 
     # dashboard
     path("institutions/dashboard", views.InsDashboard,
          name="InsDashboard"),
-     
+
+    # problem
+    path("institutions/problems", views.ProblemList,
+         name="ProblemList"),
+    path("institutions/problems/add", views.AddProblem,
+         name="AddProblem"),
+    path("institutions/problems/<slug:problemslug>", views.ViewProblem,
+         name="ViewProblem"),
+    path("institutions/problems/<slug:problemslug>/edit", views.EditProblem,
+         name="EditProblem"),
+    path("institutions/problems/<slug:problemslug>/delete", views.DelProblem,
+         name="DelProblem"),
+
     # main topic curd
     path("institutions/topics/main-topic", views.MainTopicList,
          name="MainTopicList"),
@@ -38,7 +64,7 @@ urlpatterns = [
     path("institutions/topics/<slug:maintopic>/<slug:subtopic>/delete", views.DelSubTopic,
          name="DelSubTopic"),
 
-     
+
     # tutorial
     path("institutions/tutorials", views.InsTutorialsList,
          name="InsTutorialsList"),
@@ -70,15 +96,14 @@ urlpatterns = [
          name="DelCompetitionProblem"),
     path("institutions/competitions/<slug:competitiontitle>/registered-users", views.ResigteredUsers,
          name="ResigteredUsers"),
+    path("institutions/competitions/<slug:competitiontitle>/registered-users/<slug:nameslug>", views.ResultListPage,
+         name="ResultListPage"),
+    path("institutions/competitions/<slug:competitiontitle>/registered-users/<slug:nameslug>/result/<slug:resultslug>", views.ViewResult,
+         name="ViewResult"),
     path("institutions/<slug:nameslug>", views.ViewUser,
          name="ViewUserIns"),
     path("institutions/competitions/<slug:competitiontitle>/registered-users/<slug:nameslug>/delete", views.DelResigteredUser,
          name="DelResigteredUser"),
 
-    # blog
-    path("institutions/blogs", views.InsBlogsList,
-         name="InsBlogsList"),
-
-  
 
 ]

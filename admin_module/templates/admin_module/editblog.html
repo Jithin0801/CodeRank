@@ -1,0 +1,46 @@
+{% extends "admin_module/basetwo.html" %}
+{% load crispy_forms_tags %}
+{% load widget_tweaks %}
+{% block content %}
+<div class="container mt-2 mb-2">
+    <div class="row">
+        <div class="col-lg-12 my-auto">
+            <p class="p mt-2" style="font-weight: 300;">Edit your blog!</p>
+        </div>
+        <div class="col-lg-12 col-md-12 col-sm-6 border-bottom">
+            <h3 style="font-weight: 700;">Edit Blog</h3>
+        </div>
+        <div class="col-12">
+        </div>
+    </div>
+</div>
+<div class="container mt-3">
+    <div class="row ">
+        <div style="background-color: white; border-radius: 15px; height: auto;" class="col-lg-12 mb-3">
+            <div class="d-flex" style="font-size: small; font-style: oblique;">
+                <strong>Note:</strong>
+                <p class="ms-1" style="padding-top: 0.5px;">Type the content in your preferred way. All the whitespaces
+                    & Empty lines are preserved in reading view! </p>
+            </div>
+            <form method="POST">
+                {% csrf_token %}
+                <div class=" form-group">
+                    {% csrf_token %}
+                    {% for field in form.visible_fields %}
+                    <div class="form-group">
+                        {% render_field field class="form-control mt-3" placeholder=field.label %}
+                        {% for error in field.errors %}
+                        <div class="alert alert-danger mt-2">{{error}}</div>
+                        {% endfor %}
+                    </div>
+                    {% endfor %}
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-primary mt-3">Submit</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+    </div>
+</div>
+{% endblock content %}

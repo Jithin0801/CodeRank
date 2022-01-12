@@ -35,33 +35,33 @@
                 {% endif %}
             </div>
         </div>
-        <div class="row d-flex mb-3" style="background-color: white; height: auto; border-radius: 10px;">
-            <div class="col-4 d-flex justify-content-center align-items-center">
-                <h5><strong>Name</strong></h5>
-            </div>
-            <div class="col-4 d-flex justify-content-center">
-                <h5><strong>Registered on</strong></h5>
-            </div>
-            <div class="col-4 d-flex justify-content-center">
-                <h5><strong>Action</strong></h5>
+        {% for profile in profilelist %}
+        <div class="row">
+            <div class="col-12 d-flex border align-items-center p-3 mt-2" style="border-radius: 15px;">
+                <div class="col-4 me-auto">
+                    <h6 class="ms-5">
+                        {{profile.user.first_name}} {{profile.user.last_name}}
+                    </h6>
+                </div>
+                <div class="col-4 ms-auto">
+                    <h6 class="ms-5">
+                        Registered: {{ profile.registeredon }}
+                    </h6>
+                </div>
+                <div class="col-4 d-flex ms-auto me-5">
+                    <a class="btn btn-primary ms-auto me-1"
+                        href="{% url 'ResultListPage' competitiontitleslug profile.user.profile.slug %}">View
+                        Results</a>
+                    <a class="btn btn-danger "
+                        href="{% url 'DelResigteredUser' competitiontitleslug profile.user.profile.slug %}">Delete</a>
+                </div>
             </div>
         </div>
-        <div>
-            {% for profile in profilelist %}
-            <div class="row d-flex mt-2 border p-2" style="height: auto; border-radius: 10px;">
-                <div class="col-4 d-flex justify-content-center align-items-center">
-                    <h5>{{profile.user.first_name}} {{profile.user.last_name}}</h5>
-                </div>
-                <div class="col-4 d-flex justify-content-center align-items-center">
-                    <h5>{{ profile.registeredon }}</h5>
-                </div>
-                <div class="col-4 d-flex justify-content-center align-items-center">
-                    <a class="btn btn-primary me-1" href="{% url 'ViewUserIns' profile.user.profile.slug %}">View Profile</a>
-                    <a class="btn btn-danger" href="{% url 'DelResigteredUser' competitiontitleslug profile.user.profile.slug %}">Delete</a>
-                </div>
-            </div>
-            {% endfor %}
+        {% empty %}
+        <div class="d-flex justify-content-center">
+            <h5>No Users</h5>
         </div>
+        {% endfor %}
     </div>
 </div>
 {% endblock content %}

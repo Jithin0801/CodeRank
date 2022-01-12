@@ -1,9 +1,11 @@
+from blog_module.forms import PostBlogForm
+from compiler_module.models import CompeteProblemResult
 from login_module.models import Profile
 from blog_module.models import BlogModel
 from django.contrib.auth.decorators import login_required
 from django.utils.text import slugify
 from admin_module.models import InstitutionProfile
-from admin_module.forms import AddCompetitionForm, AddCompetitionProblemForm, AddNewMainTopicForm, AddNewSubTopicForm, AddTutorialContentForm, AddTutorialSubTopicForm, DelCompetitionForm, DelMainTopicForm, DelSubTopicForm, DelTutorialSubTopic, EditCompetitionForm, EditCompetitionProblemForm, EditTutorialContent, EditTutorialSubTopic, ProfileUpdationForm, UpdateMainTopicForm, UpdateSubTopicForm, UserRegistrationForm, UserUpdationForm
+from admin_module.forms import *
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.forms import AuthenticationForm
 from django.shortcuts import get_object_or_404, redirect, render
@@ -60,7 +62,7 @@ def InstitutionLoginPage(request):
                 except:
                     return redirect('InsCompleteProfile')
                 else:
-                    return redirect('InsDashboard')
+                    return redirect('MainTopicList')
             else:
                 messages.error(
                     request, f'You are not a staff member')
@@ -73,25 +75,27 @@ def InstitutionLoginPage(request):
 
 
 @staff_member_required
+@login_required
 def InsCompleteProfile(request):
     if request.method == 'POST':
         profile = InstitutionProfile.objects.create(user=request.user)
         UserUpdationform = UserUpdationForm(
             request.POST, instance=request.user)
-        ProfileUpdationform = ProfileUpdationForm(
+        ProfileUpdationform = InsProfileUpdationForm(
             request.POST, request.FILES, instance=request.user.institutionprofile)
         if UserUpdationform.is_valid() and ProfileUpdationform.is_valid():
             UserUpdationform.save()
             ProfileUpdationform.save()
             messages.success(request, "Your information has been updated!")
-            return redirect('InsDashboard')
+            return redirect('MainTopicList')
     else:
-        ProfileUpdationform = ProfileUpdationForm()
+        ProfileUpdationform = InsProfileUpdationForm()
         UserUpdationform = UserUpdationForm(instance=request.user)
     return render(request, "admin_module/inscompleteprofile.html", {"title": "Welcome-Complete your profile", "ProfileUpdationform": ProfileUpdationform, "UserUpdationForm": UserUpdationform})
 
 
 @staff_member_required
+@login_required
 def InsDashboard(request):
     context = {
         "title": "CodeRank - Dashboard",
@@ -101,6 +105,7 @@ def InsDashboard(request):
 
 
 @staff_member_required
+@login_required
 def MainTopicList(request):
     maintopicqueryset = PracticeMainTopic.objects.all()
     context = {
@@ -112,6 +117,7 @@ def MainTopicList(request):
 
 
 @staff_member_required
+@login_required
 def AddNewMainTopic(request):
     form = AddNewMainTopicForm()
     if request.method == 'GET':
@@ -133,6 +139,7 @@ def AddNewMainTopic(request):
 
 
 @staff_member_required
+@login_required
 def UpdateMainTopic(request, maintopic):
     maintopictitlelist = list(PracticeMainTopic.objects.filter(
         slug=maintopic).values_list('title', flat=True))
@@ -159,6 +166,7 @@ def UpdateMainTopic(request, maintopic):
 
 
 @staff_member_required
+@login_required
 def DelMainTopic(request, maintopic):
     maintopictquerylist = list(PracticeMainTopic.objects.filter(
         slug=maintopic).values())
@@ -182,6 +190,7 @@ def DelMainTopic(request, maintopic):
 
 
 @staff_member_required
+@login_required
 def SubTopicList(request, maintopic):
     maintopicid = list(PracticeMainTopic.objects.filter(
         slug=maintopic).values_list("id", flat=True))
@@ -200,6 +209,7 @@ def SubTopicList(request, maintopic):
 
 
 @staff_member_required
+@login_required
 def AddNewSubTopic(request, maintopic):
     maintopicid = list(PracticeMainTopic.objects.filter(
         slug=maintopic).values_list("id", flat=True))
@@ -224,6 +234,7 @@ def AddNewSubTopic(request, maintopic):
 
 
 @staff_member_required
+@login_required
 def ViewSubTopicContent(request, maintopic, subtopic):
     subtopicqueryset = PracticeSubTopic.objects.filter(slug=subtopic)
     subtopictitle = list(PracticeSubTopic.objects.filter(
@@ -240,6 +251,7 @@ def ViewSubTopicContent(request, maintopic, subtopic):
 
 
 @staff_member_required
+@login_required
 def UpdateSubTopic(request, maintopic, subtopic):
     subtopictquerylist = list(PracticeSubTopic.objects.filter(
         slug=subtopic).values())
@@ -270,6 +282,7 @@ def UpdateSubTopic(request, maintopic, subtopic):
 
 
 @staff_member_required
+@login_required
 def DelSubTopic(request, maintopic, subtopic):
     subtopictquerylist = list(PracticeSubTopic.objects.filter(
         slug=subtopic).values())
@@ -294,6 +307,7 @@ def DelSubTopic(request, maintopic, subtopic):
 
 
 @staff_member_required
+@login_required
 def InsTutorialsList(request):
     tutorialsubtopicqueryset = TutorialSubtopic.objects.all()
     context = {
@@ -305,6 +319,7 @@ def InsTutorialsList(request):
 
 
 @staff_member_required
+@login_required
 def InsViewTutorial(request, tutorialsubtopic):
     tutorialsubtopicidlist = list(TutorialSubtopic.objects.filter(
         slug=tutorialsubtopic).values_list("id", flat=True))
@@ -323,6 +338,7 @@ def InsViewTutorial(request, tutorialsubtopic):
 
 
 @staff_member_required
+@login_required
 def InsDelTutorial(request, tutorialsubtopic):
     tutorialsubtopictquerylist = list(TutorialSubtopic.objects.filter(
         slug=tutorialsubtopic).values())
@@ -346,6 +362,7 @@ def InsDelTutorial(request, tutorialsubtopic):
 
 
 @staff_member_required
+@login_required
 def InsEditTutorial(request, tutorialsubtopic):
     tutorialsubtopictquerylist = list(TutorialSubtopic.objects.filter(
         slug=tutorialsubtopic).values())
@@ -391,6 +408,7 @@ def InsEditTutorial(request, tutorialsubtopic):
 
 
 @staff_member_required
+@login_required
 def InsAddTutorial(request):
     titleform = AddTutorialSubTopicForm()
     contentfrom = AddTutorialContentForm()
@@ -419,6 +437,7 @@ def InsAddTutorial(request):
 
 
 @ staff_member_required
+@login_required
 def InsCompetitionsList(request):
     competitionqueryset = CompeteModel.objects.filter(
         posted_by_id=request.user.id)
@@ -431,6 +450,7 @@ def InsCompetitionsList(request):
 
 
 @ staff_member_required
+@login_required
 def InsAddCompetition(request):
     form = AddCompetitionForm()
     if request.method == 'GET':
@@ -462,6 +482,7 @@ def InsAddCompetition(request):
 
 
 @staff_member_required
+@login_required
 def InsDelCompetition(request, competitiontitle):
     competitionquerylist = list(CompeteModel.objects.filter(
         slug=competitiontitle).values())
@@ -485,6 +506,7 @@ def InsDelCompetition(request, competitiontitle):
 
 
 @staff_member_required
+@login_required
 def InsEditCompetition(request, competitiontitle):
     competitionquerylist = list(CompeteModel.objects.filter(
         slug=competitiontitle).values())
@@ -522,12 +544,12 @@ def InsEditCompetition(request, competitiontitle):
                                                                       posted_by_id=request.user.id)
             messages.success(
                 request, f"\"{title}\" has been updated successfully!")
-            # Change this to view conpetition details page
-            return redirect('InsCompetitionsList')
+            return redirect('ViewCompetitionDetails', competitiontitle=competitiontitle)
     return render(request, "admin_module/editcompetition.html", context)
 
 
 @staff_member_required
+@login_required
 def ResigteredUsers(request, competitiontitle):
     competitionquerylist = list(CompeteModel.objects.filter(
         slug=competitiontitle).values())
@@ -546,6 +568,7 @@ def ResigteredUsers(request, competitiontitle):
 
 
 @staff_member_required
+@login_required
 def DelResigteredUser(request, competitiontitle, nameslug):
     competitionquerylist = list(CompeteModel.objects.filter(
         slug=competitiontitle).values())
@@ -573,6 +596,8 @@ def DelResigteredUser(request, competitiontitle, nameslug):
     return render(request, 'admin_module/deletecompetitioncontent.html', context)
 
 
+@staff_member_required
+@login_required
 def ViewCompetitionDetails(request, competitiontitle):
     competitionqueryset = CompeteModel.objects.filter(slug=competitiontitle)
     competitionquerylist = list(CompeteModel.objects.filter(
@@ -583,15 +608,17 @@ def ViewCompetitionDetails(request, competitiontitle):
         competition_id=competitionid)
 
     context = {
-        "pagetitle":"comp",
-        "details":competitionqueryset,
-        "title":title,
-        "slug":competitiontitle,
-        "problems":competitionproblemsqueryset
+        "pagetitle": "comp",
+        "details": competitionqueryset,
+        "title": title,
+        "slug": competitiontitle,
+        "problems": competitionproblemsqueryset
     }
     return render(request, 'admin_module/viewcompetition.html', context)
 
 
+@staff_member_required
+@login_required
 def AddCompetitionProblem(request, competitiontitle):
     competitionquerylist = list(CompeteModel.objects.filter(
         slug=competitiontitle).values())
@@ -599,22 +626,31 @@ def AddCompetitionProblem(request, competitiontitle):
     competitionid = competitionquerylist[0]['id']
     form = AddCompetitionProblemForm()
     context = {
-        "pagetitle":"comp",
-        "form":form,
-        "slug":competitiontitle,
-        "title":title
+        "pagetitle": "comp",
+        "form": form,
+        "slug": competitiontitle,
+        "title": title
     }
     if request.method == 'POST':
         form = AddCompetitionProblemForm(request.POST)
+        if form.is_valid():
+            formdata = form.cleaned_data
+            obj = form.save(commit=False)
+            obj.competition_id = competitionid
+            obj.save()
+            messages.success(
+                request, f"\"{formdata['problem_title']}\" has been successfully added for \"{title}\"")
+            return redirect("ViewCompetitionDetails", competitiontitle=competitiontitle)
 
     return render(request, 'admin_module/addcompetitionproblem.html', context)
 
 
+@staff_member_required
+@login_required
 def EditCompetitionProblem(request, competitiontitle, problemslug):
     competitionquerylist = list(CompeteModel.objects.filter(
         slug=competitiontitle).values())
     title = competitionquerylist[0]['competition_title']
-
     instance = get_object_or_404(CompetitionOwnProblem, slug=problemslug)
     form = EditCompetitionProblemForm(instance=instance)
     context = {
@@ -625,11 +661,34 @@ def EditCompetitionProblem(request, competitiontitle, problemslug):
     }
     if request.method == 'POST':
         form = AddCompetitionProblemForm(request.POST)
+        if form.is_valid():
+            form_data = form.cleaned_data
+            CompetitionOwnProblem.objects.filter(slug=problemslug).update(
+                problem_title=form_data['problem_title'],
+                problem_description=form_data['problem_description'],
+                problem_statement=form_data['problem_statement'],
+                problem_explanation=form_data['problem_explanation'],
+                problem_constraints=form_data['problem_constraints'],
+                sample_input=form_data['sample_input'],
+                input_explanation=form_data['input_explanation'],
+                sample_output=form_data['sample_output'],
+                output_explanation=form_data['output_explanation'],
+                problem_testcase_one_input=form_data['problem_testcase_one_input'],
+                problem_testcase_two_input=form_data['problem_testcase_two_input'],
+                problem_testcase_three_input=form_data['problem_testcase_three_input'],
+                problem_testcase_one_output=form_data['problem_testcase_one_output'],
+                problem_testcase_two_output=form_data['problem_testcase_two_output'],
+                problem_testcase_three_output=form_data['problem_testcase_three_output'],
+            )
+            messages.success(
+                request, f"\"{form_data['problem_title']}\" has been successfully added for \"{title}\"")
+            return redirect("ViewCompetitionDetails", competitiontitle=competitiontitle)
 
     return render(request, 'admin_module/editcompetitionproblem.html', context)
 
 
 @staff_member_required
+@login_required
 def DelCompetitionProblem(request, competitiontitle, problemslug):
     competitionquerylist = list(CompeteModel.objects.filter(
         slug=competitiontitle).values())
@@ -646,7 +705,7 @@ def DelCompetitionProblem(request, competitiontitle, problemslug):
     }
     if request.method == 'POST':
         CompetitionOwnProblem.objects.filter(
-            competition_id=competitionid).filter(slug = problemslug).delete()
+            competition_id=competitionid).filter(slug=problemslug).delete()
         messages.success(
             request, f'\"{problemtitle}\" removed from the competition problems successfully!')
         return redirect("ViewCompetitionDetails", competitiontitle=competitiontitle)
@@ -654,16 +713,88 @@ def DelCompetitionProblem(request, competitiontitle, problemslug):
     return render(request, 'admin_module/deletecompetitioncontent.html', context)
 
 
-
-@ staff_member_required
-def InsBlogsList(request):
+@staff_member_required
+@login_required
+def ResultListPage(request, competitiontitle, nameslug):
+    profilequerylist = list(Profile.objects.filter(
+        slug=nameslug).values())
+    competitionquerylist = list(CompeteModel.objects.filter(
+        slug=competitiontitle).values())
+    competitionid = competitionquerylist[0]['id']
+    title = competitionquerylist[0]['competition_title']
+    userid = profilequerylist[0]['id']
+    competitionprobelmresultqueryset = CompeteProblemResult.objects.filter(
+        competition_id=competitionid).filter(user_id=userid)
+    userquerylist = list(User.objects.filter(id=userid).values())
+    username = userquerylist[0]['first_name'] + \
+        " " + userquerylist[0]['last_name']
     context = {
-        "title": "CodeRank - Blogs",
-        "pagetitle": "blog"
+        "results": competitionprobelmresultqueryset,
+        "competitionslug": competitiontitle,
+        "nameslug": nameslug,
+        "pagetitle": "comp",
+        "title": title,
+        "username": username
     }
-    return render(request, "admin_module/blogslist.html", context)
+    return render(request, "admin_module/resultlist.html", context)
 
 
+def ViewResult(request, competitiontitle, nameslug, resultslug):
+    competitionprobelmresultqueryset = CompeteProblemResult.objects.filter(
+        slug=resultslug)
+    profilequerylist = list(Profile.objects.filter(
+        slug=nameslug).values())
+    competitionquerylist = list(CompeteModel.objects.filter(
+        slug=competitiontitle).values())
+    competitionid = competitionquerylist[0]['id']
+    title = competitionquerylist[0]['competition_title']
+    userid = profilequerylist[0]['id']
+    competitionprobelmresultqueryset = CompeteProblemResult.objects.filter(
+        competition_id=competitionid).filter(user_id=userid)
+    userquerylist = list(User.objects.filter(id=userid).values())
+    username = userquerylist[0]['first_name'] + \
+        " " + userquerylist[0]['last_name']
+    context = {
+        "resultdetails": competitionprobelmresultqueryset,
+        "username": username,
+        "nameslug": nameslug,
+        "title": title,
+        "pagetitle": "comp"
+    }
+    return render(request, 'admin_module/viewresult.html', context)
+
+
+@login_required
+@staff_member_required
+def InsMyProfile(request):
+    if request.method == 'POST':
+        UserUpdationform = UserUpdationForm(
+            request.POST, instance=request.user)
+        ProfileUpdationform = InsProfileUpdationForm(
+            request.POST, request.FILES, instance=request.user.profile)
+        if UserUpdationform.is_valid() and ProfileUpdationform.is_valid():
+            UserUpdationform.save()
+            ProfileUpdationform.save()
+            messages.success(request, "Your information has been updated!")
+            return redirect('InsMyProfile')
+    else:
+        blogslist = BlogModel.objects.filter(author_id=request.user.id)
+        ProfileUpdationform = InsProfileUpdationForm(
+            instance=request.user.institutionprofile)
+        UserUpdationform = UserUpdationForm(
+            instance=request.user)
+        context = {
+            "title": "CodeRank - My Profile",
+            "ProfileUpdationform": ProfileUpdationform,
+            "UserUpdationForm": UserUpdationform,
+            "blogs": blogslist,
+            "pagetitle": "profile"
+        }
+    return render(request, "admin_module/insmyprofile.html", context)
+
+
+@login_required
+@ staff_member_required
 def ViewUser(request, nameslug):
     userdetailsqueryset = Profile.objects.filter(
         slug=nameslug)
@@ -680,3 +811,258 @@ def ViewUser(request, nameslug):
         "pagetitle": "comp"
     }
     return render(request, "admin_module/viewprofile.html", context)
+
+
+@login_required
+@ staff_member_required
+def BlogViewUser(request, nameslug):
+    userdetailsqueryset = Profile.objects.filter(
+        slug=nameslug)
+    useridquerylist = list(Profile.objects.filter(
+        slug=nameslug).values_list("user_id", flat=True))
+
+    userid = useridquerylist[0]
+
+    blogslist = BlogModel.objects.filter(author_id=userid)
+    context = {
+        "title": "CodeRank - View User",
+        "userdetails": userdetailsqueryset,
+        "blogs": blogslist,
+        "title": "blog"
+    }
+    return render(request, "admin_module/viewprofile.html", context)
+
+
+@login_required
+@ staff_member_required
+def BlogListPage(request):
+    context = {
+        "title": "CodeRank - Blogs",
+        'blogs': BlogModel.objects.all(),
+        "pagetitle": "bloglist",
+        "title": "blog"
+    }
+    return render(request, "admin_module/bloglist.html", context)
+
+
+def MyBlogListPage(request):
+    context = {
+        "title": "CodeRank - My Blogs",
+        'blogs': BlogModel.objects.filter(author_id=request.user.id),
+        "pagetitle": "mybloglist",
+        "title": "blog"
+
+    }
+    return render(request, "admin_module/myblog.html", context)
+
+
+def ViewBlog(request, titleslug):
+    blogmodelqueryset = BlogModel.objects.filter(slug=titleslug)
+    blogmodeltitlequerylist = list(BlogModel.objects.filter(
+        slug=titleslug).values_list("title", flat=True))
+    blogmodelauthorquerylist = list(BlogModel.objects.filter(
+        slug=titleslug).values_list("author_id", flat=True))
+    blogtitle = blogmodeltitlequerylist[0]
+    authorqueryset = User.objects.filter(id=blogmodelauthorquerylist[0])
+    context = {
+        "title": "CodeRank - view blog",
+        "blogcontent": blogmodelqueryset,
+        "blogtitle": blogtitle,
+        "authordetails": authorqueryset,
+        "title": "blog"
+    }
+    return render(request, "admin_module/viewblog.html", context)
+
+
+def PostNewBlog(request):
+    if request.method == "GET":
+        form = PostBlogForm()
+        context = {
+            "title": "CodeRank - New Blog",
+            "pagetitle": "addnewblog",
+            "form": form,
+            "title": "blog"
+        }
+        return render(request, "admin_module/newblog.html", context)
+    elif request.method == "POST":
+        form = PostBlogForm(request.POST)
+        if form.is_valid():
+            title = form.cleaned_data.get('title')
+            content = form.cleaned_data.get('content')
+            BlogModel.objects.create(
+                title=title, content=content, author_id=request.user.id)
+            messages.success(
+                request, "Blog posted successfully")
+            return redirect("BlogListPage")
+
+
+def EditBlog(request, titleslug):
+    if request.method == "GET":
+        blogdetailsquerylist = list(
+            BlogModel.objects.filter(slug=titleslug).values())
+        form_data = {
+            "title": blogdetailsquerylist[0]["title"],
+            "content": blogdetailsquerylist[0]["content"],
+            "author_id": request.user.id,
+        }
+        form = PostBlogForm(initial=form_data)
+        context = {
+            "title": "CodeRank - Edit Blog",
+            "form": form,
+            "title": "blog"
+        }
+        return render(request, "admin_module/editblog.html", context)
+    elif request.method == "POST":
+        form = PostBlogForm(request.POST)
+        if form.is_valid():
+            title = form.cleaned_data.get('title')
+            content = form.cleaned_data.get('content')
+            BlogModel.objects.filter(slug=titleslug).update(
+                title=title, content=content, author_id=request.user.id)
+            messages.success(
+                request, "Blog updated successfully")
+            return redirect("BlogListPage")
+
+
+@staff_member_required
+@login_required
+def ProblemList(request):
+    practiceproblemqueryset = PracticeProblem.objects.all()
+    context = {
+        "title": "CodeRank - Problem",
+        "problems": practiceproblemqueryset,
+        "pagetitle": "prob"
+    }
+    return render(request, "admin_module/problemlist.html", context)
+
+
+@staff_member_required
+@login_required
+def ViewProblem(request, problemslug):
+    practiceproblemqueryset = PracticeProblem.objects.filter(slug=problemslug)
+    practiceproblemquerylist = list(
+        PracticeProblem.objects.filter(slug=problemslug).values())
+    title = practiceproblemquerylist[0]['problem_title']
+
+    context = {
+        "title": "CodeRank - View Problem",
+        "problems": practiceproblemqueryset,
+        "pagetitle": "prob",
+        "probtitle": title,
+        "slug": problemslug
+    }
+    return render(request, "admin_module/viewproblem.html", context)
+
+
+@staff_member_required
+@login_required
+def EditProblem(request, problemslug):
+    instance = get_object_or_404(PracticeProblem, slug=problemslug)
+    form = EditProblemForm(instance=instance)
+
+    practiceproblemqueryset = PracticeProblem.objects.filter(slug=problemslug)
+    practiceproblemquerylist = list(
+        PracticeProblem.objects.filter(slug=problemslug).values())
+    instanceinfo = get_object_or_404(
+        ProblemInfo, problem_id=practiceproblemquerylist[0]['id'])
+    forminfo = AddProblemInfoForm(instance=instanceinfo)
+
+    title = practiceproblemquerylist[0]['problem_title']
+    problem_id = practiceproblemquerylist[0]['id']
+    context = {
+        "title": "CodeRank - Edit Problem",
+        "problems": practiceproblemqueryset,
+        "pagetitle": "prob",
+        "form": form,
+        "probtitle": title,
+        "infoform": forminfo
+    }
+
+    if request.method == "POST":
+        form = EditProblemForm(request.POST)
+        forminfo = EditProblemInfoForm(request.POST)
+        if form.is_valid() and forminfo.is_valid():
+            form_data = form.cleaned_data
+            infoform_data = forminfo.cleaned_data
+            PracticeProblem.objects.filter(slug=problemslug).update(
+                subtopic=form_data['subtopic'],
+                problem_title=form_data['problem_title'],
+                problem_description=form_data['problem_description'],
+                problem_statement=form_data['problem_statement'],
+                problem_explanation=form_data['problem_explanation'],
+                problem_constraints=form_data['problem_constraints'],
+                sample_input=form_data['sample_input'],
+                input_explanation=form_data['input_explanation'],
+                sample_output=form_data['sample_output'],
+                output_explanation=form_data['output_explanation'],
+                problem_testcase_one_input=form_data['problem_testcase_one_input'],
+                problem_testcase_two_input=form_data['problem_testcase_two_input'],
+                problem_testcase_three_input=form_data['problem_testcase_three_input'],
+                problem_testcase_one_output=form_data['problem_testcase_one_output'],
+                problem_testcase_two_output=form_data['problem_testcase_two_output'],
+                problem_testcase_three_output=form_data['problem_testcase_three_output'],
+                difficulty=form_data['difficulty'],
+            )
+            ProblemInfo.objects.filter(problem_id=problem_id).update(
+                tags=infoform_data['tags'],
+                attempted=infoform_data['attempted'],
+                accuracy=infoform_data['accuracy']
+            )
+            messages.success(
+                request, f"\"{form_data['problem_title']}\" has been successfully updated!")
+            return redirect('ViewProblem', problemslug=problemslug)
+    return render(request, "admin_module/editproblem.html", context)
+
+
+@staff_member_required
+@login_required
+def AddProblem(request):
+    form = AddProblemForm()
+    forminfo = AddProblemInfoForm()
+    context = {
+        "title": "CodeRank - Add Problem",
+        "pagetitle": "prob",
+        "form": form,
+        "infoform": forminfo
+    }
+
+    if request.method == "POST":
+        form = AddProblemForm(request.POST)
+        forminfo = AddProblemInfoForm(request.POST)
+        if form.is_valid() and forminfo.is_valid():
+            form_data = form.cleaned_data
+            form.save()
+            title = form_data['problem_title']
+            slugfied = slugify(title)
+            problem_id = list(
+                PracticeProblem.objects.filter(slug=slugfied).values())
+            obj = forminfo.save(commit=False)
+            obj.problem_id = problem_id[0]['id']
+            obj.save()
+
+            messages.success(
+                request, f"\"{form_data['problem_title']}\" has been successfully added!")
+            return redirect('ProblemList')
+    return render(request, "admin_module/addproblem.html", context)
+
+
+@staff_member_required
+@login_required
+def DelProblem(request,  problemslug):
+    problemquerylist = list(PracticeProblem.objects.filter(
+        slug=problemslug).values())
+    problemtitle = problemquerylist[0]['problem_title']
+    context = {
+        "title": "CodeRank - Delete Problem",
+        "pagetitle": "prob",
+        "smalltitle": "Remove problem",
+        "maintitle": problemtitle,
+        "exp": f"\"{problemtitle}\" will be removed."
+    }
+    if request.method == 'POST':
+        PracticeProblem.objects.filter(slug=problemslug).delete()
+        messages.success(
+            request, f'\"{problemtitle}\" removed from the competition problems successfully!')
+        return redirect("ProblemList")
+
+    return render(request, 'admin_module/deletecompetitioncontent.html', context)

@@ -23,15 +23,6 @@
                     <a class="sec-nav nav-link" href="{% url 'Submission' maintopic subtopic problem %}">Submission</a>
                     {% endif %}
                 </li>
-                <li class="nav-item">
-                    {% if pagetitle == "Leaderboard" %}
-                    <a class="sec-nav nav-link active" style="background-color: orange; color: #000;"
-                       href="{% url 'LeaderBoard' maintopic subtopic problem %}">Leaderboard</a>
-                    {% else %}
-                    <a class="sec-nav nav-link"
-                       href="{% url 'LeaderBoard' maintopic subtopic problem %}">Leaderboard</a>
-                    {% endif %}
-                </li>
                 <li class="nav-item ms-auto">
                     <a href="{% url 'ViewChallenges' maintopic subtopic %}" class="btn btn-primary">Back to list</a>
                 </li>

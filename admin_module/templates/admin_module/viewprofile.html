@@ -74,12 +74,12 @@
             </div>
             {% if blog.author_id == user.id %}
             <div class="ms-2 mt-2 d-flex justify-content-start mb-3">
-                <a class="btn btn-primary" href="{% url 'ViewBlog' blog.slug %}">Read more</a>
-                <a class="btn btn-warning ms-2" href="{% url 'EditBlog' blog.slug %}">Edit</a>
+                <a class="btn btn-primary" href="{% url 'InsViewBlog' blog.slug %}">Read more</a>
+                <a class="btn btn-warning ms-2" href="{% url 'InsEditBlog' blog.slug %}">Edit</a>
             </div>
             {% else %}
             <div class="ms-2 mt-2 col d-flex justify-content-start mb-3">
-                <a class="btn btn-primary" href="{% url 'ViewBlog' blog.slug %}">Read more</a>
+                <a class="btn btn-primary" href="{% url 'InsViewBlog' blog.slug %}">Read more</a>
             </div>
             {% endif %}
         </div>

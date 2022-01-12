@@ -5,9 +5,10 @@
 {% load static %}
 
 <style>
-    body{
+    body {
         margin-top: 3rem;
     }
+
 </style>
 <div class="container">
     <div class="row">
@@ -70,20 +71,18 @@
         <div style="height: 810px;">
             {% for submission in problemresults %}
             {% if submission.user_id == request.user.id %}
-            <div class="row d-flex border p-3 mt-2" style="border-radius: 15px;">
-                <div class="col-lg-4">
-                    <h6>
-                        {{submission.date_posted}}
-                    </h6>
-                </div>
-                <div class="col-lg-5">
-                    <h6>
-                        Score:{{submission.score}}
-                    </h6>
-                </div>
-                <div class="col-lg-2 d-flex justify-content-end">
-                    <a href="{% url 'SubmissionDetails' maintopic subtopic submission.slug %}" class="btn btn-primary">View Details</a>
-                </div>
+            <div class="col d-flex border align-items-center p-3 mt-2" style="border-radius: 15px;">
+                <h6 class="ms-5 me-auto">
+                    Problem: {{problemtitle}}
+                </h6>
+                <h6 class="ms-auto">
+                    Completed: {{submission.date_posted}}
+                </h6>
+                <h6 class="ms-auto">
+                    Score:{{submission.score}}
+                </h6>
+                <a href="{% url 'SubmissionDetails' maintopic subtopic problem submission.slug %}"
+                   class="btn btn-primary ms-auto me-5">View Details</a>
             </div>
             {% endif %}
             {% endfor %}
